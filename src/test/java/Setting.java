@@ -10,9 +10,10 @@ public class Setting {
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static String DEFAULT_OVERALL_FILE_NAME;
-    private static PDColor TEXT_OLD_HIGHLIGHT_COLOR;
-    private static PDColor TEXT_NEW_HIGHLIGHT_COLOR;
+    private static PDColor OLD_DIF_COLOR;
+    private static PDColor NEW_DIF_COLOR;
 
+    // setter & getter for saved difference file path
     public static String getDefaultResultPath() {
         return DEFAULT_RESULT_FILE_PATH.toString();
     }
@@ -21,6 +22,7 @@ public class Setting {
         DEFAULT_RESULT_FILE_PATH = Paths.get(defaultResultPath);
     }
 
+    // setter & getter for overall file attribute
     public static String getDefaultOverallFileName() {
         return DEFAULT_OVERALL_FILE_NAME;
     }
@@ -29,24 +31,25 @@ public class Setting {
         DEFAULT_OVERALL_FILE_NAME = defaultOverallFileName;
     }
 
+    public static String getOverallPath() {
+        return Paths.get(DEFAULT_RESULT_FILE_PATH.toString(), DEFAULT_OVERALL_FILE_NAME).toString();
+    }
+
+    // setter & getter for difference color
     // input color intensity is in range 0-1
-    public static PDColor getTextOldHighlightColor() {
-        return TEXT_OLD_HIGHLIGHT_COLOR;
+    public static PDColor getOldDifColor() {
+        return OLD_DIF_COLOR;
+    }
+
+    public static PDColor getNewDifColor() {
+        return NEW_DIF_COLOR;
     }
 
     public static void setTextOldHighlightColor(float red, float green, float blue) {
-        TEXT_OLD_HIGHLIGHT_COLOR = new PDColor(new float[] { red, green, blue }, PDDeviceRGB.INSTANCE);
-    }
-
-    public static PDColor getTextNewHighlightColor() {
-        return TEXT_NEW_HIGHLIGHT_COLOR;
+        OLD_DIF_COLOR = new PDColor(new float[] { red, green, blue }, PDDeviceRGB.INSTANCE);
     }
 
     public static void setTextNewHighlightColor(float red, float green, float blue) {
-        TEXT_NEW_HIGHLIGHT_COLOR = new PDColor(new float[] { red, green, blue }, PDDeviceRGB.INSTANCE);
-    }
-
-    public static String getOverallPath() {
-        return Paths.get(DEFAULT_RESULT_FILE_PATH.toString(), DEFAULT_OVERALL_FILE_NAME).toString();
+        NEW_DIF_COLOR = new PDColor(new float[] { red, green, blue }, PDDeviceRGB.INSTANCE);
     }
 }

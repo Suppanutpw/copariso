@@ -8,7 +8,7 @@ public class Example extends Setting {
     static {
         // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
         // modify result path here!!!
-        Setting.setDefaultResultPath("/Users/spw/Desktop/java/copariso/src/test/resources");
+        Setting.setDefaultResultPath("/Users/spw/Desktop/result");
         // ขื่อไฟล์ overall compare
         Setting.setDefaultOverallFileName("overall.pdf");
         // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
@@ -22,10 +22,10 @@ public class Example extends Setting {
         try {
             // ตั้งค่าของที่อยู่ไฟล์ที่ต้องการเทียบ
             PDFFile file1 = new PDFFile(
-                    "/Users/spw/Desktop/java/copariso/src/test/resources/file1.pdf"
+                    "/Users/spw/Desktop/result/file1.pdf"
             );
             PDFFile file2 = new PDFFile(
-                    "/Users/spw/Desktop/java/copariso/src/test/resources/file2.pdf"
+                    "/Users/spw/Desktop/result/file2.pdf"
             );
 
             // use Thread to 2 compare in same Job

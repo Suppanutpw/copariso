@@ -6,7 +6,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.redsix.pdfcompare.PdfComparator;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 import org.apache.pdfbox.pdmodel.PDDocument;

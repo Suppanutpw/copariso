@@ -8,8 +8,8 @@ public class PDFTextOnlyCompare {
             public void run() {
                 try {
                     // you can't share 2 PDFHighlighter.highlight() to each Thread because of there have static attribute
-                    PDFHighlighter.highlight(file1, Setting.getTextOldHighlightColor());
-                    PDFHighlighter.highlight(file2, Setting.getTextNewHighlightColor());
+                    PDFHighlighter.highlight(file1, Setting.getOldDifColor());
+                    PDFHighlighter.highlight(file2, Setting.getNewDifColor());
                     System.out.println("Created : " + file1.getResultPath());
                     System.out.println("Created : " + file2.getResultPath());
                     System.out.println("Inside : " + Thread.currentThread().getName());
