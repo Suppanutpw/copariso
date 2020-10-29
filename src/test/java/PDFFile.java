@@ -1,36 +1,82 @@
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessFile;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class PDFFile {
     private Path targetPath;
     private Path resultPath;
     private String fileText;
     private ArrayList<PDFHighlightPos> highlightPos;
+    private String errorMessage;
 
-    public PDFFile(String targetPath) throws IOException {
-        // set result file name
-        LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HHmmss");
+    // For read pdf file text
+    private PDFParser parser;
+    private PDFTextStripper pdfStripper;
+    private PDDocument pdDoc;
+    private COSDocument cosDoc;
 
-        // set selected file path
-        this.targetPath = Paths.get(targetPath);
+    private File file;
 
-        // if you want to change result file name as date remove comment
-        this.resultPath = Paths.get(Setting.getDefaultResultPath(), /* myDateObj.format(myFormatObj) */ "result-" + getTargetFileName());
+    public PDFFile(String targetPath) {
+        // set Path for open file
+        setTargetPath(targetPath);
 
         // set highlightPos
         highlightPos = new ArrayList<PDFHighlightPos>();
-        // get text from PDFReadText
-        fileText = new PDFReadText(targetPath).toText();
+    }
+
+    public boolean open() {
+        try {
+            // get PDF text file
+            fileText = toText();
+            errorMessage = null;
+        } catch (Exception ex) {
+            // if there have error you can get cause message
+            errorMessage = ex.getMessage();
+        }
+
+        return errorMessage == null;
+    }
+
+    private String toText() throws IOException {
+        this.pdfStripper = null;
+        this.pdDoc = null;
+        this.cosDoc = null;
+
+        // Open PDF file with PDFParser
+        file = new File(targetPath.toString());
+        parser = new PDFParser(new RandomAccessFile(file, "r")); // update for PDFBox V 2.0
+
+        // read PDDocument text via pdfStripper
+        parser.parse();
+        cosDoc = parser.getDocument();
+        pdfStripper = new PDFTextStripper();
+        pdDoc = new PDDocument(cosDoc);
+        pdDoc.getNumberOfPages();
+        pdfStripper.setStartPage(0);
+        pdfStripper.setEndPage(pdDoc.getNumberOfPages());
+        fileText = pdfStripper.getText(pdDoc);
+        pdDoc.close(); // close file
+
+        return fileText;
     }
 
     // if you want to change selected file
     public void setTargetPath(String targetPath) {
+        // set selected file path
         this.targetPath = Paths.get(targetPath);
+    }
+
+    public void setResultFileName(String resultFileName) {
+        this.resultPath = Paths.get(Setting.getDefaultResultPath(), resultFileName);
     }
 
     public String getTargetPath() {
@@ -41,9 +87,13 @@ public class PDFFile {
         return targetPath.getFileName().toString();
     }
 
-    public String getResultPath() { return resultPath.toString(); }
+    public String getResultPath() {
+        return resultPath.toString();
+    }
 
-    public String getResultFileName() { return resultPath.getFileName().toString(); }
+    public String getResultFileName() {
+        return resultPath.getFileName().toString();
+    }
 
     public String getFileText() {
         return fileText;
@@ -59,5 +109,9 @@ public class PDFFile {
 
     public int textLength() {
         return fileText.length();
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

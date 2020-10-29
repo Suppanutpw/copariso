@@ -1,5 +1,3 @@
-import java.io.IOException;
-
 public class Example extends Setting {
 
     // *** UI have to config this itself ***
@@ -9,8 +7,6 @@ public class Example extends Setting {
         // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
         // modify result path here!!!
         Setting.setDefaultResultPath("/Users/spw/Desktop/result");
-        // ขื่อไฟล์ overall compare
-        Setting.setDefaultOverallFileName("overall.pdf");
         // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
         Setting.setTextOldHighlightColor(1, 0, 0);
         Setting.setTextNewHighlightColor(0, 1, 0);
@@ -19,25 +15,28 @@ public class Example extends Setting {
     // ตัวอย่างเวลาเรียกใช้
     public static void main(String[] args) {
         // โยน error มา อย่าโยนกลับน้า...เค้ากลัว... -_-
-        try {
-            // ตั้งค่าของที่อยู่ไฟล์ที่ต้องการเทียบ
-            PDFFile file1 = new PDFFile(
-                    "/Users/spw/Desktop/result/file1.pdf"
-            );
-            PDFFile file2 = new PDFFile(
-                    "/Users/spw/Desktop/result/file2.pdf"
-            );
+        // ตั้งค่าของที่อยู่ไฟล์ที่ต้องการเทียบ
+        PDFFile file1 = new PDFFile("/Users/spw/Desktop/result/file2.pdf");
+        PDFFile file2 = new PDFFile("/Users/spw/Desktop/result/file1.pdf");
 
-            // use Thread to 2 compare in same Job
-            // in PDFTextOnlyCompare divide Job for highlight each file
-            PDFOverallCompare.pdfCompare(file1, file2);
-            PDFTextOnlyCompare.pdfCompare(file1, file2);
-        }catch (IOException | RuntimeException ex) {
-            // แสดง GUI popup ว่า
-            System.out.println("PDFFile not found : \n" + ex.getMessage());
-        }catch (Exception ex) {
-            // แสดง GUI popup ว่า
-            System.out.println("PDFFile Compare error : \n" + ex.getMessage());
+        // เรียกไฟล์ไฟล์ 1 (เก่า) กับ ไฟล์ 2 (ใหม่) (อย่าใช้ && นะ!!!)
+        if (!(file1.open() & file2.open())) {
+            System.out.println("File Not Found");
+            return; // ไม่เจอก็ออกฟังก์ชั่น
+        }
+
+        // ถ้าเป็นไฟล์เดียวกัน
+        if (file1.getTargetPath().equals(file2.getTargetPath())) {
+            System.out.println("You Selected In Same File");
+            return; // ไม่เจอก็ออกฟังก์ชั่น
+        }
+
+        // เอา Thread ออก เพื่อหา error
+        // in PDFTextOnlyCompare divide Job for highlight each file
+        if (PDFTextOnlyCompare.pdfCompare(file1, file2) & PDFOverallCompare.pdfCompare(file1, file2)) {
+            System.out.println("PDF Compare success");
+        } else {
+            System.out.println("PDF Compare Error");
         }
     }
 }

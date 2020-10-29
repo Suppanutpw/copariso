@@ -10,6 +10,7 @@ public class PDFHighlightPos {
         this.posStop = posStop;
         this.words = words;
     }
+
     public PDFHighlightPos(int posStart, int posStop) {
         this(posStart, posStop, "");
     }

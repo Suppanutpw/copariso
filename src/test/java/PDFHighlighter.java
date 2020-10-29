@@ -15,8 +15,7 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextMarkup;
 
-public class PDFHighlighter extends PDFTextStripper
-{
+public class PDFHighlighter extends PDFTextStripper {
     private static List<double[]> coordinates;
     private static ArrayList tokenStream;
 
@@ -40,10 +39,10 @@ public class PDFHighlighter extends PDFTextStripper
         highlightPos = new ArrayList<PDFHighlightPos>();
 
     }
+
     public static void highlight(PDFFile pdfFile, PDColor textColor) throws IOException {
 
-        try
-        {
+        try {
             //Loading an existing document
             File file = new File(pdfFile.getTargetPath());
             PDDocument document = PDDocument.load(file);
@@ -78,8 +77,7 @@ public class PDFHighlighter extends PDFTextStripper
             int rotation;
 
             //scan each page and highlight all the words inside them
-            for (int page_index = 0; page_index < number_of_pages; page_index++)
-            {
+            for (int page_index = 0; page_index < number_of_pages; page_index++) {
                 //get current page
                 PDPage page = document.getPage(page_index);
 
@@ -88,34 +86,30 @@ public class PDFHighlighter extends PDFTextStripper
 
                 //Page height and width
                 page_height = page.getMediaBox().getHeight();
-                page_width  = page.getMediaBox().getWidth();
+                page_width = page.getMediaBox().getWidth();
 
                 //Scan collected coordinates
-                for (int i=0; i<coordinates.size(); i++)
-                {
+                for (int i = 0; i < coordinates.size(); i++) {
                     //if the current coordinates are not related to the current
                     //page, ignore them
-                    if ((int) coordinates.get(i)[4] != (page_index+1))
+                    if ((int) coordinates.get(i)[4] != (page_index + 1))
                         continue;
-                    else
-                    {
+                    else {
                         //get rotation of the page...portrait..landscape..
                         rotation = (int) coordinates.get(i)[7];
 
                         //page rotated of 90degrees
-                        if (rotation == 90)
-                        {
+                        if (rotation == 90) {
                             height = coordinates.get(i)[5];
                             width = coordinates.get(i)[6];
-                            width = (page_height * width)/page_width;
+                            width = (page_height * width) / page_width;
 
                             //define coordinates of a rectangle
                             maxx = coordinates.get(i)[1];
                             minx = coordinates.get(i)[1] - height;
                             miny = coordinates.get(i)[0];
                             maxy = coordinates.get(i)[0] + width;
-                        }
-                        else //i should add here the cases -90/-180 degrees
+                        } else //i should add here the cases -90/-180 degrees
                         {
                             height = coordinates.get(i)[5];
                             minx = coordinates.get(i)[0];
@@ -127,21 +121,21 @@ public class PDFHighlighter extends PDFTextStripper
                         //Add an annotation for each scanned word
                         PDAnnotationTextMarkup txtMark = new PDAnnotationTextMarkup(PDAnnotationTextMarkup.SUB_TYPE_HIGHLIGHT);
                         txtMark.setColor(textColor);
-                        txtMark.setConstantOpacity((float)0.3); // 30% transparent
+                        txtMark.setConstantOpacity((float) 0.3); // 30% transparent
                         PDRectangle position = new PDRectangle();
                         position.setLowerLeftX((float) minx);
                         position.setLowerLeftY((float) miny);
                         position.setUpperRightX((float) maxx);
-                        position.setUpperRightY((float) ((float) maxy+height));
+                        position.setUpperRightY((float) ((float) maxy + height));
                         txtMark.setRectangle(position);
 
                         float[] quads = new float[8];
                         quads[0] = position.getLowerLeftX();  // x1
-                        quads[1] = position.getUpperRightY()-2; // y1
+                        quads[1] = position.getUpperRightY() - 2; // y1
                         quads[2] = position.getUpperRightX(); // x2
                         quads[3] = quads[1]; // y2
                         quads[4] = quads[0];  // x3
-                        quads[5] = position.getLowerLeftY()-2; // y3
+                        quads[5] = position.getLowerLeftY() - 2; // y3
                         quads[6] = quads[2]; // x4
                         quads[7] = quads[5]; // y5
                         txtMark.setQuadPoints(quads);
@@ -156,9 +150,7 @@ public class PDFHighlighter extends PDFTextStripper
             document.save(highlighted_doc);
 
             document.close();
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e);
             throw e;
         }
@@ -166,18 +158,16 @@ public class PDFHighlighter extends PDFTextStripper
     }
 
     @Override
-    protected void writeString(String string, List<TextPosition> textPositions) throws IOException
-    {
+    protected void writeString(String string, List<TextPosition> textPositions) throws IOException {
         int token_length = textPositions.size();
         int highlight_length = highlightPos.size();
-        double minx = 0,maxx = 0,miny = 0,maxy =0;
+        double minx = 0, maxx = 0, miny = 0, maxy = 0;
         double height = 0;
         double width = 0;
         int rotation = 0;
         int start_line_word = wordCounter;
 
-        for (TextPosition text : textPositions)
-        {
+        for (TextPosition text : textPositions) {
             rotation = text.getRotation();
 
             if (text.getHeight() > height)
@@ -192,7 +182,7 @@ public class PDFHighlighter extends PDFTextStripper
             minx = textPositions.get(0).getX();
             miny = textPositions.get(0).getY();
         }
-        for (int i = 0; pdfPosCounter < highlight_length && i < token_length ;i++, wordCounter++) {
+        for (int i = 0; pdfPosCounter < highlight_length && i < token_length; i++, wordCounter++) {
             if (!isHighlight) {
                 // if highlight pen {not} put on paper
                 if (wordCounter == highlightPos.get(pdfPosCounter).posStart) {
@@ -205,7 +195,7 @@ public class PDFHighlighter extends PDFTextStripper
                     i--;
                     wordCounter--;
                 }
-            }else {
+            } else {
                 // if highlight have put on paper
                 if (wordCounter == highlightPos.get(pdfPosCounter).posStop) {
                     maxx = textPositions.get(i).getEndX();
