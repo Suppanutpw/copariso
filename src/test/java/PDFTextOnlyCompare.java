@@ -1,8 +1,8 @@
 public class PDFTextOnlyCompare {
 
-    private static String errorMessage;
+    private String errorMessage;
 
-    public static boolean pdfCompare(PDFFile file1, PDFFile file2) {
+    public boolean pdfCompare(PDFFile file1, PDFFile file2) {
         try {
             // get file name add create new 2 result file names
             // ex. old-oldFileName-newFileName.pdf
@@ -13,13 +13,14 @@ public class PDFTextOnlyCompare {
             file1.setResultFileName("old-" + fileName1 + "-" + fileName2);
             file2.setResultFileName("new-" + fileName1 + "-" + fileName2);
 
+            // find highlight position in word range form
             new PDFCompareText(file1, file2).findNotMatchPos();
 
-            // you can't share 2 PDFHighlighter.highlight() to each Thread because of there have static attribute
-            PDFHighlighter.highlight(file1, Setting.getOldDifColor());
+            // you can share 2 PDFHighlighter.highlight() to each Thread
+            new PDFHighlighter(file1).highlight(Setting.getOldDifColor());
             System.out.println("Created : " + file1.getResultPath());
 
-            PDFHighlighter.highlight(file2, Setting.getNewDifColor());
+            new PDFHighlighter(file2).highlight(Setting.getNewDifColor());
             System.out.println("Created : " + file2.getResultPath());
 
             // if there no error here so return null
@@ -34,7 +35,7 @@ public class PDFTextOnlyCompare {
         return errorMessage == null;
     }
 
-    public static String getErrorMessage() {
+    public String getErrorMessage() {
         return errorMessage;
     }
 

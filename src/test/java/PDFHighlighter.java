@@ -16,60 +16,67 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextMarkup;
 
 public class PDFHighlighter extends PDFTextStripper {
-    private static List<double[]> coordinates;
-    private static ArrayList tokenStream;
+    private List<double[]> coordinates;
+    private ArrayList tokenStream;
+    private PDDocument document;
+    private PDFFile pdfFile;
 
-    private static int wordCounter, pdfPosCounter;
+    private int wordCounter, pdfPosCounter;
 
     // check that is the highlight pen put on paper or not
-    private static boolean isHighlight;
+    private boolean isHighlight;
 
     // My Data for find specific words for highlighter
-    private static ArrayList<PDFHighlightPos> highlightPos;
-    private static String fileText;
+    private ArrayList<PDFHighlightPos> highlightPos;
+    private String fileText;
 
-    public PDFHighlighter() throws IOException {
-        //data structured containing coordinates information for each token
+    public PDFHighlighter(PDFFile pdfFile) throws IOException {
+        // it will call constructor 2 time in one calculate
+        // data structured containing coordinates information for each token
         coordinates = new ArrayList<>();
 
-        //List of words extracted from text (considering a whitespace-based tokenization)
+        // List of words extracted from text (considering a whitespace-based tokenization)
         tokenStream = new ArrayList();
 
+        // Before call writeText that call writeString config value for calculate
         // list of words order for highlight {start - end}
-        highlightPos = new ArrayList<PDFHighlightPos>();
+        highlightPos = pdfFile.getHighlightPos();
+        fileText = pdfFile.getFileText();
 
+        // set array counter for highlight
+        wordCounter = pdfPosCounter = 0;
+        isHighlight = false;
+
+        // save attribute pdfFile
+        this.pdfFile = pdfFile;
     }
 
-    public static void highlight(PDFFile pdfFile, PDColor textColor) throws IOException {
+    public void highlight(PDColor textColor) throws IOException {
 
         try {
             //Loading an existing document
             File file = new File(pdfFile.getTargetPath());
-            PDDocument document = PDDocument.load(file);
+            document = PDDocument.load(file);
 
-            //extended PDFTextStripper class
-            PDFTextStripper stripper = new PDFHighlighter();
+            //extended PDFTextStripper class new object
+            PDFTextStripper stripper = new PDFHighlighter(pdfFile);
 
             //Get number of pages
             int number_of_pages = document.getDocumentCatalog().getPages().getCount();
-
-            // Before call writeText that call writeString i config value for calculate
-            PDFHighlighter.highlightPos = pdfFile.getHighlightPos();
-            PDFHighlighter.fileText = pdfFile.getFileText();
-            wordCounter = pdfPosCounter = 0;
-            isHighlight = false;
 
             // The method writeText will invoke an override version of writeString
             Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
             stripper.writeText(document, dummy);
 
+            // collect information form stripper (highlight position calculate) that Cast form PDFTextStripper
+            tokenStream = ((PDFHighlighter) stripper).getTokenStream();
+            coordinates = ((PDFHighlighter) stripper).getCoordinates();
+
             // Print collected information
-            /*
-            System.out.println("========== HIGHLIGHTER RESULT " + pdfFile.getTargetFileName() + " ==========");
+            /* System.out.println("========== HIGHLIGHTER RESULT " + pdfFile.getTargetFileName() + " ==========");
             System.out.println(tokenStream);
             System.out.println(tokenStream.size());
-            System.out.println(coordinates.size());
-            */
+            System.out.println(coordinates.size()); */
 
             double page_height;
             double page_width;
@@ -148,11 +155,10 @@ public class PDFHighlighter extends PDFTextStripper {
             //Saving the document in a new file
             File highlighted_doc = new File(pdfFile.getResultPath());
             document.save(highlighted_doc);
-
-            document.close();
         } catch (IOException e) {
-            System.out.println(e);
             throw e;
+        } finally {
+            document.close();
         }
 
     }
@@ -166,6 +172,7 @@ public class PDFHighlighter extends PDFTextStripper {
         double width = 0;
         int rotation = 0;
         int start_line_word = wordCounter;
+        String token = "";
 
         for (TextPosition text : textPositions) {
             rotation = text.getRotation();
@@ -197,13 +204,15 @@ public class PDFHighlighter extends PDFTextStripper {
                 }
             } else {
                 // if highlight have put on paper
+                token += textPositions.get(i).toString();
                 if (wordCounter == highlightPos.get(pdfPosCounter).posStop) {
                     maxx = textPositions.get(i).getEndX();
                     maxy = textPositions.get(i).getY();
 
                     double word_coordinates[] = {minx, miny, maxx, maxy, this.getCurrentPageNo(), height, width, rotation};
                     coordinates.add(word_coordinates);
-                    tokenStream.add(fileText.substring(Math.max(highlightPos.get(pdfPosCounter).posStart, start_line_word), Math.min(highlightPos.get(pdfPosCounter).posStop, wordCounter) + 1));
+                    tokenStream.add(token);
+                    token = "";
 
                     pdfPosCounter++;
                     isHighlight = false;
@@ -213,12 +222,13 @@ public class PDFHighlighter extends PDFTextStripper {
 
         // if pen put on paper but not found Stop then highlight till end line
         if (isHighlight) {
+            token += textPositions.get(token_length - 1).toString();
             maxx = textPositions.get(token_length - 1).getEndX();
             maxy = textPositions.get(token_length - 1).getY();
 
             double word_coordinates[] = {minx, miny, maxx, maxy, this.getCurrentPageNo(), height, width, rotation};
             coordinates.add(word_coordinates);
-            tokenStream.add(fileText.substring(Math.max(highlightPos.get(pdfPosCounter).posStart, start_line_word), Math.min(highlightPos.get(pdfPosCounter).posStop, wordCounter) + 1));
+            tokenStream.add(token);
         }
         // if end line is the same position of Stop range (can't compare end line position in loop)
         if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
@@ -227,5 +237,13 @@ public class PDFHighlighter extends PDFTextStripper {
         }
         // plus end line word +1
         wordCounter++;
+    }
+
+    public List<double[]> getCoordinates() {
+        return coordinates;
+    }
+
+    public ArrayList getTokenStream() {
+        return tokenStream;
     }
 }

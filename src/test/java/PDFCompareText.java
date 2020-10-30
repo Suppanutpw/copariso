@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 
 /* Dynamic Programming Java implementation of LCS problem */
 public class PDFCompareText {
@@ -11,56 +11,63 @@ public class PDFCompareText {
         this.file2 = file2;
     }
 
-    // Function to find LCS of String X[0..m-1] and Y[0..n-1]
-    public String LCS(String X, String Y, int m, int n, int[][] T) {
-        // return empty string if we have reached the end of
-        // either sequence
-        if (m == 0 || n == 0) {
-            return new String();
-        }
+    // Function to return all LCS of sub-strings X[0..m-1], Y[0..n-1]
+    public String LCS(String X, String Y, int m, int n) {
+        int[][] L = new int[m+1][n+1];
 
-        // if last character of X and Y matches
-        if (X.charAt(m - 1) == Y.charAt(n - 1)) {
-            // append current character (X[m-1] or Y[n-1]) to LCS of
-            // substring X[0..m-2] and Y[0..n-2]
-            pdfTextPos1.add(m - 1);
-            pdfTextPos2.add(n - 1);
-            return LCS(X, Y, m - 1, n - 1, T) + X.charAt(m - 1);
-        }
-
-        // else when the last character of X and Y are different
-
-        // if top cell of current cell has more value than the left
-        // cell, then drop current character of String X and find LCS
-        // of substring X[0..m-2], Y[0..n-1]
-
-        if (T[m - 1][n] > T[m][n - 1]) {
-            return LCS(X, Y, m - 1, n, T);
-        } else {
-            // if left cell of current cell has more value than the top
-            // cell, then drop current character of String Y and find LCS
-            // of substring X[0..m-1], Y[0..n-2]
-
-            return LCS(X, Y, m, n - 1, T);
-        }
-    }
-
-    // Function to fill lookup table by finding the length of LCS
-    // of substring X[0..m-1] and Y[0..n-1]
-    public void LCSLength(String X, String Y, int m, int n, int[][] T) {
-        // fill the lookup table in bottom-up manner
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                // if current character of X and Y matches
-                if (X.charAt(i - 1) == Y.charAt(j - 1)) {
-                    T[i][j] = T[i - 1][j - 1] + 1;
-                }
-                // else if current character of X and Y don't match
-                else {
-                    T[i][j] = Integer.max(T[i - 1][j], T[i][j - 1]);
-                }
+        // Following steps build L[m+1][n+1] in bottom up fashion. Note
+        // that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1]
+        for (int i=0; i<=m; i++)
+        {
+            for (int j=0; j<=n; j++)
+            {
+                if (i == 0 || j == 0)
+                    L[i][j] = 0;
+                else if (X.charAt(i-1) == Y.charAt(j-1))
+                    L[i][j] = L[i-1][j-1] + 1;
+                else
+                    L[i][j] = Math.max(L[i-1][j], L[i][j-1]);
             }
         }
+
+        // Following code is used to print LCS
+        int index = L[m][n];
+
+        // Create a character array to store the lcs string
+        char[] lcs = new char[index+1];
+        lcs[index] = '\u0000'; // Set the terminating character
+
+        // Start from the right-most-bottom-most corner and
+        // one by one store characters in lcs[]
+        int i = m;
+        int j = n;
+        while (i > 0 && j > 0)
+        {
+            // If current character in X[] and Y are same, then
+            // current character is part of LCS
+            if (X.charAt(i-1) == Y.charAt(j-1))
+            {
+                // Put current character in result
+                lcs[index-1] = X.charAt(i-1);
+
+                pdfTextPos1.add(i-1);
+                pdfTextPos2.add(j-1);
+
+                // reduce values of i, j and index
+                i--;
+                j--;
+                index--;
+            }
+
+            // If not same, then find the larger of two and
+            // go in the direction of larger value
+            else if (L[i-1][j] > L[i][j-1])
+                i--;
+            else
+                j--;
+        }
+
+        return new String(lcs);
     }
 
     public void findNotMatchPos() {
@@ -72,19 +79,12 @@ public class PDFCompareText {
 
         int m = file1.textLength(), n = file2.textLength();
 
-        // T[i][j] stores the length of LCS of substring
-        // X[0..i-1], Y[0..j-1]
-        int[][] T = new int[m + 1][n + 1];
-
         // initialize position of subString
         pdfTextPos1 = new ArrayList();
         pdfTextPos2 = new ArrayList();
 
-        // fill lookup table
-        LCSLength(file1.getFileText(), file2.getFileText(), m, n, T);
-
         // find longest common sequence
-        LCS(file1.getFileText(), file2.getFileText(), m, n, T);
+        LCS(file1.getFileText(), file2.getFileText(), m, n);
 
         // find range of {not longest common sequence}
         file1.setHighlightPos(findRangeForHighlight(pdfTextPos1, m));
@@ -96,7 +96,7 @@ public class PDFCompareText {
         findRangeForHighlightWords(file2);
     }
 
-    public static ArrayList<PDFHighlightPos> findRangeForHighlight(ArrayList<Integer> pdfTextPos, int textSize) {
+    public ArrayList<PDFHighlightPos> findRangeForHighlight(ArrayList<Integer> pdfTextPos, int textSize) {
         // find position Start - End for highlight word
         int pdfTextPosSize = pdfTextPos.size();
         ArrayList<PDFHighlightPos> pdfHighlightPos = new ArrayList<PDFHighlightPos>();
@@ -122,7 +122,7 @@ public class PDFCompareText {
         return pdfHighlightPos;
     }
 
-    public static void findRangeForHighlightWords(PDFFile file) {
+    public void findRangeForHighlightWords(PDFFile file) {
         String fileText = file.getFileText();
         ArrayList<PDFHighlightPos> pdfHighlightPos = file.getHighlightPos();
         int textSize = file.textLength(), highlight_length = pdfHighlightPos.size();
@@ -162,8 +162,8 @@ public class PDFCompareText {
         for (int i = 0; i < pdfHighlightPos.size() - 1; i++) {
             // if Stop position of current range overlap with Start of next range
             // or distance between Stop position of current range and with Start of next range <= 5
-            if (Math.abs(pdfHighlightPos.get(i).posStop - Math.abs(pdfHighlightPos.get(i + 1).posStart)) <= 5
-                    || pdfHighlightPos.get(i + 1).posStart < pdfHighlightPos.get(i).posStop) {
+            if (Math.abs(pdfHighlightPos.get(i).posStop - pdfHighlightPos.get(i + 1).posStart) <= 5
+                    || pdfHighlightPos.get(i + 1).posStart <= pdfHighlightPos.get(i).posStop) {
                 // then combine it together (combine in current range and delete next range)
                 pdfHighlightPos.get(i).posStop = pdfHighlightPos.get(i + 1).posStop;
                 pdfHighlightPos.remove(i + 1);
@@ -172,5 +172,4 @@ public class PDFCompareText {
         }
 
     }
-
 }

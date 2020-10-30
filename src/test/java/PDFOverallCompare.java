@@ -4,10 +4,10 @@ import java.nio.file.Paths;
 
 public class PDFOverallCompare {
 
-    private static String errorMessage;
-    private static String overallFileName;
+    private String errorMessage;
+    private String overallFileName;
 
-    public static boolean pdfCompare(PDFFile file1, PDFFile file2) {
+    public boolean pdfCompare(PDFFile file1, PDFFile file2) {
         try {
             // get file name add create new result file name
             // ex. overall-oldFileName-newFileName.pdf
@@ -15,6 +15,7 @@ public class PDFOverallCompare {
             String fileName2 = file2.getTargetFileName();
 
             overallFileName = "overall-" + fileName1 + "-" + fileName2;
+            System.out.println(overallFileName);
 
             // use thread for share job with text-only compare (they're independent method)
             new PdfComparator(file1.getTargetPath(), file2.getTargetPath()).compare().writeTo(getOverallPath());
@@ -32,19 +33,19 @@ public class PDFOverallCompare {
     }
 
     // setter & getter for overall file attribute
-    public static String getOverallFileName() {
+    public String getOverallFileName() {
         return overallFileName;
     }
 
-    public static void setOverallFileName(String overallFileName) {
-        PDFOverallCompare.overallFileName = overallFileName;
+    public void setOverallFileName(String overallFileName) {
+        this.overallFileName = overallFileName;
     }
 
-    public static String getOverallPath() {
+    public String getOverallPath() {
         return Paths.get(Setting.getDefaultResultPath(), overallFileName).toString();
     }
 
-    public static String getErrorMessage() {
+    public String getErrorMessage() {
         return errorMessage;
     }
 }
