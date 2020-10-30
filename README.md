@@ -7,3 +7,4 @@
   - ถ้าอยากทดสอบโค้ดต้องเปลี่ยน path ใหม่เป็นของ window แล้วตามไฟล์ที่เราเก็บ เช่น C:\Documents\Newsletters\Summer2018.pdf
   - ส่วนไฟล์โปรเจคทั้งหมดอยู่ใน /src/test/java/
   - ดูวิธีการใช้ method เราเขียนได้ ใน /src/test/java/Example.java
+  - เพิ่มเติม Thread สำหรับทำ socket สามารถแก้ด้าน UI ที่ /src/test/java/PDFCompare.java
