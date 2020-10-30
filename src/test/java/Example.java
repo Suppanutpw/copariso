@@ -1,3 +1,8 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Example extends Setting {
 
     // *** UI have to config this itself ***
@@ -19,10 +24,29 @@ public class Example extends Setting {
         // ใน class PDFFile, PDFTextOnlyCompare, PDFOverallCompare สามารถเรียก getErrorMessage() ได้
         // ตั้งค่าของที่อยู่ไฟล์ที่ต้องการเทียบ
 
+
+        // static dir for server side calculate
+        Path path = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources");
+        System.out.println(path.toString());
+        if (!Files.exists(path)) {
+            try {
+                System.out.println("dir doesn't exists re-crate: " + path.toString());
+                Files.createDirectories(path);
+            } catch (IOException ex) {
+                System.out.println("target dir not found : " + ex.getMessage());
+                return;
+            }
+        }
+
         // สามารถใช้ thread ได้ กรณีมีหลายงานพร้อมกัน (socket)
         Runnable compare = new PDFCompare(
-                new PDFFile("/Users/spw/Downloads/ตัวอย่างรายงานกลุ่ม MIS Term Project .pdf"),
-                new PDFFile("/Users/spw/Desktop/result/file1.pdf"));
+                new PDFFile("/Users/spw/Desktop/result/file1.pdf"),
+                new PDFFile("/Users/spw/Desktop/result/file2.pdf"));
+        new Thread(compare).start();
+
+        compare = new PDFCompare(
+                new PDFFile("/Users/spw/Desktop/result/file3.pdf"),
+                new PDFFile("/Users/spw/Desktop/result/file4.pdf"));
         new Thread(compare).start();
     }
 }
