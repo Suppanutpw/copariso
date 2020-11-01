@@ -4,7 +4,17 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 public class Setting {
+
+    static {
+        // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
+        // modify result path here!!!
+        Setting.setDefaultResultPath("/Users/spw/Desktop/result");
+        // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
+        Setting.setTextOldHighlightColor(1, 0, 0);
+        Setting.setTextNewHighlightColor(0, 1, 0);
+    }
 
     // Setting is the class for config process via GUI
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
