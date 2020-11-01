@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class PDFServer {
 
@@ -12,6 +15,20 @@ public class PDFServer {
     public static void main (String [] args ) throws IOException {
         ServerSocket servsock = null;
         Socket sock = null;
+
+        // static dir for server side calculate
+        Path path = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources");
+        System.out.println(path.toString());
+        if (!Files.exists(path)) {
+            try {
+                System.out.println("dir doesn't exists re-crate: " + path.toString());
+                Files.createDirectories(path);
+            } catch (IOException ex) {
+                System.out.println("target dir not found : " + ex.getMessage());
+                return;
+            }
+        }
+
         try {
             servsock = new ServerSocket(SOCKET_PORT);
             while (true) {
@@ -24,7 +41,7 @@ public class PDFServer {
                     new FileTransfer(sock).receiveFile("/Users/spw/Desktop/result/test1.pdf");
                 }
                 finally {
-                    if (sock!=null) sock.close();
+                    if (sock != null) sock.close();
                 }
             }
         }

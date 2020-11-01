@@ -1,7 +1,7 @@
-public class PDFCompare implements Runnable {
+public class PDFCompareThread implements Runnable {
 
     private PDFFile file1, file2;
-    public PDFCompare(PDFFile file1, PDFFile file2) {
+    public PDFCompareThread(PDFFile file1, PDFFile file2) {
         this.file1 = file1;
         this.file2 = file2;
     }
