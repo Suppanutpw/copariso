@@ -1,59 +1,62 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class FileTransfer {
     private Socket socket;
-    private InputStream is;
     private FileOutputStream fos;
-    private BufferedOutputStream bos;
     private int bufferSize;
     public static int count = 0;
 
     FileTransfer(Socket socket) {
         this.socket = socket;
-        is = null;
         fos = null;
-        bos = null;
         bufferSize = 0;
     }
 
-    public boolean receiveFile(String fileName) {
+    public boolean receiveFile(ArrayList<File> files, DataInputStream dis) {
         try {
-            is = socket.getInputStream();
+            // get all content length
             bufferSize = socket.getReceiveBufferSize();
-            System.out.println("Buffer size: " + bufferSize);
-            fos = new FileOutputStream(fileName);
-            bos = new BufferedOutputStream(fos);
             byte[] bytes = new byte[bufferSize];
-            int count;
-            while ((count = is.read(bytes)) >= 0) {
-                bos.write(bytes, 0, count);
+            int count; // count byte for read one file
+
+            for (File file : files) {
+                // read file size
+                long fileSize = dis.readLong();
+                // create new file from File Array List
+                fos = new FileOutputStream(file);
+                System.out.println("Receive File : " + file);
+                while (fileSize > 0 && (count = dis.read(bytes, 0, (int)Math.min(bytes.length, fileSize))) != -1) {
+                    fos.write(bytes, 0, count);
+                    fileSize -= count;
+                }
+                fos.close();
             }
             FileTransfer.count++;
-            bos.close();
-            is.close();
             return true;
         } catch (IOException e) {
             return false;
         }
     }
 
-    public boolean sendFile(File file) {
+    public boolean sendFile(ArrayList<File> files, DataOutputStream dos) {
         FileInputStream fis;
-        BufferedInputStream bis;
-        BufferedOutputStream out;
         byte[] buffer = new byte[8192];
         try {
-            fis = new FileInputStream(file);
-            bis = new BufferedInputStream(fis);
-            out = new BufferedOutputStream(socket.getOutputStream());
-            int count;
-            while ((count = bis.read(buffer)) > 0) {
-                out.write(buffer, 0, count);
+            int count; // count byte for send one file
+
+            for (File file : files) {
+                // get send file
+                fis = new FileInputStream(file);
+                // send file size
+                dos.writeLong(file.length());
+                System.out.println("Sent File : " + file);
+                while ((count = fis.read(buffer)) != -1) {
+                    dos.write(buffer, 0, count);
+                    dos.flush();
+                }
             }
-            out.close();
-            fis.close();
-            bis.close();
             return true;
         } catch (IOException e) {
             return false;
