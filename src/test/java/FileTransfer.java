@@ -27,6 +27,7 @@ public class FileTransfer {
                 // create new file from File Array List
                 fos = new FileOutputStream(file);
                 System.out.println("Receive File : " + file);
+                // read file until a file size length or found end-of-stream condition (EOS)
                 while (fileSize > 0 && (count = dis.read(bytes, 0, (int)Math.min(bytes.length, fileSize))) != -1) {
                     fos.write(bytes, 0, count);
                     fileSize -= count;

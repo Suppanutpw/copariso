@@ -10,6 +10,7 @@ public class PDFClient {
 
     public static void main (String [] args) throws IOException {
         Socket sock = null;
+
         try {
             sock = new Socket(SERVER, SOCKET_PORT);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
@@ -31,6 +32,7 @@ public class PDFClient {
             files = new ArrayList<File>(2);
             files.add(new File ("/Users/spw/Desktop/result/test3.pdf"));
             files.add(new File ("/Users/spw/Desktop/result/test4.pdf"));
+            files.add(new File ("/Users/spw/Desktop/result/test5.pdf"));
             if ( new FileTransfer(sock).receiveFile(files, dis) ) {
                 System.out.println("PDF Server Receive File success");
             }else {

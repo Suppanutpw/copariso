@@ -33,6 +33,7 @@ public class PDFServer {
                     files = new ArrayList<File>(2);
                     files.add(new File ("/Users/spw/Desktop/result/file3.pdf"));
                     files.add(new File ("/Users/spw/Desktop/result/file4.pdf"));
+                    files.add(new File ("/Users/spw/Desktop/result/file5.pdf"));
                     new FileTransfer(sock).sendFile(files, dos);
 
                     dis.close();
