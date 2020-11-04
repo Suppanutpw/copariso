@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class PDFClient {
+public class SocketClient {
 
     public final static int SOCKET_PORT = 13267;      // you may change this
     public final static String SERVER = "localhost";
@@ -23,20 +23,19 @@ public class PDFClient {
             files.add(new File ("/Users/spw/Desktop/result/file1.pdf"));
             files.add(new File ("/Users/spw/Desktop/result/file2.pdf"));
             if ( new FileTransfer(sock).sendFile(files, dos) ) {
-                System.out.println("PDF Server Send File success");
+                System.out.println("Socket Client Send File success");
             }else {
-                System.out.println("PDF Server Send File Fail");
+                System.out.println("Socket Client Send File Fail");
             }
 
             // send file from server
             files = new ArrayList<File>(2);
             files.add(new File ("/Users/spw/Desktop/result/test3.pdf"));
             files.add(new File ("/Users/spw/Desktop/result/test4.pdf"));
-            files.add(new File ("/Users/spw/Desktop/result/test5.pdf"));
-            if ( new FileTransfer(sock).receiveFile(files, dis) ) {
-                System.out.println("PDF Server Receive File success");
+            if ( new FileTransfer(sock).receiveFile(files, dis, false) ) {
+                System.out.println("Socket Server Receive File success");
             }else {
-                System.out.println("PDF Server Receive File Fail");
+                System.out.println("Socket Server Receive File Fail");
             }
 
             dis.close();

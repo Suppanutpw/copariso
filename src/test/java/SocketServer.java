@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class PDFServer {
+public class SocketServer {
 
     public final static int SOCKET_PORT = 13267;  // you may change this
 
@@ -28,13 +28,17 @@ public class PDFServer {
                     ArrayList<File> files = new ArrayList<File>(2);
                     files.add(new File ("/Users/spw/Desktop/result/test1.pdf"));
                     files.add(new File ("/Users/spw/Desktop/result/test2.pdf"));
-                    new FileTransfer(sock).receiveFile(files, dis);
+                    if ( new FileTransfer(sock).receiveFile(files, dis, true) ) {
+                        System.out.println("Socket Server Receive File success");
+                    }else {
+                        System.out.println("Socket Server Receive File Fail");
+                    }
 
-                    files = new ArrayList<File>(2);
-                    files.add(new File ("/Users/spw/Desktop/result/file3.pdf"));
-                    files.add(new File ("/Users/spw/Desktop/result/file4.pdf"));
-                    files.add(new File ("/Users/spw/Desktop/result/file5.pdf"));
-                    new FileTransfer(sock).sendFile(files, dos);
+                    if ( new FileTransfer(sock).sendFile(files, dos) ) {
+                        System.out.println("Socket Server Send File success");
+                    }else {
+                        System.out.println("Socket Server Send File Fail");
+                    }
 
                     dis.close();
                     dos.close();
