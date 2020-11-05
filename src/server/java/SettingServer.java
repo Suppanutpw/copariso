@@ -11,10 +11,10 @@ public class SettingServer {
         // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
         // modify result path here!!!
         // default now is ./resources
-        SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
+        SettingServer.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
         // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
-        SettingClient.setTextOldHighlightColor(1, 0, 0);
-        SettingClient.setTextNewHighlightColor(0, 1, 0);
+        SettingServer.setTextOldHighlightColor(1, 0, 0);
+        SettingServer.setTextNewHighlightColor(0, 1, 0);
     }
 
     // Setting is the class for config process via GUI

@@ -12,16 +12,12 @@ public class SettingClient {
         // modify result path here!!!
         // default now is ./resources
         SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
-        // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
-        SettingClient.setTextOldHighlightColor(1, 0, 0);
-        SettingClient.setTextNewHighlightColor(0, 1, 0);
     }
 
     // Setting is the class for config process via GUI
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
     private static Path DEFAULT_RESULT_FILE_PATH;
-    private static PDColor OLD_DIF_COLOR;
-    private static PDColor NEW_DIF_COLOR;
+    private static String SERVERIP;
 
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {
@@ -32,21 +28,12 @@ public class SettingClient {
         DEFAULT_RESULT_FILE_PATH = Paths.get(defaultResultPath);
     }
 
-    // setter & getter for difference color
-    // input color intensity is in range 0-1
-    public static PDColor getOldDifColor() {
-        return OLD_DIF_COLOR;
+    // setter & getter for socket server dest
+    public static String getSERVERIP() {
+        return SERVERIP;
     }
 
-    public static PDColor getNewDifColor() {
-        return NEW_DIF_COLOR;
-    }
-
-    public static void setTextOldHighlightColor(float red, float green, float blue) {
-        OLD_DIF_COLOR = new PDColor(new float[]{red, green, blue}, PDDeviceRGB.INSTANCE);
-    }
-
-    public static void setTextNewHighlightColor(float red, float green, float blue) {
-        NEW_DIF_COLOR = new PDColor(new float[]{red, green, blue}, PDDeviceRGB.INSTANCE);
+    public static void setSERVERIP(String SERVERIP) {
+        SettingClient.SERVERIP = SERVERIP;
     }
 }

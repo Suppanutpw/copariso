@@ -28,7 +28,6 @@ public class FileTransfer {
                 if (deleteOnExit) {
                     file.deleteOnExit();
                 }
-                System.out.println("Receive File : " + file);
                 // read file until a file size length or found end-of-stream condition (EOS)
                 while (fileSize > 0 && (count = dis.read(bytes, 0, (int) Math.min(bytes.length, fileSize))) != -1) {
                     fos.write(bytes, 0, count);
@@ -52,12 +51,12 @@ public class FileTransfer {
                 fis = new FileInputStream(file);
                 // send file size via DataOutputStream
                 dos.writeLong(file.length());
-                System.out.println("Sent File : " + file);
                 // write file until end of one file
                 while ((count = fis.read(buffer)) != -1) {
                     dos.write(buffer, 0, count);
                     dos.flush();
                 }
+                fis.close();
             }
             return true;
         } catch (IOException ex) {

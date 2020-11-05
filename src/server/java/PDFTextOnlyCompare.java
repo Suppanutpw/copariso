@@ -12,10 +12,10 @@ public class PDFTextOnlyCompare {
             new PDFCompareText(file1, file2).findNotMatchPos();
 
             // you can share 2 PDFHighlighter.highlight() to each Thread
-            new PDFHighlighter(file1).highlight(SettingClient.getOldDifColor());
+            new PDFHighlighter(file1).highlight(SettingServer.getOldDifColor());
             System.out.println("Created : " + file1.getResultPath());
 
-            new PDFHighlighter(file2).highlight(SettingClient.getNewDifColor());
+            new PDFHighlighter(file2).highlight(SettingServer.getNewDifColor());
             System.out.println("Created : " + file2.getResultPath());
 
             // if there no error here so return null
