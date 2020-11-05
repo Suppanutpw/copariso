@@ -13,8 +13,8 @@ public class SettingServer {
         // default now is ./resources
         SettingServer.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
         // ตั้งค่าสีไฮไลท์ของไฟล์เก่า/ใหม่
-        SettingServer.setTextOldHighlightColor(1, 0, 0);
-        SettingServer.setTextNewHighlightColor(0, 1, 0);
+        SettingServer.setTextOldHighlightColor(255, 0, 0);
+        SettingServer.setTextNewHighlightColor(0, 255, 0);
     }
 
     // Setting is the class for config process via GUI

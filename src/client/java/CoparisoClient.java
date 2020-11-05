@@ -48,7 +48,7 @@ public class CoparisoClient {
             if (new FileTransfer(sock).sendFile(files, dos)) {
                 System.out.println("Socket Client Send Compare Request To Server...");
             } else {
-                errorMessage = "Socket Client Can't Send File";
+                errorMessage = "Socket Client Can't Send File To Server";
             }
 
             // send file from server
@@ -59,7 +59,7 @@ public class CoparisoClient {
             if (new FileTransfer(sock).receiveFile(files, dis, false)) {
                 System.out.println("Compare Success!");
             } else {
-                errorMessage = "Socket Client Can't Receive File";
+                errorMessage = "Socket Client Can't Receive File From Server";
             }
 
             dis.close();

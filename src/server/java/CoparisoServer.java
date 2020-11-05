@@ -67,17 +67,17 @@ public class CoparisoServer {
 
                     // receive file files[0] is older and file[1] is newer
                     if (new FileTransfer(sock).receiveFile(files, dis, true)) {
-                        System.out.println("Socket Server Receive File success");
+                        System.out.println("Socket Serve Receive File success");
                     } else {
-                        System.out.println("Socket Server Receive File Fail");
+                        System.out.println("Socket Server Can't Receive File From Client");
                     }
 
                     PDFFile file1 = new PDFFile(olderFilePath);
                     PDFFile file2 = new PDFFile(newerFilePath);
                     if (!(file1.open() & file2.open())) {
-                        System.out.println("File Not Found");
-                        // System.out.println(file1.getErrorMessage());
-                        // System.out.println(file2.getErrorMessage());
+                        System.out.println("File Not Found:");
+                        System.out.println(file1.getErrorMessage());
+                        System.out.println(file2.getErrorMessage());
                     }
 
                     file1.setResultFileName("text-only-old_" + dateNow + ".pdf");
@@ -92,11 +92,11 @@ public class CoparisoServer {
 
                     // compare two file
                     if (overallCmp.pdfCompare(file1, file2) & textOnlyCmp.pdfCompare(file1, file2)) {
-                        System.out.println("PDF Compare success");
+                        System.out.println("PDF Compare success.");
                     } else {
-                        System.out.println("PDF Compare Error");
-                        // System.out.println(PDFTextOnlyCompare.getErrorMessage());
-                        // System.out.println(PDFOverallCompare.getErrorMessage());
+                        System.out.println("PDF Compare Error:");
+                        System.out.println(textOnlyCmp.getErrorMessage());
+                        System.out.println(overallCmp.getErrorMessage());
                         return;
                     }
 
@@ -113,7 +113,7 @@ public class CoparisoServer {
                     if (new FileTransfer(sock).sendFile(files, dos)) {
                         System.out.println("Socket Server Send File success");
                     } else {
-                        System.out.println("Socket Server Send File Fail");
+                        System.out.println("Socket Server Can't Send File to Client");
                     }
 
                     textOnly1.deleteOnExit();
@@ -125,7 +125,7 @@ public class CoparisoServer {
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 } finally {
-                    System.out.println("Close Server!");
+                    System.out.println("Copariso Server Terminate!");
                     if (sock != null) sock.close();
                 }
             }
