@@ -174,7 +174,6 @@ public class PDFHighlighter extends PDFTextStripper {
         double height = 0;
         double width = 0;
         int rotation = 0;
-        int start_line_word = wordCounter;
         String token = "";
 
         for (TextPosition text : textPositions) {
@@ -233,14 +232,9 @@ public class PDFHighlighter extends PDFTextStripper {
             coordinates.add(word_coordinates);
             tokenStream.add(token);
         }
-        // if end line is the same position of Stop range (can't compare end line position in loop)
-        if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
-            pdfPosCounter++;
-            isHighlight = false;
-        }
-        wordCounter++;
-        // plus end line word +1 if not window and if window -1
-        if (OS.indexOf("win") >= 0) {
+
+        // continue find highlight in end line (ascii 10)
+        while (wordCounter < fileText.length() && fileText.charAt(wordCounter) == '\n') {
             // if end line is the same position of Stop range (can't compare end line position in loop)
             if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
                 pdfPosCounter++;
@@ -248,6 +242,21 @@ public class PDFHighlighter extends PDFTextStripper {
             }
             wordCounter++;
         }
+        // if end line is the same position of Stop range (can't compare end line position in loop)
+        /* if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
+            pdfPosCounter++;
+            isHighlight = false;
+        }
+        wordCounter++;
+        // plus more end line word if user OS is Window
+        if (OS.indexOf("win") >= 0) {
+            // if end line is the same position of Stop range (can't compare end line position in loop)
+            if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
+                pdfPosCounter++;
+                isHighlight = false;
+            }
+            wordCounter++;
+        } */
     }
 
     public List<double[]> getCoordinates() {
