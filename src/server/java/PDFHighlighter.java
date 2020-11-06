@@ -21,6 +21,9 @@ public class PDFHighlighter extends PDFTextStripper {
     private PDDocument document;
     private PDFFile pdfFile;
 
+    // fix a bug for Window
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+
     private int wordCounter, pdfPosCounter;
 
     // check that is the highlight pen put on paper or not
@@ -235,8 +238,10 @@ public class PDFHighlighter extends PDFTextStripper {
             pdfPosCounter++;
             isHighlight = false;
         }
-        // plus end line word +1
-        wordCounter++;
+        // plus end line word +1 if not window
+        if (OS.indexOf("win") < 0) {
+            wordCounter++;
+        }
     }
 
     public List<double[]> getCoordinates() {
