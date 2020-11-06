@@ -5,18 +5,25 @@ import java.awt.event.ActionListener;
 
 public class ClientGUI extends JFrame {
     private JButton btn;
-    private JTextArea file1, file2;
+    private JTextArea file1, file2, result;
+    private JPanel filePanel;
 
     // เปลี่ยนใหม่หมดได้ (ที่เราทำแค่ทดสอบ)
     public ClientGUI() {
         btn = new JButton("Compare!");
         btn.addActionListener(new Compare());
 
+        filePanel = new JPanel(new GridLayout(3, 1));
+
         file1 = new JTextArea("/Users/spw/Desktop/result/file1.pdf");
         file2 = new JTextArea("/Users/spw/Desktop/result/file2.pdf");
+        result = new JTextArea("/Users/spw/Desktop/result");
 
-        this.add(file1, BorderLayout.NORTH);
-        this.add(file2);
+        filePanel.add(file1);
+        filePanel.add(file2);
+        filePanel.add(result);
+
+        this.add(filePanel);
         this.add(btn, BorderLayout.SOUTH);
 
         this.pack();
@@ -34,7 +41,7 @@ public class ClientGUI extends JFrame {
             // if (...)
 
             // อาจจะตั้งค่าให้ user save ไว่ที่ไหนก็ว่าไป {ที่อยู่ของไฟล์ผลลัพธ์ที่ต้องการจะ save}
-            SettingClient.setDefaultResultPath("/Users/spw/Desktop/result");
+            SettingClient.setDefaultResultPath(result.getText());
 
             // set file เฉยๆ ยังไม่เชื่อม
             CoparisoClient.compare(file1.getText(), file2.getText());
