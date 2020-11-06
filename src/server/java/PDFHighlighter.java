@@ -238,11 +238,15 @@ public class PDFHighlighter extends PDFTextStripper {
             pdfPosCounter++;
             isHighlight = false;
         }
+        wordCounter++;
         // plus end line word +1 if not window and if window -1
-        if (OS.indexOf("win") == -1) {
+        if (OS.indexOf("win") >= 0) {
+            // if end line is the same position of Stop range (can't compare end line position in loop)
+            if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
+                pdfPosCounter++;
+                isHighlight = false;
+            }
             wordCounter++;
-        } else {
-            wordCounter--;
         }
     }
 
