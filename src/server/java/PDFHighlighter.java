@@ -233,17 +233,8 @@ public class PDFHighlighter extends PDFTextStripper {
             tokenStream.add(token);
         }
 
-        // continue find highlight in end line (ascii 10)
-        while (wordCounter < fileText.length() && fileText.charAt(wordCounter) == '\n') {
-            // if end line is the same position of Stop range (can't compare end line position in loop)
-            if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
-                pdfPosCounter++;
-                isHighlight = false;
-            }
-            wordCounter++;
-        }
         // if end line is the same position of Stop range (can't compare end line position in loop)
-        /* if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
+        if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
             pdfPosCounter++;
             isHighlight = false;
         }
@@ -256,7 +247,7 @@ public class PDFHighlighter extends PDFTextStripper {
                 isHighlight = false;
             }
             wordCounter++;
-        } */
+        }
     }
 
     public List<double[]> getCoordinates() {
