@@ -239,7 +239,7 @@ public class PDFHighlighter extends PDFTextStripper {
             isHighlight = false;
         }
         // plus end line word +1 if not window
-        if (OS.indexOf("win") < 0) {
+        if (OS.indexOf("win") == -1) {
             wordCounter++;
         }
     }
