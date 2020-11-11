@@ -37,9 +37,6 @@ public class CoparisoServer {
             }
         }
 
-        // ++++ put new GUT here ++++
-        // new ServerGUI();
-
         try {
             servsock = new ServerSocket(SOCKET_PORT);
 
@@ -48,7 +45,9 @@ public class CoparisoServer {
                 try {
                     sock = servsock.accept();
                     sock.setSoTimeout(10000);
+
                     System.out.println(sock.getLocalAddress());
+
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
                     dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 
@@ -104,6 +103,10 @@ public class CoparisoServer {
                     File textOnly2 = new File(file2.getResultPath());
                     File overall = new File(overallCmp.getOverallPathPDF());
 
+                    textOnly1.deleteOnExit();
+                    textOnly2.deleteOnExit();
+                    overall.deleteOnExit();
+
                     files = new ArrayList<File>(3);
                     files.add(textOnly1);
                     files.add(textOnly2);
@@ -115,10 +118,6 @@ public class CoparisoServer {
                     } else {
                         System.out.println("Socket Server Can't Send File to Client");
                     }
-
-                    textOnly1.deleteOnExit();
-                    textOnly2.deleteOnExit();
-                    overall.deleteOnExit();
 
                     dis.close();
                     dos.close();
@@ -156,7 +155,6 @@ public class CoparisoServer {
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-            serverThread.sleep(100);
             Thread.sleep(100);
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
