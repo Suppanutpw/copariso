@@ -156,8 +156,8 @@ public class CoparisoServer {
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-            serverThread.stop();
-            Thread.sleep(1000);
+            serverThread.sleep(100);
+            Thread.sleep(100);
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
