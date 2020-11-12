@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClientGUI extends JFrame {
+public class ClientGUI extends JFrame implements ActionListener{
     private JFrame fr;
     private JPanel background, top, bottom;
     private JTextField pdf1, pdf2, result;
@@ -32,8 +32,16 @@ public class ClientGUI extends JFrame {
         fr.add(background);
 
         fr.setSize(1024, 700);
+        compare.addActionListener(this);
         fr.setDefaultCloseOperation(EXIT_ON_CLOSE);
         fr.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(compare)){
+
+        }
     }
 
     private class Compare implements ActionListener {
