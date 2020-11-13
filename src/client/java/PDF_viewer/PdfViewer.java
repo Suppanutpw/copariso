@@ -8,6 +8,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -242,6 +244,20 @@ public class PdfViewer {
 		horizontalBoxView.add(horizontalStrutViewRight);
 
 		selectPage(0, 0);
+
+		// add action when closed
+		// when user close PDFViewer PDDocument will close for memory
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				try {
+					doc.close();
+					doc2.close();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+			}
+		});
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);

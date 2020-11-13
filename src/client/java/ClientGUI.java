@@ -1,7 +1,10 @@
+import PDF_viewer.PdfViewer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener{
     private JPanel background, top, bottom;
@@ -59,6 +62,20 @@ public class ClientGUI extends JFrame implements ActionListener{
                 System.out.println(CoparisoClient.getErrorMessage());
                 return;
             }
+            
+            // เพิ่ม text-only compare
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        /* แสดง text-only compare */
+                        new PdfViewer(new File(CoparisoClient.getOldTextOnlyFilePath()), new File(CoparisoClient.getNewTextOnlyFilePath()));
+
+                    } catch (Exception e) {
+                        // ทำเป็น popup error ว่าแสดง pdf error
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             // เอาที่อยู่ไฟล์พวกนี้เก็บใน database ได้ สำหรับเรียกใช้ในประวัติ
             System.out.println("Create: " + CoparisoClient.getOldTextOnlyFilePath());
