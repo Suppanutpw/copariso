@@ -15,7 +15,7 @@ public class ClientGUI extends JFrame implements ActionListener{
     public ClientGUI() {
         this.setTitle("Compariso");
         background = new JPanel(new BorderLayout());
-        
+
         pdf1 = new JTextField();
         pdf2 = new JTextField();
         result = new JTextField();
