@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener{
-    private JPanel background, top, bottom;
+    private JPanel background, top, bottom, nextprev1, nextprev2, nextprev3, nextprevbg;
     private JTextField pdf1, pdf2, result;
-    private JButton compare;
+    private JButton compare, next1, prev1, next2, prev2, next3, prev3;
 
     // เปลี่ยนใหม่หมดได้ (ที่เราทำแค่ทดสอบ)
     public ClientGUI() {
@@ -20,16 +20,41 @@ public class ClientGUI extends JFrame implements ActionListener{
         pdf2 = new JTextField();
         result = new JTextField();
 
+        nextprevbg = new JPanel(new GridLayout(1,3));
+        nextprev1 = new JPanel(new FlowLayout());
+        nextprev2 = new JPanel(new FlowLayout());
+        nextprev3 = new JPanel(new FlowLayout());
         top = new JPanel(new GridLayout(1,3));
-        bottom = new JPanel(new FlowLayout());
+        bottom = new JPanel(new GridLayout(2,1));
 
+        next1 = new JButton("Next");
+        prev1 = new JButton("Prev");
+        next2 = new JButton("Next");
+        prev2 = new JButton("Prev");
+        next3 = new JButton("Next");
+        prev3 = new JButton("Prev");
         compare = new JButton("Compare");
         compare.addActionListener(this);
+        next1.addActionListener(this);
+        prev1.addActionListener(this);
+        next2.addActionListener(this);
+        prev2.addActionListener(this);
+        next3.addActionListener(this);
+        prev2.addActionListener(this);
 
+        nextprev1.add(next1);
+        nextprev1.add(prev1);
+        nextprev2.add(next2);
+        nextprev2.add(prev2);
+        nextprev3.add(next3);
+        nextprev3.add(prev3);
+        nextprevbg.add(nextprev1);
+        nextprevbg.add(nextprev2);
+        nextprevbg.add(nextprev3);
         top.add(pdf1);
         top.add(pdf2);
         top.add(result);
-
+        bottom.add(nextprevbg);
         bottom.add(compare);
 
         background.add(top, BorderLayout.CENTER);
