@@ -15,7 +15,7 @@ public class ClientGUI extends JFrame implements ActionListener{
     public ClientGUI() {
         this.setTitle("Compariso");
         background = new JPanel(new BorderLayout());
-
+        
         pdf1 = new JTextField();
         pdf2 = new JTextField();
         result = new JTextField();
@@ -41,7 +41,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         prev2.addActionListener(this);
         next3.addActionListener(this);
         prev2.addActionListener(this);
-
+        //add component
         nextprev1.add(next1);
         nextprev1.add(prev1);
         nextprev2.add(next2);
@@ -56,12 +56,10 @@ public class ClientGUI extends JFrame implements ActionListener{
         top.add(result);
         bottom.add(nextprevbg);
         bottom.add(compare);
-
         background.add(top, BorderLayout.CENTER);
         background.add(bottom, BorderLayout.SOUTH);
-
         this.add(background);
-
+        //
         this.setSize(1024, 700);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
