@@ -133,7 +133,6 @@ public class ClientGUI extends JFrame implements ActionListener{
                     try {
                         /* แสดง text-only compare */
                         new PdfViewer(new File(CoparisoClient.getOldTextOnlyFilePath()), new File(CoparisoClient.getNewTextOnlyFilePath()));
-
                     } catch (Exception e) {
                         // ทำเป็น popup error ว่าแสดง pdf error
                         e.printStackTrace();
