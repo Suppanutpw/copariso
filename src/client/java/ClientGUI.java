@@ -82,7 +82,6 @@ public class ClientGUI extends JFrame implements ActionListener{
         else if (e.getSource().equals(pdf2)){
             JFileChooser fileChooser = new JFileChooser ();
             fileChooser.setDialogTitle("Choose you PDF");
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int selectedButton = fileChooser.showDialog ( null, "Open" );
             if ( selectedButton == JFileChooser.APPROVE_OPTION ){
                 File selectedFile = fileChooser.getSelectedFile();
