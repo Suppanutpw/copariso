@@ -18,6 +18,7 @@ public class SettingClient {
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static String SERVERIP;
+    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {
@@ -35,5 +36,9 @@ public class SettingClient {
 
     public static void setSERVERIP(String SERVERIP) {
         SettingClient.SERVERIP = SERVERIP;
+    }
+
+    public static String getOS() {
+        return OS;
     }
 }

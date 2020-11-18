@@ -100,7 +100,13 @@ public class ClientGUI extends JFrame implements ActionListener{
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int selectedButton = fileChooser.showDialog ( null, "Open" );
             if ( selectedButton == JFileChooser.APPROVE_OPTION ){
-                pathResult.setText(fileChooser.getSelectedFile().getParent());
+                if (SettingClient.getOS().indexOf("win") >= 0) {
+                    // if client os is window
+                    pathResult.setText(fileChooser.getSelectedFile().getPath());
+                }else {
+                    // if client os is mac
+                    pathResult.setText(fileChooser.getSelectedFile().getParent());
+                }
             }
         }
         else if (e.getSource().equals(compare)){

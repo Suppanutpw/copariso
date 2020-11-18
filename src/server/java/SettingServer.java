@@ -22,6 +22,7 @@ public class SettingServer {
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static PDColor OLD_DIF_COLOR;
     private static PDColor NEW_DIF_COLOR;
+    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {
@@ -48,5 +49,9 @@ public class SettingServer {
 
     public static void setTextNewHighlightColor(float red, float green, float blue) {
         NEW_DIF_COLOR = new PDColor(new float[]{red, green, blue}, PDDeviceRGB.INSTANCE);
+    }
+
+    public static String getOS() {
+        return OS;
     }
 }

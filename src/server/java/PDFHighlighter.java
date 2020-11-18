@@ -21,9 +21,6 @@ public class PDFHighlighter extends PDFTextStripper {
     private PDDocument document;
     private PDFFile pdfFile;
 
-    // fix a bug for Window
-    private static final String OS = System.getProperty("os.name").toLowerCase();
-
     private int wordCounter, pdfPosCounter;
 
     // check that is the highlight pen put on paper or not
@@ -240,7 +237,7 @@ public class PDFHighlighter extends PDFTextStripper {
         }
         wordCounter++;
         // plus more end line word if user OS is Window
-        if (OS.indexOf("win") >= 0) {
+        if (SettingServer.getOS().indexOf("win") >= 0) {
             // if end line is the same position of Stop range (can't compare end line position in loop)
             if (pdfPosCounter < highlight_length && wordCounter == highlightPos.get(pdfPosCounter).posStop) {
                 pdfPosCounter++;
