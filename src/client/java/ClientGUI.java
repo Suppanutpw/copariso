@@ -1,6 +1,8 @@
 import PDF_viewer.PdfViewer;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.plaf.FileChooserUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,23 +10,26 @@ import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener{
     private JPanel background, top, bottom;
-    private JTextField pdf1, pdf2, result;
-    private JButton compare;
-    private JLabel txt;
+    private JButton compare,pdf1, pdf2, result;
+    private JLabel txt,pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
     private JMenu setting, history;
 
-    // เปลี่ยนใหม่หมดได้ (ที่เราทำแค่ทดสอบ)
     public ClientGUI() {
         this.setTitle("Compariso");
         background = new JPanel(new BorderLayout());
         txt = new JLabel("Compariso", SwingConstants.CENTER);
         txt.setFont(new Font("Courier", Font.BOLD,50));
-
-        pdf1 = new JTextField();
-        pdf2 = new JTextField();
-        result = new JTextField();
-        top = new JPanel(new GridLayout(1,3));
+        pathPdf1 = new JLabel("No file selected", SwingConstants.CENTER);
+        pathPdf2 = new JLabel("No file selected", SwingConstants.CENTER);
+        pathResult = new JLabel("No directory selected", SwingConstants.CENTER);
+        pdf1 = new JButton("Open");
+        pdf2 = new JButton("Open");
+        result = new JButton("Open");
+        pdf1.addActionListener(this);
+        pdf2.addActionListener(this);
+        result.addActionListener(this);
+        top = new JPanel(new GridLayout(2,3));
         bottom = new JPanel(new FlowLayout());
         compare = new JButton("Compare");
         compare.addActionListener(this);
@@ -33,6 +38,9 @@ public class ClientGUI extends JFrame implements ActionListener{
         history = new JMenu("History");
 
         //add component
+        top.add(pathPdf1);
+        top.add(pathPdf2);
+        top.add(pathResult);
         top.add(pdf1);
         top.add(pdf2);
         top.add(result);
@@ -48,29 +56,69 @@ public class ClientGUI extends JFrame implements ActionListener{
 
         this.setJMenuBar(bar);
         this.add(background);
-        this.setSize(612, 350);
+        this.setSize(500,500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(compare)){
+        if (e.getSource().equals(pdf1)){
+            JFileChooser fileChooser = new JFileChooser ();
+            fileChooser.setDialogTitle("Choose you PDF");
+            int selectedButton = fileChooser.showDialog ( null, "Open" );
+            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+                File selectedFile = fileChooser.getSelectedFile();
+                String path = selectedFile.getAbsolutePath();
+                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
+                    pathPdf1.setText(path);
+                }
+                else {
+                    pathPdf1.setText("PDFs only!111!!!1");
+                }
+
+            }
+        }
+        else if (e.getSource().equals(pdf2)){
+            JFileChooser fileChooser = new JFileChooser ();
+            fileChooser.setDialogTitle("Choose you PDF");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int selectedButton = fileChooser.showDialog ( null, "Open" );
+            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+                File selectedFile = fileChooser.getSelectedFile();
+                String path = selectedFile.getAbsolutePath();
+                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
+                    pathPdf2.setText(path);
+                }
+                else {
+                    pathPdf2.setText("PDFs only!111!!!1");
+                }
+            }
+        }
+        else if (e.getSource().equals(result)){
+            JFileChooser fileChooser = new JFileChooser (FileSystemView.getFileSystemView().getHomeDirectory());
+            fileChooser.setDialogTitle("Choose you folder for saving");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int selectedButton = fileChooser.showDialog ( null, "Open" );
+            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+                pathResult.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        }
+        else if (e.getSource().equals(compare)){
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
             new CoparisoClient(SettingClient.getSERVERIP());
             // check ว่า file มีตัวตนอยู่ไหมด้วย และต้องเป็น pdf อย่างเดียวนะเออ
             // if (...)
             // อาจจะตั้งค่าให้ user save ไว่ที่ไหนก็ว่าไป {ที่อยู่ของไฟล์ผลลัพธ์ที่ต้องการจะ save}
-            SettingClient.setDefaultResultPath(result.getText());
+            SettingClient.setDefaultResultPath(pathResult.getText());
 
             // set file เฉยๆ ยังไม่เชื่อม
-            CoparisoClient.compare(pdf1.getText(), pdf2.getText());
+            CoparisoClient.compare(pathPdf1.getText(), pathPdf2.getText());
 
             // เริ่มการเชื่อมต่อ และส่งไฟล์ให้ server ไปเทียบและรับกลับมา
             if (CoparisoClient.connect()) {
                 System.out.println("Compare Success!");
             }else {
-                System.out.println(CoparisoClient.getErrorMessage());
                 return;
             }
             
