@@ -138,7 +138,7 @@ public class CoparisoServer {
     }
 
     public static void startServer() {
-        CoparisoServer.isRunning = true;
+        isRunning = true;
         serverThread = new Thread(new Runnable() {
             @Override
             public void run() {
