@@ -1,3 +1,7 @@
 
 .DS_Store
 .DS_Store
+*.class
+target/classes/ClientGUI.class
+target/classes/CoparisoServer.class
+target/classes/ClientGUI$1.class
