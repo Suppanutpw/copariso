@@ -21,7 +21,7 @@ public class CoparisoServer {
 
     public static void main(String[] args) {
         // call GUI here
-        new ServerGUI();
+        new Test();
     }
 
     public static void connect() {

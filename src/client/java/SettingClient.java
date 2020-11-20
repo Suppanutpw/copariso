@@ -20,8 +20,6 @@ public class SettingClient {
     private static String SERVERIP;
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    
-
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {
         return DEFAULT_RESULT_FILE_PATH.toString();
