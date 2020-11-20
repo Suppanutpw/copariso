@@ -1,9 +1,12 @@
 
 .DS_Store
 .DS_Store
+<<<<<<< HEAD
 *.class
 target/classes/ClientGUI.class
 target/classes/CoparisoServer.class
 target/classes/ClientGUI$1.class
 *.class
 *.class
+=======
+>>>>>>> parent of c5d4d68... Update .gitignore
