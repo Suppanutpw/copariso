@@ -5,3 +5,5 @@
 target/classes/ClientGUI.class
 target/classes/CoparisoServer.class
 target/classes/ClientGUI$1.class
+*.class
+*.class

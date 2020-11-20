@@ -13,14 +13,20 @@ public class CoparisoClient {
     public static String errorMessage;
     public static Path olderFilePath, newerFilePath;
     public static String oldTextOnlyFileName, newTextOnlyFileName2, overallFileName;
+    public static ClientGUI view;
     // overwrite the one used by server...
 
     public CoparisoClient(String serverIp) {
         this.serverIp = serverIp;
     }
 
-    public static void main(String[] args) {
-        new ClientGUI();
+    public CoparisoClient() {
+        view = new ClientGUI();
+        init();
+    }
+
+    private void init() {
+
     }
 
     public static boolean connect() {
