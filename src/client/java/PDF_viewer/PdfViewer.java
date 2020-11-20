@@ -38,14 +38,14 @@ public class PdfViewer {
 	private int height;
 
 	private JTextField txtPageNumber, txtPageNumber2;
-	private JButton btnNextPage, btnNextPage2;
-	private JButton btnPreviousPage, btnPreviousPage2;
+	private JButton btnNextPage, btnNextPage2, btnTCompare;
+	private JButton btnPreviousPage, btnPreviousPage2, btnOCompare;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					/* Edit path here!!!  รอแก้ Path  */
+					/* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
 					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file1.pdf"), new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file2.pdf"));
 
 				} catch (Exception e) {
@@ -181,6 +181,27 @@ public class PdfViewer {
 		Component horizontalStrutLeft_3 = Box.createHorizontalStrut(10);
 		horizontalBoxControls.add(horizontalStrutLeft_3);
 
+		btnOCompare = new JButton("Overall Compare");
+		btnOCompare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelectedPage.removeAll();
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+				try {
+					/* แก้ Path Overall Compare ตรงนี้ !!!!! */
+					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\untitled\\src\\main\\resources\\file2.pdf"));
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+
+				panelSelectedPage.revalidate();
+				panelSelectedPage.repaint();
+			}
+		});
+		horizontalBoxControls.add(btnOCompare);
+		Component horizontalStrutLeft_8 = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutLeft_8);
+
 		btnPreviousPage2 = new JButton("Previous Page");
 		btnPreviousPage2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -245,8 +266,6 @@ public class PdfViewer {
 
 		selectPage(0, 0);
 
-		// add action when closed
-		// when user close PDFViewer PDDocument will close for memory
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -258,6 +277,171 @@ public class PdfViewer {
 				}
 			}
 		});
+
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.repaint();
+	}
+
+
+	//////////////////////////////////////////////////////////
+	public PdfViewer(File document) throws Exception {
+		initialize(document);
+	}
+
+	private void selectPage(int pageIndex) {
+		BufferedImage renderImage = null;
+
+		try {
+			renderImage = renderer.renderImage(pageIndex, 1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		panelSelectedPage.removeAll(); // Remove children
+
+		ImagePanel imagePanel = new ImagePanel(renderImage, width, height);
+		imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		imagePanel.setLayout(new CardLayout(0, 0));
+		imagePanel.setPreferredSize(new Dimension(width, height));
+		panelSelectedPage.add(imagePanel, BorderLayout.CENTER);
+		currentPageIndex = pageIndex;
+
+		String pageText = String.format("Page: %d / %d", pageIndex + 1, numberOfPages);
+		txtPageNumber.setText(pageText);
+
+
+		panelSelectedPage.revalidate();
+		panelSelectedPage.repaint();
+
+	}
+
+	private void initialize(File file) throws Exception {
+
+		PDDocument doc = PDDocument.load(file);
+
+		// Getting/calculating screen dimensions...
+		Float realWidth = new Float(doc.getPage(0).getMediaBox().getWidth());
+		Float realHeight = new Float(doc.getPage(0).getMediaBox().getHeight());
+
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Double ratio = 0.8;
+
+		height = (int) (screenSize.getHeight() * ratio);
+		width = (int) ((height * realWidth) / realHeight);
+
+		numberOfPages = doc.getNumberOfPages();
+
+		renderer = new MyPDFRenderer(doc);
+
+		System.out.println("Number of pages = " + numberOfPages);
+
+		frame = new JFrame();
+		frame.setResizable(false);
+		frame.setTitle("Overall Compare");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		JPanel panelControls = new JPanel();
+		frame.getContentPane().add(panelControls, BorderLayout.SOUTH);
+		panelControls.setLayout(new BorderLayout(0, 0));
+
+		Component verticalStrutTop = Box.createVerticalStrut(10);
+		panelControls.add(verticalStrutTop, BorderLayout.NORTH);
+
+		Box horizontalBoxControls = Box.createHorizontalBox();
+		panelControls.add(horizontalBoxControls);
+
+		Component horizontalStrutLeft = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutLeft);
+
+		Component horizontalStrutLeft_1 = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutLeft_1);
+
+		btnPreviousPage = new JButton("Previous Page");
+		btnPreviousPage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentPageIndex > 0) {
+					selectPage(currentPageIndex - 1);
+				}
+			}
+		});
+		horizontalBoxControls.add(btnPreviousPage);
+
+		Component horizontalStrutLeft_2 = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutLeft_2);
+
+		txtPageNumber = new JTextField();
+		horizontalBoxControls.add(txtPageNumber);
+		txtPageNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPageNumber.setEditable(false);
+		txtPageNumber.setPreferredSize(new Dimension(50, txtPageNumber.getPreferredSize().width));
+		txtPageNumber.setColumns(10);
+
+		Component horizontalStrutRight_2 = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutRight_2);
+
+		btnNextPage = new JButton("Next Page");
+		btnNextPage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (currentPageIndex < (numberOfPages - 1)) {
+					selectPage(currentPageIndex + 1);
+				}
+			}
+		});
+		horizontalBoxControls.add(btnNextPage);
+
+		Component horizontalStrutRight_1 = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutRight_1);
+
+		btnTCompare = new JButton("Text Compare");
+		btnTCompare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				panelSelectedPage.removeAll();
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+				try {
+					/* แก้ Path ตรงนี้ Text Compare ตรงนี้!!!!! */
+					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file1.pdf"), new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file2.pdf"));
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+
+				panelSelectedPage.revalidate();
+				panelSelectedPage.repaint();
+			}
+		});
+		horizontalBoxControls.add(btnTCompare);
+
+		Component horizontalStrutRight = Box.createHorizontalStrut(10);
+		horizontalBoxControls.add(horizontalStrutRight);
+
+		Component verticalStrutBottom = Box.createVerticalStrut(10);
+		panelControls.add(verticalStrutBottom, BorderLayout.SOUTH);
+
+		Box verticalBoxView = Box.createVerticalBox();
+		frame.getContentPane().add(verticalBoxView, BorderLayout.WEST);
+
+		Component verticalStrutView = Box.createVerticalStrut(10);
+		verticalBoxView.add(verticalStrutView);
+
+		Box horizontalBoxView = Box.createHorizontalBox();
+		verticalBoxView.add(horizontalBoxView);
+
+		Component horizontalStrutViewLeft = Box.createHorizontalStrut(10);
+		horizontalBoxView.add(horizontalStrutViewLeft);
+
+		panelSelectedPage = new JPanel();
+		panelSelectedPage.setBackground(Color.LIGHT_GRAY);
+		horizontalBoxView.add(panelSelectedPage);
+		panelSelectedPage.setPreferredSize(new Dimension(width, height));
+		panelSelectedPage.setBorder(new EmptyBorder(0, 0, 0, 0));
+		panelSelectedPage.setLayout(new BorderLayout(0, 0));
+
+		Component horizontalStrutViewRight = Box.createHorizontalStrut(10);
+		horizontalBoxView.add(horizontalStrutViewRight);
+
+		selectPage(0);
 
 		frame.pack();
 		frame.setLocationRelativeTo(null);
