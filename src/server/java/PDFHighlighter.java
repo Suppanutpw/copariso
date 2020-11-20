@@ -174,8 +174,6 @@ public class PDFHighlighter extends PDFTextStripper {
         String token = "";
 
         for (TextPosition text : textPositions) {
-            rotation = text.getRotation();
-
             if (text.getHeight() > height)
                 height = text.getHeight();
 
@@ -208,6 +206,8 @@ public class PDFHighlighter extends PDFTextStripper {
                     maxx = textPositions.get(i).getEndX();
                     maxy = textPositions.get(i).getY();
 
+                    rotation = textPositions.get(i).getRotation();
+
                     double word_coordinates[] = {minx, miny, maxx, maxy, this.getCurrentPageNo(), height, width, rotation};
                     coordinates.add(word_coordinates);
                     tokenStream.add(token);
@@ -224,6 +224,8 @@ public class PDFHighlighter extends PDFTextStripper {
             token += textPositions.get(token_length - 1).toString();
             maxx = textPositions.get(token_length - 1).getEndX();
             maxy = textPositions.get(token_length - 1).getY();
+
+            rotation = textPositions.get(token_length - 1).getRotation();
 
             double word_coordinates[] = {minx, miny, maxx, maxy, this.getCurrentPageNo(), height, width, rotation};
             coordinates.add(word_coordinates);
