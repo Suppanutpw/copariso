@@ -41,7 +41,7 @@ public class CoparisoServer {
             servsock = new ServerSocket(SOCKET_PORT);
 
             while (isRunning) {
-                System.out.println("Waiting...");
+                System.out.println("Server Started Waiting Client Connect...");
                 try {
                     sock = servsock.accept();
                     sock.setSoTimeout(10000);
@@ -66,7 +66,7 @@ public class CoparisoServer {
 
                     // receive file files[0] is older and file[1] is newer
                     if (new FileTransfer(sock).receiveFile(files, dis, true)) {
-                        System.out.println("Socket Serve Receive File success");
+                        System.out.println("Socket Server Received File from Client");
                     } else {
                         System.out.println("Socket Server Can't Receive File From Client");
                     }

@@ -138,8 +138,13 @@ public class ClientGUI extends JFrame implements ActionListener{
                 return;
             }
             
-            // เพิ่ม text-only compare and overall compare
-            PdfViewer.showResult();
+            // show text-only compare and overall compare
+            PdfViewer viewer = new PdfViewer(
+                    CoparisoClient.getOldTextOnlyFilePath(),
+                    CoparisoClient.getNewTextOnlyFilePath(),
+                    CoparisoClient.getOverallFilePath()
+            );
+            viewer.showResult();
         }
     }
 }

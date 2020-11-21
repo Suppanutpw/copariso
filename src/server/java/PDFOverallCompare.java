@@ -35,10 +35,6 @@ public class PDFOverallCompare {
         return Paths.get(SettingClient.getDefaultResultPath(), overallFileName + ".pdf").toString();
     }
 
-    public String getOverallFileName() {
-        return overallFileName;
-    }
-
     public void setOverallFileName(String overallFileName) {
         this.overallFileName = overallFileName;
     }

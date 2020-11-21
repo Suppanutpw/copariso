@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class PDFFile {
     private Path targetPath;
-    private Path resultPath;
+    private Path resultPath; // result for text-only compare
     private String fileText;
     private ArrayList<PDFHighlightPos> highlightPos;
     private String errorMessage;
@@ -83,16 +83,8 @@ public class PDFFile {
         return targetPath.toString();
     }
 
-    public String getTargetFileName() {
-        return targetPath.getFileName().toString();
-    }
-
     public String getResultPath() {
         return resultPath.toString();
-    }
-
-    public String getResultFileName() {
-        return resultPath.getFileName().toString();
     }
 
     public String getFileText() {

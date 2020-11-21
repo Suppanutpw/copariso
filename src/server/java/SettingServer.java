@@ -4,7 +4,6 @@ import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class SettingServer {
 
     static {

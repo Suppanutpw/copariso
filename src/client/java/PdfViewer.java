@@ -27,7 +27,7 @@ public class PdfViewer {
 
 	private JFrame frame;
 	private MyPDFRenderer renderer, renderer2;
-	private JPanel panelSelectedPage, panelSelectedPage2;
+	private JPanel panelSelectedPage;
 
 	private int numberOfPages, numberOfPages2;
 	private int currentPageIndex = 0, currentPageIndex2 = 0;
@@ -39,22 +39,30 @@ public class PdfViewer {
 	private JButton btnNextPage, btnNextPage2, btnTCompare;
 	private JButton btnPreviousPage, btnPreviousPage2, btnOCompare;
 
-	public static void showResult() {
+	private static String oldTextPath, newTextPath, overallPath;
+
+	public PdfViewer(File document, File doc2) throws Exception {
+		initialize(document, doc2);
+	}
+
+	public PdfViewer(String oldTextPath, String newTextPath, String overallPath) {
+		PdfViewer.oldTextPath = oldTextPath;
+		PdfViewer.newTextPath = newTextPath;
+		PdfViewer.overallPath = overallPath;
+	}
+
+	public void showResult() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					/* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
-					new PdfViewer(new File(CoparisoClient.getOldTextOnlyFilePath()), new File(CoparisoClient.getNewTextOnlyFilePath()));
+					new PdfViewer(new File(oldTextPath), new File(newTextPath));
 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}
-
-	public PdfViewer(File document, File doc2) throws Exception {
-		initialize(document, doc2);
 	}
 
 	private void selectPage(int pageIndex,int pageIndex2) {
@@ -187,7 +195,7 @@ public class PdfViewer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				try {
 					/* แก้ Path Overall Compare ตรงนี้ !!!!! */
-					new PdfViewer(new File(CoparisoClient.getOverallFilePath()));
+					new PdfViewer(new File(overallPath));
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
@@ -400,7 +408,7 @@ public class PdfViewer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				try {
 					/* แก้ Path ตรงนี้ Text Compare ตรงนี้!!!!! */
-					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file1.pdf"), new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file2.pdf"));
+					new PdfViewer(new File(oldTextPath), new File(newTextPath));
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
