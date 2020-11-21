@@ -7,7 +7,6 @@ import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class SettingClient {
@@ -41,6 +40,10 @@ public class SettingClient {
 
     public static String getOS() {
         return OS;
+    }
+
+    public static ArrayList<CmpHistory> getHistory() {
+        return history;
     }
 
     public static void readDB() {
