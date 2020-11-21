@@ -1,4 +1,3 @@
-package PDF_viewer;
 import java.awt.Graphics;
 import java.awt.Image;
 

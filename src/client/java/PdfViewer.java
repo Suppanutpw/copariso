@@ -1,4 +1,3 @@
-package PDF_viewer;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -23,7 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.rendering.PageDrawerParameters;
 
 public class PdfViewer {
 
@@ -41,12 +39,12 @@ public class PdfViewer {
 	private JButton btnNextPage, btnNextPage2, btnTCompare;
 	private JButton btnPreviousPage, btnPreviousPage2, btnOCompare;
 
-	public static void main(String[] args) {
+	public static void showResult() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					/* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
-					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file1.pdf"), new File("C:\\Users\\ijeri\\Desktop\\copariso\\resources\\file2.pdf"));
+					new PdfViewer(new File(CoparisoClient.getOldTextOnlyFilePath()), new File(CoparisoClient.getNewTextOnlyFilePath()));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -189,7 +187,7 @@ public class PdfViewer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				try {
 					/* แก้ Path Overall Compare ตรงนี้ !!!!! */
-					new PdfViewer(new File("C:\\Users\\ijeri\\Desktop\\untitled\\src\\main\\resources\\file2.pdf"));
+					new PdfViewer(new File(CoparisoClient.getOverallFilePath()));
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}

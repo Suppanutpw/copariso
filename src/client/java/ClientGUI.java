@@ -1,10 +1,5 @@
-import PDF_viewer.PdfViewer;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileSystemView;
-import javax.swing.plaf.FileChooserUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -139,26 +134,12 @@ public class ClientGUI extends JFrame implements ActionListener{
             if (CoparisoClient.connect()) {
                 System.out.println("Compare Success!");
             }else {
+                JOptionPane.showMessageDialog(this, CoparisoClient.getErrorMessage(), "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
             
-            // เพิ่ม text-only compare
-            /* EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        // แสดง text-only compare
-                        new PdfViewer(new File(CoparisoClient.getOldTextOnlyFilePath()), new File(CoparisoClient.getNewTextOnlyFilePath()));
-                    } catch (Exception e) {
-                        // ทำเป็น popup error ว่าแสดง pdf error
-                        e.printStackTrace();
-                    }
-                }
-            }); */
-
-            // เอาที่อยู่ไฟล์พวกนี้เก็บใน database ได้ สำหรับเรียกใช้ในประวัติ
-            System.out.println("Create: " + CoparisoClient.getOldTextOnlyFilePath());
-            System.out.println("Create: " + CoparisoClient.getNewTextOnlyFilePath());
-            System.out.println("Create: " + CoparisoClient.getOverallFilePath());
+            // เพิ่ม text-only compare and overall compare
+            PdfViewer.showResult();
         }
     }
 }

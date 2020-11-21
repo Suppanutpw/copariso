@@ -57,10 +57,12 @@ public class CoparisoClient {
 
             System.out.println("Connecting...");
 
+            // check file transfer via socket
             if (new FileTransfer(sock).sendFile(files, dos)) {
                 System.out.println("Socket Client Send Compare Request To Server...");
             } else {
                 errorMessage = "Socket Client Can't Send File To Server";
+                return false;
             }
 
             // send file from server
@@ -72,9 +74,10 @@ public class CoparisoClient {
                 System.out.println("Compare Success!");
             } else {
                 errorMessage = "Socket Client Can't Receive File From Server";
+                return false;
             }
 
-            // save All File in database
+            // save All Compare File in database
             LocalDateTime dateTime = LocalDateTime.now();
             String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
@@ -94,11 +97,13 @@ public class CoparisoClient {
 
         } catch (IOException ex) {
             errorMessage = "Connection Error";
+            return false;
         } finally {
             try {
                 if (sock != null) sock.close();
             } catch (IOException ex) {
                 errorMessage = "Can't Close Socket Connection";
+                return false;
             }
             return errorMessage == null;
         }

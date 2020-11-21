@@ -18,7 +18,6 @@ public class SettingClient {
         SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
     }
 
-
     // Setting is the class for config process via GUI
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
     private static Path DEFAULT_RESULT_FILE_PATH;
@@ -63,13 +62,13 @@ public class SettingClient {
         try (Reader reader = new FileReader("clientDB.json")) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
-            System.out.println(jsonObject.toJSONString());
+            // System.out.println(jsonObject.toJSONString());
 
             SERVERIP = (String) jsonObject.get("servIP");
             DEFAULT_RESULT_FILE_PATH = Paths.get((String) jsonObject.get("resultPath"));
 
+            // fetch Compare History Array in JSONArray and then add to jsonObject
             JSONArray cmp = (JSONArray) jsonObject.get("cmp");
-
             for (int i = 0; i < cmp.size(); i++) {
                 JSONObject current = (JSONObject) cmp.get(i);
 
@@ -82,40 +81,39 @@ public class SettingClient {
                         (String) current.get("oallcmp")
                 ));
             }
-
-
         } catch (Exception ex) {
-            System.out.println("Can't load database!");
+            System.out.println("database file not found!");
         }
     }
 
     public static void writeDB() {
-        JSONObject dbObj = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
 
         // add static setting in object
-        dbObj.put("servIP", SERVERIP);
-        dbObj.put("resultPath", DEFAULT_RESULT_FILE_PATH.toString());
+        jsonObject.put("servIP", SERVERIP);
+        jsonObject.put("resultPath", DEFAULT_RESULT_FILE_PATH.toString());
 
         // add Compare History Array in JSONArray and then add to dbObj
-        JSONArray allHistory = new JSONArray();
+        JSONArray cmp = new JSONArray();
         history.forEach((history -> {
-            JSONObject historyDB = new JSONObject();
-            historyDB.put("date", history.getDate());
-            historyDB.put("old", history.getOldPath().toString());
-            historyDB.put("new", history.getNewPath().toString());
-            historyDB.put("txtold", history.getOldTextOnlyPath().toString());
-            historyDB.put("txtnew", history.getNewTextOnlyPath().toString());
-            historyDB.put("oallcmp", history.getOverallPath().toString());
-            allHistory.add(historyDB);
+            JSONObject current = new JSONObject();
+
+            current.put("date", history.getDate());
+            current.put("old", history.getOldPath().toString());
+            current.put("new", history.getNewPath().toString());
+            current.put("txtold", history.getOldTextOnlyPath().toString());
+            current.put("txtnew", history.getNewTextOnlyPath().toString());
+            current.put("oallcmp", history.getOverallPath().toString());
+            cmp.add(current);
         }));
-        dbObj.put("cmp", allHistory);
+        jsonObject.put("cmp", cmp);
 
         // write JSON to database file
         try (FileWriter file = new FileWriter("clientDB.json")) {
             // Constructs a FileWriter given a file name, using the platform's default charset
-            file.write(dbObj.toJSONString());
+            file.write(jsonObject.toJSONString());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

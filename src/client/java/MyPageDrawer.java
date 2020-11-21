@@ -1,4 +1,3 @@
-package PDF_viewer;
 import java.awt.Paint;
 import java.io.IOException;
 
