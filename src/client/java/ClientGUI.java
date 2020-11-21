@@ -1,6 +1,8 @@
 import PDF_viewer.PdfViewer;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.plaf.FileChooserUI;
 import java.awt.*;
@@ -13,7 +15,8 @@ public class ClientGUI extends JFrame implements ActionListener{
     private JButton compare,pdf1, pdf2, result;
     private JLabel txt,pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
-    private JMenu setting, history;
+    private JMenu setting;
+    private JMenuItem history;
 
     public ClientGUI() {
         this.setTitle("Compariso");
@@ -38,7 +41,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         compare.addActionListener(this);
         bar = new JMenuBar();
         setting = new JMenu("Setting");
-        history = new JMenu("History");
+        history = new JMenuItem("History");
 
         //add component
         top.add(pathPdf1);
@@ -54,18 +57,21 @@ public class ClientGUI extends JFrame implements ActionListener{
         background.add(txt, BorderLayout.NORTH);
         background.add(top, BorderLayout.CENTER);
         background.add(bottom, BorderLayout.SOUTH);
+        setting.add(history);
         bar.add(setting);
-        bar.add(history);
         topbtn1.setBackground(Color.getHSBColor(26,70,91));
         topbtn2.setBackground(Color.getHSBColor(26,70,91));
         topbtn3.setBackground(Color.getHSBColor(26,70,91));
         background.setBackground(Color.getHSBColor(26,70,91));
         top.setBackground(Color.getHSBColor(26,70,91));
+        topbtn1.setBackground(Color.getHSBColor(26,70,91));
+        topbtn2.setBackground(Color.getHSBColor(26,70,91));
+        topbtn3.setBackground(Color.getHSBColor(26,70,91));
         bottom.setBackground(Color.getHSBColor(26,70,91));
 
         this.setJMenuBar(bar);
         this.add(background);
-        this.setSize(800,250);
+        this.setSize(800,300);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
