@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener{
-    private JPanel background, top, bottom;
+    private JPanel background, top, bottom, topbtn1, topbtn2, topbtn3;
     private JButton compare,pdf1, pdf2, result;
     private JLabel txt,pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
@@ -19,6 +19,9 @@ public class ClientGUI extends JFrame implements ActionListener{
         this.setTitle("Compariso");
         background = new JPanel(new BorderLayout());
         txt = new JLabel("Compariso", SwingConstants.CENTER);
+        topbtn1 = new JPanel(new FlowLayout());
+        topbtn2 = new JPanel(new FlowLayout());
+        topbtn3 = new JPanel(new FlowLayout());
         txt.setFont(new Font("Courier", Font.BOLD,50));
         pathPdf1 = new JLabel("No file selected", SwingConstants.CENTER);
         pathPdf2 = new JLabel("No file selected", SwingConstants.CENTER);
@@ -41,15 +44,21 @@ public class ClientGUI extends JFrame implements ActionListener{
         top.add(pathPdf1);
         top.add(pathPdf2);
         top.add(pathResult);
-        top.add(pdf1);
-        top.add(pdf2);
-        top.add(result);
+        topbtn1.add(pdf1);
+        topbtn2.add(pdf2);
+        topbtn3.add(result);
+        top.add(topbtn1);
+        top.add(topbtn2);
+        top.add(topbtn3);
         bottom.add(compare);
         background.add(txt, BorderLayout.NORTH);
         background.add(top, BorderLayout.CENTER);
         background.add(bottom, BorderLayout.SOUTH);
         bar.add(setting);
         bar.add(history);
+        topbtn1.setBackground(Color.getHSBColor(26,70,91));
+        topbtn2.setBackground(Color.getHSBColor(26,70,91));
+        topbtn3.setBackground(Color.getHSBColor(26,70,91));
         background.setBackground(Color.getHSBColor(26,70,91));
         top.setBackground(Color.getHSBColor(26,70,91));
         bottom.setBackground(Color.getHSBColor(26,70,91));
