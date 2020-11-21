@@ -3,23 +3,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Test {
-
-    private JFrame frame;
+public class Test extends JFrame {
     private JPanel panel1, panel2, blank, panel3, main;
     private JLabel label, status, server;
     private JButton btn1, btn2;
 
-
     public Test(){
-        frame = new JFrame("Compariso");
-        frame.getContentPane().setForeground(Color.DARK_GRAY);
-        frame.getContentPane().setBackground(Color.DARK_GRAY);
-        frame.setSize(500,300);
+        this.setTitle("Compariso");
+        this.getContentPane().setForeground(Color.DARK_GRAY);
+        this.getContentPane().setBackground(Color.DARK_GRAY);
+        this.setSize(500,300);
         //main layout
-        frame.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         //set middle window
-        frame.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
 
         //top
         label = new JLabel("Compariso");
@@ -29,7 +26,7 @@ public class Test {
         panel1.setBackground(null);
         panel1.setLayout(new GridBagLayout());
         panel1.add(label);
-        frame.add(panel1, BorderLayout.NORTH);
+        this.add(panel1, BorderLayout.NORTH);
 
         //center
         panel2 = new JPanel();
@@ -57,7 +54,7 @@ public class Test {
         panel2.add(blank);
         panel2.add(btn2);
 
-        //frame.add(panel2, BorderLayout.CENTER);
+        //this.add(panel2, BorderLayout.CENTER);
 
         //server status
         status = new JLabel("Server Status : ", SwingConstants.CENTER);
@@ -78,15 +75,11 @@ public class Test {
         main.add(panel2, BorderLayout.CENTER);
         main.add(panel3, BorderLayout.SOUTH);
 
-        frame.add(main, BorderLayout.CENTER);
+        this.add(main, BorderLayout.CENTER);
 
-
-        frame.setResizable(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-
-
+        this.setResizable(true);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setVisible(true);
     }
     private class Start implements ActionListener {
         @Override

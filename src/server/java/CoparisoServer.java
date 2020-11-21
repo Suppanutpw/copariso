@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,9 +20,11 @@ public class CoparisoServer {
     private static Thread serverThread;
     private static boolean isRunning;
 
+    private static Test view;
+
     public static void main(String[] args) {
         // call GUI here
-        new Test();
+        view = new Test();
     }
 
     public static void connect() {
@@ -124,12 +127,11 @@ public class CoparisoServer {
                 } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 } finally {
-                    System.out.println("Copariso Server Terminate!");
                     if (sock != null) sock.close();
                 }
             }
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(view, "server connection failed", "Error Message", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -156,6 +158,7 @@ public class CoparisoServer {
                 System.out.println(ex.getMessage());
             }
             Thread.sleep(100);
+            System.out.println("Copariso Server Terminate!");
         } catch (InterruptedException ex) {
             System.out.println(ex.getMessage());
         }
