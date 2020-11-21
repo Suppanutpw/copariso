@@ -2,14 +2,22 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
 
 public class SettingClient {
+
+    static {
+        // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
+        // modify result path here!!!
+        // default is ./resources if DB can't read
+        SERVERIP = "localhost";
+        SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
+    }
+
 
     // Setting is the class for config process via GUI
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
@@ -51,33 +59,63 @@ public class SettingClient {
         history = new ArrayList();
         JSONParser parser = new JSONParser();
 
+        // read JSON form clientDB.json
         try (Reader reader = new FileReader("clientDB.json")) {
             JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
-            String SERVERIP = (String) jsonObject.get("servIP");
+            System.out.println(jsonObject.toJSONString());
 
-            System.out.println(SERVERIP);
-
+            SERVERIP = (String) jsonObject.get("servIP");
             DEFAULT_RESULT_FILE_PATH = Paths.get((String) jsonObject.get("resultPath"));
-            System.out.println(DEFAULT_RESULT_FILE_PATH.toAbsolutePath());
 
             JSONArray cmp = (JSONArray) jsonObject.get("cmp");
 
             for (int i = 0; i < cmp.size(); i++) {
                 JSONObject current = (JSONObject) cmp.get(i);
 
-                System.out.println((String) current.get("txtold"));
-                System.out.println((String) current.get("txtnew"));
-                System.out.println((String) current.get("oallcmp"));
+                history.add(new CmpHistory(
+                        (String) current.get("date"),
+                        (String) current.get("old"),
+                        (String) current.get("new"),
+                        (String) current.get("txtold"),
+                        (String) current.get("txtnew"),
+                        (String) current.get("oallcmp")
+                ));
             }
 
 
         } catch (Exception ex) {
-            SERVERIP = "localhost";
-            DEFAULT_RESULT_FILE_PATH = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources");
-
             System.out.println("Can't load database!");
-            ex.printStackTrace();
+        }
+    }
+
+    public static void writeDB() {
+        JSONObject dbObj = new JSONObject();
+
+        // add static setting in object
+        dbObj.put("servIP", SERVERIP);
+        dbObj.put("resultPath", DEFAULT_RESULT_FILE_PATH.toString());
+
+        // add Compare History Array in JSONArray and then add to dbObj
+        JSONArray allHistory = new JSONArray();
+        history.forEach((history -> {
+            JSONObject historyDB = new JSONObject();
+            historyDB.put("date", history.getDate());
+            historyDB.put("old", history.getOldPath().toString());
+            historyDB.put("new", history.getNewPath().toString());
+            historyDB.put("txtold", history.getOldTextOnlyPath().toString());
+            historyDB.put("txtnew", history.getNewTextOnlyPath().toString());
+            historyDB.put("oallcmp", history.getOverallPath().toString());
+            allHistory.add(historyDB);
+        }));
+        dbObj.put("cmp", allHistory);
+
+        // write JSON to database file
+        try (FileWriter file = new FileWriter("clientDB.json")) {
+            // Constructs a FileWriter given a file name, using the platform's default charset
+            file.write(dbObj.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

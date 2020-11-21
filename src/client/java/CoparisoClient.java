@@ -1,3 +1,5 @@
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Path;
@@ -7,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CoparisoClient {
-
     public final static int SOCKET_PORT = 13426;      // you may change this
     public static String serverIp;
     public static String errorMessage;
@@ -21,11 +22,17 @@ public class CoparisoClient {
     }
 
     public static void main(String[] args) {
-        init();
         view = new ClientGUI();
+        init();
     }
 
     private static void init() {
+        view.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                SettingClient.writeDB();
+            }
+        });
         SettingClient.readDB();
     }
 
@@ -69,7 +76,7 @@ public class CoparisoClient {
 
             // save All File in database
             LocalDateTime dateTime = LocalDateTime.now();
-            String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm"));
+            String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
             CmpHistory history = new CmpHistory(
                     dateNow,
@@ -80,9 +87,6 @@ public class CoparisoClient {
                     getOverallFilePath()
             );
             SettingClient.getHistory().add(history);
-
-            System.out.println(SettingClient.getHistory().get(0).getDate());
-            System.out.println(SettingClient.getHistory().get(0).getNewPath());
 
             dis.close();
             dos.close();

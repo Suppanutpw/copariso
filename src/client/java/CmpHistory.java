@@ -16,46 +16,46 @@ public class CmpHistory {
     public CmpHistory(String date, String oldPath, String newPath, String oldTextOnlyPath, String newTextOnlyPath, String overallPath) {
         this.date = date;
         this.oldPath = Paths.get(oldPath);
-        this.oldPath = Paths.get(newPath);
+        this.newPath = Paths.get(newPath);
         this.oldTextOnlyPath = Paths.get(oldTextOnlyPath);
         this.newTextOnlyPath = Paths.get(newTextOnlyPath);
         this.overallPath = Paths.get(overallPath);
     }
 
-    public Path getOldTextOnlyPath() {
-        return oldTextOnlyPath;
+    public String getOldTextOnlyPath() {
+        return oldTextOnlyPath.toString();
     }
 
     public void setOldTextOnlyPath(Path oldTextOnlyPath) {
         this.oldTextOnlyPath = oldTextOnlyPath;
     }
 
-    public Path getNewTextOnlyPath() {
-        return newTextOnlyPath;
+    public String getNewTextOnlyPath() {
+        return newTextOnlyPath.toString();
     }
 
     public void setNewTextOnlyPath(Path newTextOnlyPath) {
         this.newTextOnlyPath = newTextOnlyPath;
     }
 
-    public Path getOverallPath() {
-        return overallPath;
+    public String getOverallPath() {
+        return overallPath.toString();
     }
 
     public void setOverallPath(Path overallPath) {
         this.overallPath = overallPath;
     }
 
-    public Path getOldPath() {
-        return oldPath;
+    public String getOldPath() {
+        return oldPath.toString();
     }
 
     public void setOldPath(Path oldPath) {
         this.oldPath = oldPath;
     }
 
-    public Path getNewPath() {
-        return newPath;
+    public String getNewPath() {
+        return newPath.toString();
     }
 
     public void setNewPath(Path newPath) {
