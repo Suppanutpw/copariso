@@ -66,7 +66,6 @@ public class SettingClient {
             for (int i = 0; i < cmp.size(); i++) {
                 JSONObject current = (JSONObject) cmp.get(i);
 
-
                 System.out.println((String) current.get("txtold"));
                 System.out.println((String) current.get("txtnew"));
                 System.out.println((String) current.get("oallcmp"));
@@ -74,7 +73,7 @@ public class SettingClient {
 
 
         } catch (Exception ex) {
-            SERVERIP = "127.0.0.1";
+            SERVERIP = "localhost";
             DEFAULT_RESULT_FILE_PATH = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources");
 
             System.out.println("Can't load database!");

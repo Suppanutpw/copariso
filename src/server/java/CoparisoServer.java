@@ -26,7 +26,7 @@ public class CoparisoServer {
 
     public static void connect() {
         // static dir for server side calculate Path
-        calPath = Paths.get(SettingClient.getDefaultResultPath());
+        calPath = Paths.get(SettingServer.getDefaultResultPath());
         if (!Files.exists(calPath)) {
             try {
                 System.out.println("dir doesn't exists re-crate: " + calPath.toString());

@@ -21,8 +21,8 @@ public class CoparisoClient {
     }
 
     public static void main(String[] args) {
-        view = new ClientGUI();
         init();
+        view = new ClientGUI();
     }
 
     private static void init() {
@@ -66,6 +66,23 @@ public class CoparisoClient {
             } else {
                 errorMessage = "Socket Client Can't Receive File From Server";
             }
+
+            // save All File in database
+            LocalDateTime dateTime = LocalDateTime.now();
+            String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm"));
+
+            CmpHistory history = new CmpHistory(
+                    dateNow,
+                    olderFilePath.toString(),
+                    newerFilePath.toString(),
+                    getOldTextOnlyFilePath(),
+                    getNewTextOnlyFilePath(),
+                    getOverallFilePath()
+            );
+            SettingClient.getHistory().add(history);
+
+            System.out.println(SettingClient.getHistory().get(0).getDate());
+            System.out.println(SettingClient.getHistory().get(0).getNewPath());
 
             dis.close();
             dos.close();
