@@ -65,7 +65,7 @@ public class ClientGUI extends JFrame implements ActionListener{
 
         this.setJMenuBar(bar);
         this.add(background);
-        this.setSize(500,500);
+        this.setSize(800,250);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
     }
