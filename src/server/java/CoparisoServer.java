@@ -20,11 +20,13 @@ public class CoparisoServer {
     private static Thread serverThread;
     private static boolean isRunning;
 
-    private static Test view;
+    private static ServerGUI view;
+
+
 
     public static void main(String[] args) {
         // call GUI here
-        view = new Test();
+        view = new ServerGUI();
     }
 
     public static void connect() {
@@ -45,6 +47,7 @@ public class CoparisoServer {
 
             while (isRunning) {
                 System.out.println("Server Started Waiting Client Connect...");
+
                 try {
                     sock = servsock.accept();
                     sock.setSoTimeout(10000);
