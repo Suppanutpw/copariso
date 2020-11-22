@@ -23,10 +23,10 @@ import javax.swing.border.EmptyBorder;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-public class PdfViewer {
+public class PDFViewer {
 
 	private JFrame frame;
-	private MyPDFRenderer renderer, renderer2;
+	private PDFRenderer renderer, renderer2;
 	private JPanel panelSelectedPage;
 
 	private int numberOfPages, numberOfPages2;
@@ -41,14 +41,14 @@ public class PdfViewer {
 
 	private static String oldTextPath, newTextPath, overallPath;
 
-	public PdfViewer(File document, File doc2) throws Exception {
+	public PDFViewer(File document, File doc2) throws Exception {
 		initialize(document, doc2);
 	}
 
-	public PdfViewer(String oldTextPath, String newTextPath, String overallPath) {
-		PdfViewer.oldTextPath = oldTextPath;
-		PdfViewer.newTextPath = newTextPath;
-		PdfViewer.overallPath = overallPath;
+	public PDFViewer(String oldTextPath, String newTextPath, String overallPath) {
+		PDFViewer.oldTextPath = oldTextPath;
+		PDFViewer.newTextPath = newTextPath;
+		PDFViewer.overallPath = overallPath;
 	}
 
 	public void showResult() {
@@ -56,7 +56,7 @@ public class PdfViewer {
 			public void run() {
 				try {
 					/* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
-					new PdfViewer(new File(oldTextPath), new File(newTextPath));
+					new PDFViewer(new File(oldTextPath), new File(newTextPath));
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,12 +78,12 @@ public class PdfViewer {
 		panelSelectedPage.removeAll(); // Remove children
 
 
-		ImagePanel imagePanel = new ImagePanel(renderImage, width/2, height);
+		PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width/2, height);
 		imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		imagePanel.setLayout(new CardLayout(0, 0));
 		imagePanel.setPreferredSize(new Dimension(width/2, height));
 
-		ImagePanel imagePanel2 = new ImagePanel(renderImage2, width/2, height);
+		PDFImagePanel imagePanel2 = new PDFImagePanel(renderImage2, width/2, height);
 		imagePanel2.setBorder(new EmptyBorder(0, 0, 0, 0));
 		imagePanel2.setLayout(new CardLayout(0, 0));
 		imagePanel2.setPreferredSize(new Dimension(width/2, height));
@@ -125,8 +125,8 @@ public class PdfViewer {
 
 		numberOfPages = doc.getNumberOfPages();
 		numberOfPages2 = doc2.getNumberOfPages();
-		renderer = new MyPDFRenderer(doc);
-		renderer2 = new MyPDFRenderer(doc2);
+		renderer = new PDFRenderer(doc);
+		renderer2 = new PDFRenderer(doc2);
 
 		System.out.println("Old file = " + numberOfPages + " pages");
 		System.out.println("New file = " + numberOfPages2 + " pages");
@@ -195,7 +195,7 @@ public class PdfViewer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				try {
 					/* แก้ Path Overall Compare ตรงนี้ !!!!! */
-					new PdfViewer(new File(overallPath));
+					new PDFViewer(new File(overallPath));
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
@@ -292,7 +292,7 @@ public class PdfViewer {
 
 
 	//////////////////////////////////////////////////////////
-	public PdfViewer(File document) throws Exception {
+	public PDFViewer(File document) throws Exception {
 		initialize(document);
 	}
 
@@ -306,7 +306,7 @@ public class PdfViewer {
 		}
 		panelSelectedPage.removeAll(); // Remove children
 
-		ImagePanel imagePanel = new ImagePanel(renderImage, width, height);
+		PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width, height);
 		imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		imagePanel.setLayout(new CardLayout(0, 0));
 		imagePanel.setPreferredSize(new Dimension(width, height));
@@ -339,7 +339,7 @@ public class PdfViewer {
 
 		numberOfPages = doc.getNumberOfPages();
 
-		renderer = new MyPDFRenderer(doc);
+		renderer = new PDFRenderer(doc);
 
 		System.out.println("Number of pages = " + numberOfPages);
 
@@ -408,7 +408,7 @@ public class PdfViewer {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				try {
 					/* แก้ Path ตรงนี้ Text Compare ตรงนี้!!!!! */
-					new PdfViewer(new File(oldTextPath), new File(newTextPath));
+					new PDFViewer(new File(oldTextPath), new File(newTextPath));
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
