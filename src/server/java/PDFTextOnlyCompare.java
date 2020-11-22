@@ -13,17 +13,17 @@ public class PDFTextOnlyCompare {
 
             // you can share 2 PDFHighlighter.highlight() to each Thread
             new PDFHighlighter(file1).highlight(SettingServer.getOldDifColor());
-            System.out.println("Created : " + file1.getResultPath());
+            SettingServer.addLog("Copariso created old-new text-only compare file : " + file1.getResultPath());
 
             new PDFHighlighter(file2).highlight(SettingServer.getNewDifColor());
-            System.out.println("Created : " + file2.getResultPath());
+            SettingServer.addLog("Copariso created new-old text-only compare file : " + file2.getResultPath());
 
             // if there no error here so return null
             errorMessage = null;
         } catch (Exception ex) {
             // if there have error you can get cause message
-            errorMessage = "PDF text only compare error : " + ex.getMessage();
-            ex.printStackTrace();
+            errorMessage = "PDF text-only compare error : " + ex.getMessage();
+            SettingServer.addLog(errorMessage);
         }
 
         // if there have no error message then send true

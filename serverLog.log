@@ -1,0 +1,17 @@
+===== open copariso server =====
+2020-11-22 16:04 - Started Waiting Client Connect...
+2020-11-22 16:04 - Terminate Connection!
+2020-11-22 16:04 - Started Waiting Client Connect...
+2020-11-22 16:04 - log doesn't exists re-crate : serverLog.log (No such file or directory)
+===== open copariso server =====
+2020-11-22 16:05 - Started Waiting Client Connect...
+2020-11-22 16:05 - Terminate Connection!
+2020-11-22 16:05 - Started Waiting Client Connect...
+2020-11-22 16:06 - Accepted /127.0.0.1 connection : Socket[addr=/127.0.0.1,port=50752,localport=13426]
+2020-11-22 16:06 - Socket Server Received File from Client
+2020-11-22 16:06 - Copariso created overall compare file : /Users/spw/Desktop/Github/copariso/resources/overall_22-11-2020_16-06-06
+2020-11-22 16:06 - Copariso created old-new text-only compare file : /Users/spw/Desktop/Github/copariso/resources/text-only-old_22-11-2020_16-06-06.pdf
+2020-11-22 16:06 - Copariso created new-old text-only compare file : /Users/spw/Desktop/Github/copariso/resources/text-only-new_22-11-2020_16-06-06.pdf
+2020-11-22 16:06 - Copariso Server PDF Compare success.
+2020-11-22 16:06 - Socket Server Send File success
+2020-11-22 16:06 - Started Waiting Client Connect...
