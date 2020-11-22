@@ -15,3 +15,9 @@
 2020-11-22 16:06 - Copariso Server PDF Compare success.
 2020-11-22 16:06 - Socket Server Send File success
 2020-11-22 16:06 - Started Waiting Client Connect...
+===== open copariso server =====
+2020-11-22 16:11 - server started waiting client connect...
+2020-11-22 16:11 - Copariso Server Error: Address already in use (Bind failed)
+2020-11-22 16:11 - Terminate Connection!
+2020-11-22 16:11 - server started waiting client connect...
+2020-11-22 16:11 - Terminate Connection!

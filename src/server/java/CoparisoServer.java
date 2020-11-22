@@ -28,7 +28,7 @@ public class CoparisoServer {
 
     public static void main(String[] args) {
         // call GUI here
-        view = new Test();
+        view = new ServerGUI();
         view.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -54,7 +54,7 @@ public class CoparisoServer {
             servsock = new ServerSocket(SOCKET_PORT);
 
             while (isRunning) {
-                SettingServer.addLog("Started Waiting Client Connect...");
+                SettingServer.addLog("server started waiting client connect...");
                 try {
                     sock = servsock.accept();
                     sock.setSoTimeout(10000);
@@ -62,7 +62,7 @@ public class CoparisoServer {
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
                     dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 
-                    SettingServer.addLog("Accepted " + sock.getLocalAddress() + " connection : " + sock);
+                    SettingServer.addLog("accepted " + sock.getLocalAddress() + " connection : " + sock);
 
                     // get date now for set unique file name
                     LocalDateTime dateTime = LocalDateTime.now();
