@@ -11,7 +11,7 @@ public class PDFOverallCompare {
         try {
             // use thread for share job with text-only compare (they're independent method)
             new PdfComparator(file1.getTargetPath(), file2.getTargetPath()).compare().writeTo(getOverallPath());
-            System.out.println("Created : " + getOverallPath());
+            SettingServer.addLog("Copariso created overall compare file : " + getOverallPath());
 
             // if there no error here so return null
             errorMessage = null;

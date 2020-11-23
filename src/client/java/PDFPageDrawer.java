@@ -6,9 +6,9 @@ import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.rendering.PageDrawer;
 import org.apache.pdfbox.rendering.PageDrawerParameters;
 
-public class MyPageDrawer extends PageDrawer {
+public class PDFPageDrawer extends PageDrawer {
 
-	MyPageDrawer(PageDrawerParameters parameters) throws IOException {
+	PDFPageDrawer(PageDrawerParameters parameters) throws IOException {
 		super(parameters);
 	}
 

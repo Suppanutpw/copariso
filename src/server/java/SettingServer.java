@@ -1,8 +1,14 @@
 import org.apache.pdfbox.pdmodel.graphics.color.PDColor;
 import org.apache.pdfbox.pdmodel.graphics.color.PDDeviceRGB;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SettingServer {
 
@@ -21,6 +27,7 @@ public class SettingServer {
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static PDColor OLD_DIF_COLOR;
     private static PDColor NEW_DIF_COLOR;
+    private static String log = "===== open copariso server =====\n";
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
     // setter & getter for saved difference file path
@@ -52,5 +59,41 @@ public class SettingServer {
 
     public static String getOS() {
         return OS;
+    }
+
+    public static String getLog() {
+        return log;
+    }
+
+    public static void addLog(String log) {
+        // add Date for check error log message
+        LocalDateTime dateTime = LocalDateTime.now();
+        String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        SettingServer.log += dateNow + " - " + log + "\n";
+        System.out.println(dateNow + " - " + log);
+    }
+
+    public static void writeLog() {
+        // write Server log file
+        String fileLog = "";
+        try (Reader reader = new FileReader("serverLog.log")) {
+            int ch = 0;
+            while ((ch = reader.read()) != -1) {
+                fileLog += (char) ch;
+            }
+        } catch (IOException ex) {
+            addLog("log doesn't exists re-crate : " + ex.getMessage());
+        }
+
+        try (FileWriter writeFile = new FileWriter("serverLog.log")) {
+            // Constructs a FileWriter given a file name, using the platform's default charset
+            if (!fileLog.equals("null")) {
+                log = fileLog + log;
+            }
+            writeFile.write(log);
+        } catch (IOException ex) {
+            System.out.println("write serverLog error : " + ex.getMessage());
+        }
     }
 }

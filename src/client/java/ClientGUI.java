@@ -139,7 +139,7 @@ public class ClientGUI extends JFrame implements ActionListener{
             }
             
             // show text-only compare and overall compare
-            PdfViewer viewer = new PdfViewer(
+            PDFViewer viewer = new PDFViewer(
                     CoparisoClient.getOldTextOnlyFilePath(),
                     CoparisoClient.getNewTextOnlyFilePath(),
                     CoparisoClient.getOverallFilePath()

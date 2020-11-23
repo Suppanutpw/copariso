@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
@@ -28,6 +30,12 @@ public class CoparisoServer {
     public static void main(String[] args) {
         // call GUI here
         view = new ServerGUI();
+        view.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                SettingServer.writeLog();
+            }
+        });
     }
 
     public static void connect() {
@@ -35,10 +43,10 @@ public class CoparisoServer {
         calPath = Paths.get(SettingServer.getDefaultResultPath());
         if (!Files.exists(calPath)) {
             try {
-                System.out.println("dir doesn't exists re-crate: " + calPath.toString());
+                SettingServer.addLog("dir doesn't exists re-crate: " + calPath.toString());
                 Files.createDirectories(calPath);
             } catch (IOException ex) {
-                System.out.println("target dir not found : " + ex.getMessage());
+                SettingServer.addLog("target dir not found : " + ex.getMessage());
                 return;
             }
         }
@@ -47,18 +55,15 @@ public class CoparisoServer {
             servsock = new ServerSocket(SOCKET_PORT);
 
             while (isRunning) {
-                System.out.println("Server Started Waiting Client Connect...");
-
+                SettingServer.addLog("server started waiting client connect...");
                 try {
                     sock = servsock.accept();
                     sock.setSoTimeout(10000);
 
-                    System.out.println(sock.getLocalAddress());
-
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
                     dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 
-                    System.out.println("Accepted connection : " + sock);
+                    SettingServer.addLog("accepted " + sock.getLocalAddress() + " connection : " + sock);
 
                     // get date now for set unique file name
                     LocalDateTime dateTime = LocalDateTime.now();
@@ -73,17 +78,17 @@ public class CoparisoServer {
 
                     // receive file files[0] is older and file[1] is newer
                     if (new FileTransfer(sock).receiveFile(files, dis, true)) {
-                        System.out.println("Socket Server Received File from Client");
+                        SettingServer.addLog("Socket Server Received File from Client");
                     } else {
-                        System.out.println("Socket Server Can't Receive File From Client");
+                        SettingServer.addLog("Socket Server Can't Receive File From Client");
                     }
 
                     PDFFile file1 = new PDFFile(olderFilePath);
                     PDFFile file2 = new PDFFile(newerFilePath);
                     if (!(file1.open() & file2.open())) {
-                        System.out.println("File Not Found:");
-                        System.out.println(file1.getErrorMessage());
-                        System.out.println(file2.getErrorMessage());
+                        SettingServer.addLog("Client File Can't Open :");
+                        SettingServer.addLog(file1.getErrorMessage());
+                        SettingServer.addLog(file2.getErrorMessage());
                     }
 
                     file1.setResultFileName("text-only-old_" + dateNow + ".pdf");
@@ -98,11 +103,11 @@ public class CoparisoServer {
 
                     // compare two file
                     if (overallCmp.pdfCompare(file1, file2) & textOnlyCmp.pdfCompare(file1, file2)) {
-                        System.out.println("PDF Compare success.");
+                        SettingServer.addLog("Copariso Server PDF Compare success");
                     } else {
-                        System.out.println("PDF Compare Error:");
-                        System.out.println(textOnlyCmp.getErrorMessage());
-                        System.out.println(overallCmp.getErrorMessage());
+                        SettingServer.addLog("Copariso Server PDF Compare Error:");
+                        SettingServer.addLog(textOnlyCmp.getErrorMessage());
+                        SettingServer.addLog(overallCmp.getErrorMessage());
                         return;
                     }
 
@@ -121,15 +126,15 @@ public class CoparisoServer {
 
                     // send file
                     if (new FileTransfer(sock).sendFile(files, dos)) {
-                        System.out.println("Socket Server Send File success");
+                        SettingServer.addLog("Socket Server Send File success");
                     } else {
-                        System.out.println("Socket Server Can't Send File to Client");
+                        SettingServer.addLog("Socket Server Can't Send File to Client");
                     }
 
                     dis.close();
                     dos.close();
                 } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    SettingServer.addLog("Terminate Connection!");
                 } finally {
                     if (sock != null) sock.close();
                 }
@@ -137,6 +142,7 @@ public class CoparisoServer {
         } catch (BindException e ){
             System.out.println("Server already running");
         } catch (IOException ex) {
+            SettingServer.addLog("Copariso Server Error: " + ex.getMessage());
             JOptionPane.showMessageDialog(view, "server connection failed", "Error Message", JOptionPane.INFORMATION_MESSAGE);
             System.out.println(ex);
         }
@@ -162,12 +168,11 @@ public class CoparisoServer {
             try {
                 if (servsock != null) servsock.close();
             } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+                SettingServer.addLog("Terminate Connection Error : " + ex.getMessage());
             }
             Thread.sleep(100);
-            System.out.println("Copariso Server Terminate!");
         } catch (InterruptedException ex) {
-            System.out.println(ex.getMessage());
+            SettingServer.addLog("Terminate Connection Error : " + ex.getMessage());
         }
     }
 }
