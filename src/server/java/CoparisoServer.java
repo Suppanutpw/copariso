@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.*;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -133,8 +134,11 @@ public class CoparisoServer {
                     if (sock != null) sock.close();
                 }
             }
+        } catch (BindException e ){
+            System.out.println("Server already running");
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(view, "server connection failed", "Error Message", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println(ex);
         }
     }
 

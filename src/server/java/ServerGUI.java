@@ -47,15 +47,20 @@ public class ServerGUI extends JFrame{
     private class Start implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            STARTButton.setEnabled(false);
+            STOPButton.setEnabled(true);
             status.setText("Running");
             status.setForeground(Color.GREEN);
             CoparisoServer.startServer();
+
         }
     }
 
     private class Stop implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            STARTButton.setEnabled(true);
+            STOPButton.setEnabled(false);
             status.setText("OFF");
             status.setForeground(Color.RED);
             CoparisoServer.stopServer();
