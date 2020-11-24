@@ -11,7 +11,8 @@ public class ClientGUI extends JFrame implements ActionListener{
     private JLabel txt,pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
     private JMenu setting;
-    private JMenuItem history;
+    private JMenuItem history, ipConfig;
+    private String defaultIP;
 
     public ClientGUI() {
         this.setTitle("Compariso");
@@ -37,6 +38,9 @@ public class ClientGUI extends JFrame implements ActionListener{
         bar = new JMenuBar();
         setting = new JMenu("Setting");
         history = new JMenuItem("History");
+        history.addActionListener(this);
+        ipConfig = new JMenuItem("ip Config");
+        ipConfig.addActionListener(this);
 
         //add component
         top.add(pathPdf1);
@@ -53,6 +57,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         background.add(top, BorderLayout.CENTER);
         background.add(bottom, BorderLayout.SOUTH);
         setting.add(history);
+        setting.add(ipConfig);
         bar.add(setting);
         topbtn1.setBackground(Color.getHSBColor(26,70,91));
         topbtn2.setBackground(Color.getHSBColor(26,70,91));
@@ -69,6 +74,10 @@ public class ClientGUI extends JFrame implements ActionListener{
         this.setSize(800,300);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+
+    public void setIP(String ip){
+        this.defaultIP = ip;
     }
 
     @Override
@@ -118,6 +127,12 @@ public class ClientGUI extends JFrame implements ActionListener{
                     pathResult.setText(fileChooser.getSelectedFile().getParent());
                 }
             }
+        }
+        else if (e.getSource().equals(history)){
+            new HistoryGUI();
+        }
+        else if (e.getSource().equals(ipConfig)){
+            new ipGUI();
         }
         else if (e.getSource().equals(compare)){
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
