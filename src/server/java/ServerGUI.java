@@ -38,24 +38,7 @@ public class ServerGUI extends JFrame{
         panel1.setBackground(Color.getHSBColor(26,70,91));
         add(panel1);
 
-        //show log
-        FileReader reader = null;
-        try {
-            reader = new FileReader("serverLog.log");
-            textArea1.read(reader, "serverLog.log");
-        } catch (IOException exception) {
-            System.err.println("Load oops");
-            exception.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException exception) {
-                    System.err.println("Error closing reader");
-                    exception.printStackTrace();
-                }
-            }
-        }
+        textArea1.setText(SettingServer.getLog());
         pack();
         setVisible(true);
     }
