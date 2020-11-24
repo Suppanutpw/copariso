@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class HistoryGUI extends JFrame {
     private JTable t;
-    private  final String column[] = {"Date", "Old Path", "New Path"};
+    private  final String column[] = {"Date", "Old File", "New File"};
     private String[][] data;
 
     public HistoryGUI(){
@@ -16,7 +16,7 @@ public class HistoryGUI extends JFrame {
         t.setDefaultEditor(Object.class, null);
         this.add(t);
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setSize(500,100);
         this.setVisible(true);
     }
@@ -30,7 +30,6 @@ public class HistoryGUI extends JFrame {
         }
         return a;
     }
-
 
 //SettingClient.getHistory().get().
 }
