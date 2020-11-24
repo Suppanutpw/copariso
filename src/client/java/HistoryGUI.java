@@ -2,58 +2,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
-public class HistoryGUI extends JFrame implements WindowListener {
-    private JPanel bg;
-    private JScrollPane sp;
+public class HistoryGUI extends JFrame {
     private JTable t;
-    private  final String head[] = {"Date", "Old Path", "New Path"};
+    private  final String column[] = {"Date", "Old Path", "New Path"};
+    private String[][] data;
 
     public HistoryGUI(){
-        bg = new JPanel(new FlowLayout());
-        this.add(bg);
+        this.setLayout(new BorderLayout());
+        data = createData(SettingClient.getHistory());
+        t = new JTable(data, column);
+        t.setBounds(30,40,200,300);
+        this.add(t);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
-        this.addWindowListener(this);
+    }
+
+    private String[][] createData(ArrayList<CmpHistory> history){
+        String[][] a = new String[history.size()][3];
+        for (int i = 0; i < history.size(); i++) {
+            a[i][0] = history.get(i).getDate();
+            a[i][1] = history.get(i).getNewPath();
+            a[i][2] = history.get(i).getOldPath();
+        }
+        return a;
     }
 
 
-    @Override
-    public void windowOpened(WindowEvent e) {
-        t = new JTable();
-        sp = new JScrollPane();
-        sp.add(t);
-        bg.add(sp);
-
-    }
 //SettingClient.getHistory().get().
-    @Override
-    public void windowClosing(WindowEvent e) {}
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-
-    }
 }
