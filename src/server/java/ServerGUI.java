@@ -88,4 +88,7 @@ public class ServerGUI extends JFrame{
         }
     }
 
+    public JTextArea getLogArea() {
+        return textArea1;
+    }
 }

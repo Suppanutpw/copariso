@@ -36,6 +36,7 @@ public class CoparisoServer {
                 SettingServer.writeLog();
             }
         });
+        SettingServer.setReadLog(view);
     }
 
     public static void connect() {

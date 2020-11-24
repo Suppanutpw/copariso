@@ -27,7 +27,7 @@ public class SettingServer {
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static PDColor OLD_DIF_COLOR;
     private static PDColor NEW_DIF_COLOR;
-    private static String log = "===== open copariso server =====\n";
+    private static String log = "================================================== open copariso server ==================================================\n";
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
     // setter & getter for saved difference file path
@@ -72,6 +72,22 @@ public class SettingServer {
 
         SettingServer.log += dateNow + " - " + log + "\n";
         System.out.println(dateNow + " - " + log);
+    }
+
+    public static void setReadLog(ServerGUI gui) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    gui.getLogArea().setText(log);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        addLog("log reader Interrupted : " + ex.getMessage());
+                    }
+                }
+            }
+        }).start();
     }
 
     public static void writeLog() {
