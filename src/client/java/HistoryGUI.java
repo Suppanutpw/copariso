@@ -26,8 +26,9 @@ public class HistoryGUI extends JFrame implements WindowListener {
         sp = new JScrollPane();
         sp.add(t);
         bg.add(sp);
-    }
 
+    }
+//SettingClient.getHistory().get().
     @Override
     public void windowClosing(WindowEvent e) {}
 
