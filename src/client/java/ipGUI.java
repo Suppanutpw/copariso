@@ -20,7 +20,7 @@ public class ipGUI extends JFrame implements ActionListener {
         this.add(l, BorderLayout.NORTH);
         this.add(tf, BorderLayout.CENTER);
         this.add(b, BorderLayout.SOUTH);
-        
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
@@ -30,6 +30,7 @@ public class ipGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(b)){
             SettingClient.setSERVERIP(tf.getText());
+            this.dispose();
         }
     }
 }
