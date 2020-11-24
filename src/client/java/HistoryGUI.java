@@ -7,7 +7,7 @@ public class HistoryGUI extends JFrame implements WindowListener {
     private JPanel bg;
     private JScrollPane sp;
     private JTable t;
-    private  final String head[] = {"Date", "Old Path", "New Path", "Directory"};
+    private  final String head[] = {"Date", "Old Path", "New Path"};
 
     public HistoryGUI(){
         bg = new JPanel(new FlowLayout());
@@ -26,6 +26,7 @@ public class HistoryGUI extends JFrame implements WindowListener {
         sp = new JScrollPane();
         sp.add(t);
         bg.add(sp);
+
 
     }
 //SettingClient.getHistory().get().
