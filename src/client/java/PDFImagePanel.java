@@ -6,8 +6,6 @@ import javax.swing.border.EmptyBorder;
 
 public class PDFImagePanel extends JPanel {
 
-	private static final long serialVersionUID = -8483797305070521030L;
-	
 	private Image image;
 	private int width;
 	private int height;
