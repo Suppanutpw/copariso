@@ -52,6 +52,7 @@ public class CoparisoClient {
             }
 
             sock = new Socket(serverIp, SOCKET_PORT);
+            sock.setSoTimeout(10000);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 

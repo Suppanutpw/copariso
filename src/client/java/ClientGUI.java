@@ -12,7 +12,6 @@ public class ClientGUI extends JFrame implements ActionListener{
     private JMenuBar bar;
     private JMenu setting;
     private JMenuItem history, ipConfig;
-    private String defaultIP;
 
     public ClientGUI() {
         this.setTitle("Compariso");
@@ -73,11 +72,8 @@ public class ClientGUI extends JFrame implements ActionListener{
         this.add(background);
         this.setSize(800,300);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
-    }
-
-    public void setIP(String ip){
-        this.defaultIP = ip;
     }
 
     @Override
