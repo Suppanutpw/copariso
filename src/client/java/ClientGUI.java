@@ -12,7 +12,6 @@ public class ClientGUI extends JFrame implements ActionListener{
     private JMenuBar bar;
     private JMenu setting;
     private JMenuItem history, ipConfig;
-    private String defaultIP;
 
     public ClientGUI() {
         this.setTitle("Compariso");
