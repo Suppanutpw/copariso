@@ -27,7 +27,6 @@ public class HistoryGUI extends JFrame implements WindowListener {
         sp.add(t);
         bg.add(sp);
 
-
     }
 //SettingClient.getHistory().get().
     @Override
