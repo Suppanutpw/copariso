@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 public class HistoryGUI extends JFrame {
@@ -11,13 +9,15 @@ public class HistoryGUI extends JFrame {
 
     public HistoryGUI(){
         this.setLayout(new BorderLayout());
+        this.setTitle("Compare History");
         data = createData(SettingClient.getHistory());
         t = new JTable(data, column);
         t.setBounds(30,40,200,300);
+        t.setDefaultEditor(Object.class, null);
         this.add(t);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.pack();
+        this.setSize(500,100);
         this.setVisible(true);
     }
 
