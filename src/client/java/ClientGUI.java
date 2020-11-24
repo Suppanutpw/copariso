@@ -75,10 +75,6 @@ public class ClientGUI extends JFrame implements ActionListener{
         this.setVisible(true);
     }
 
-    public void setIP(String ip){
-        this.defaultIP = ip;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(pdf1)){
