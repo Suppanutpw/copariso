@@ -1,25 +1,32 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class HistoryGUI extends JFrame {
+public class HistoryGUI extends JFrame implements ListSelectionListener {
     private JTable t;
-    private  final String column[] = {"Date", "Old File", "New File"};
+    private final String column[] = {"Date", "Old File", "New File"};
     private String[][] data;
     private JLabel l;
+    private PDFViewer viewer;
 
     public HistoryGUI(){
         this.setLayout(new BorderLayout());
         this.setTitle("Compare History");
+
         data = createData(SettingClient.getHistory());
+        l = new JLabel("Compare History");
+
         t = new JTable(data, column);
         t.setBounds(30,40,200,300);
         t.setDefaultEditor(Object.class, null);
-        l = new JLabel("Compare History");
+        t.getSelectionModel().addListSelectionListener(this);
+
         this.add(l, BorderLayout.NORTH);
         this.add(t);
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setSize(500,150);
         this.setVisible(true);
     }
@@ -34,5 +41,16 @@ public class HistoryGUI extends JFrame {
         return a;
     }
 
-//SettingClient.getHistory().get().
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (!e.getValueIsAdjusting()) {
+            // show compare result history
+            this.viewer = new PDFViewer(
+                    SettingClient.getHistory().get(t.getSelectedRow()).getOldTextOnlyPath(),
+                    SettingClient.getHistory().get(t.getSelectedRow()).getNewTextOnlyPath(),
+                    SettingClient.getHistory().get(t.getSelectedRow()).getOverallPath()
+            );
+            this.viewer.showResult();
+        }
+    }
 }

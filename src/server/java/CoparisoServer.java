@@ -21,6 +21,9 @@ public class CoparisoServer {
     private static DataInputStream dis;
     private static DataOutputStream dos;
     private static Thread serverThread;
+    private static PDFFile file1, file2;
+    private static PDFTextOnlyCompare textOnlyCmp;
+    private static PDFOverallCompare overallCmp;
     private static boolean isRunning;
 
     private static ServerGUI view;
@@ -84,8 +87,8 @@ public class CoparisoServer {
                         SettingServer.addLog("Socket Server Can't Receive File From Client");
                     }
 
-                    PDFFile file1 = new PDFFile(olderFilePath);
-                    PDFFile file2 = new PDFFile(newerFilePath);
+                    file1 = new PDFFile(olderFilePath);
+                    file2 = new PDFFile(newerFilePath);
                     if (!(file1.open() & file2.open())) {
                         SettingServer.addLog("Client File Can't Open :");
                         SettingServer.addLog(file1.getErrorMessage());
@@ -96,8 +99,8 @@ public class CoparisoServer {
                     file2.setResultFileName("text-only-new_" + dateNow + ".pdf");
 
                     // เอา Thread ออก เพื่อหา error (อย่าใช้ && นะ!!!) ต้องคำนวณทุกตัว
-                    PDFTextOnlyCompare textOnlyCmp = new PDFTextOnlyCompare();
-                    PDFOverallCompare overallCmp = new PDFOverallCompare();
+                    textOnlyCmp = new PDFTextOnlyCompare();
+                    overallCmp = new PDFOverallCompare();
 
                     // file name have no .pdf cause of PdfComparator
                     overallCmp.setOverallFileName("overall_" + dateNow);

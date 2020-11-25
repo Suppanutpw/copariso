@@ -12,6 +12,7 @@ public class ClientGUI extends JFrame implements ActionListener{
     private JMenuBar bar;
     private JMenu setting;
     private JMenuItem history, ipConfig;
+    private PDFViewer viewer;
 
     public ClientGUI() {
         this.setTitle("Compariso");
@@ -87,9 +88,9 @@ public class ClientGUI extends JFrame implements ActionListener{
                 String path = selectedFile.getAbsolutePath();
                 if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
                     pathPdf1.setText(path);
-                }
-                else {
-                    pathPdf1.setText("PDFs only!111!!!1");
+                } else {
+                    JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
+                    pathPdf1.setText(".pdf file only!");
                 }
 
             }
@@ -105,7 +106,8 @@ public class ClientGUI extends JFrame implements ActionListener{
                     pathPdf2.setText(path);
                 }
                 else {
-                    pathPdf2.setText("PDFs only!111!!!1");
+                    pathPdf2.setText(".pdf file only!");
+                    JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -128,7 +130,7 @@ public class ClientGUI extends JFrame implements ActionListener{
             new HistoryGUI();
         }
         else if (e.getSource().equals(ipConfig)){
-            new ipGUI();
+            new IpGUI();
         }
         else if (e.getSource().equals(compare)){
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
@@ -150,7 +152,7 @@ public class ClientGUI extends JFrame implements ActionListener{
             }
             
             // show text-only compare and overall compare
-            PDFViewer viewer = new PDFViewer(
+            viewer = new PDFViewer(
                     CoparisoClient.getOldTextOnlyFilePath(),
                     CoparisoClient.getNewTextOnlyFilePath(),
                     CoparisoClient.getOverallFilePath()

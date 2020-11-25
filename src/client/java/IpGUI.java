@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class ipGUI extends JFrame implements ActionListener {
+public class IpGUI extends JFrame implements ActionListener {
     private JTextField tf;
     private JButton b;
     private Label l;
 
-    public ipGUI(){
+    public IpGUI(){
         tf = new JTextField(SettingClient.getSERVERIP());
         b = new JButton("Submit");
         b.addActionListener(this);
