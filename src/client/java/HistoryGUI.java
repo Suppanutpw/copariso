@@ -6,6 +6,7 @@ public class HistoryGUI extends JFrame {
     private JTable t;
     private  final String column[] = {"Date", "Old Path", "New Path"};
     private String[][] data;
+    private JLabel l;
 
     public HistoryGUI(){
         this.setLayout(new BorderLayout());
@@ -14,10 +15,12 @@ public class HistoryGUI extends JFrame {
         t = new JTable(data, column);
         t.setBounds(30,40,200,300);
         t.setDefaultEditor(Object.class, null);
+        l = new JLabel("Compare History");
+        this.add(l, BorderLayout.NORTH);
         this.add(t);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(500,100);
+        this.setSize(500,150);
         this.setVisible(true);
     }
 
