@@ -110,7 +110,7 @@ public class ClientGUI extends JFrame implements ActionListener{
             }
         }
         else if (e.getSource().equals(result)){
-            JFileChooser fileChooser = new JFileChooser (FileSystemView.getFileSystemView().getHomeDirectory());
+            JFileChooser fileChooser = new JFileChooser (FileSystemView.getFileSystemView().getDefaultDirectory());
             fileChooser.setDialogTitle("Choose you folder for saving");
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int selectedButton = fileChooser.showDialog ( null, "Open" );
