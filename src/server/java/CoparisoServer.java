@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CoparisoServer {
 
-    public final static int SOCKET_PORT = 13426;  // you may change this
+    public final static int SOCKET_PORT = 13426;
     private static Socket sock;
     private static ServerSocket servsock;
     private static Path calPath;
@@ -27,7 +27,6 @@ public class CoparisoServer {
     private static boolean isRunning;
 
     private static ServerGUI view;
-
 
 
     public static void main(String[] args) {
@@ -143,7 +142,7 @@ public class CoparisoServer {
                     if (sock != null) sock.close();
                 }
             }
-        } catch (BindException e ){
+        } catch (BindException e) {
             System.out.println("Server already running");
         } catch (IOException ex) {
             SettingServer.addLog("Copariso Server Error: " + ex.getMessage());
@@ -166,6 +165,7 @@ public class CoparisoServer {
         });
         serverThread.start();
     }
+
     public static void stopServer() {
         CoparisoServer.isRunning = false;
         try {

@@ -2,7 +2,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,22 +13,21 @@ import java.util.ArrayList;
 
 public class SettingClient {
 
-    static {
-        // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
-        // modify result path here!!!
-        // default is ./resources if DB can't read
-        SERVERIP = "localhost";
-        SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
-    }
-
+    // for check OS case
+    private static final String OS = System.getProperty("os.name").toLowerCase();
     // Setting is the class for config process via GUI
     // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
     private static Path DEFAULT_RESULT_FILE_PATH;
     private static String SERVERIP;
     private static ArrayList<CmpHistory> history;
 
-    // for check OS case
-    private static final String OS = System.getProperty("os.name").toLowerCase();
+    static {
+        // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
+        // modify result path here!!!
+        // default is ./resources if DB can't read
+        SERVERIP = "127.0.0.1";
+        SettingClient.setDefaultResultPath(Paths.get(Paths.get(".").toAbsolutePath().normalize().toString(), "resources").toString());
+    }
 
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {

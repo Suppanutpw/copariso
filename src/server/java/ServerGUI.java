@@ -2,10 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileReader;
-import java.io.IOException;
 
-public class ServerGUI extends JFrame{
+public class ServerGUI extends JFrame {
     private JPanel panel1;
     private JButton STARTButton;
     private JButton STOPButton;
@@ -16,7 +14,7 @@ public class ServerGUI extends JFrame{
     private JPanel panel4;
     private JTextArea textArea1;
 
-    public ServerGUI(){
+    public ServerGUI() {
         setTitle("Compariso");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(850, 300);
@@ -30,12 +28,11 @@ public class ServerGUI extends JFrame{
         status.setForeground(Color.RED);
 
 
-
         panel2.setBackground(null);
         panel3.setBackground(null);
         panel4.setBackground(null);
 
-        panel1.setBackground(Color.getHSBColor(26,70,91));
+        panel1.setBackground(Color.getHSBColor(26, 70, 91));
         add(panel1);
 
         textArea1.setText(SettingServer.getLog());
@@ -43,35 +40,33 @@ public class ServerGUI extends JFrame{
         setVisible(true);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new ServerGUI();
     }
 
+    public JTextArea getLogArea() {
+        return textArea1;
+    }
 
     private class Start implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            CoparisoServer.startServer();
             STARTButton.setEnabled(false);
             STOPButton.setEnabled(true);
             status.setText("Running");
             status.setForeground(Color.GREEN);
-            CoparisoServer.startServer();
-
         }
     }
 
     private class Stop implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            CoparisoServer.stopServer();
             STARTButton.setEnabled(true);
             STOPButton.setEnabled(false);
             status.setText("OFF");
             status.setForeground(Color.RED);
-            CoparisoServer.stopServer();
         }
-    }
-
-    public JTextArea getLogArea() {
-        return textArea1;
     }
 }

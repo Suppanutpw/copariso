@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.ArrayList;
 
 /* Dynamic Programming Java implementation of LCS problem */
 public class PDFCompareText {

@@ -69,18 +69,18 @@ public class PDFFile {
         return fileText;
     }
 
-    // if you want to change selected file
-    public void setTargetPath(String targetPath) {
-        // set selected file path
-        this.targetPath = Paths.get(targetPath);
-    }
-
     public void setResultFileName(String resultFileName) {
         this.resultPath = Paths.get(SettingClient.getDefaultResultPath(), resultFileName);
     }
 
     public String getTargetPath() {
         return targetPath.toString();
+    }
+
+    // if you want to change selected file
+    public void setTargetPath(String targetPath) {
+        // set selected file path
+        this.targetPath = Paths.get(targetPath);
     }
 
     public String getResultPath() {

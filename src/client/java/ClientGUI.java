@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class ClientGUI extends JFrame implements ActionListener{
+public class ClientGUI extends JFrame implements ActionListener {
     private JPanel background, top, bottom, topbtn1, topbtn2, topbtn3;
-    private JButton compare,pdf1, pdf2, result;
-    private JLabel txt,pathPdf1, pathPdf2, pathResult;
+    private JButton compare, pdf1, pdf2, result;
+    private JLabel txt, pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
     private JMenu setting;
     private JMenuItem history, ipConfig;
@@ -21,7 +21,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         topbtn1 = new JPanel(new FlowLayout());
         topbtn2 = new JPanel(new FlowLayout());
         topbtn3 = new JPanel(new FlowLayout());
-        txt.setFont(new Font("Courier", Font.BOLD,50));
+        txt.setFont(new Font("Courier", Font.BOLD, 50));
         pathPdf1 = new JLabel("No file selected", SwingConstants.CENTER);
         pathPdf2 = new JLabel("No file selected", SwingConstants.CENTER);
         pathResult = new JLabel("No directory selected", SwingConstants.CENTER);
@@ -31,7 +31,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         pdf1.addActionListener(this);
         pdf2.addActionListener(this);
         result.addActionListener(this);
-        top = new JPanel(new GridLayout(2,3));
+        top = new JPanel(new GridLayout(2, 3));
         bottom = new JPanel(new FlowLayout());
         compare = new JButton("Compare");
         compare.addActionListener(this);
@@ -59,19 +59,19 @@ public class ClientGUI extends JFrame implements ActionListener{
         setting.add(history);
         setting.add(ipConfig);
         bar.add(setting);
-        topbtn1.setBackground(Color.getHSBColor(26,70,91));
-        topbtn2.setBackground(Color.getHSBColor(26,70,91));
-        topbtn3.setBackground(Color.getHSBColor(26,70,91));
-        background.setBackground(Color.getHSBColor(26,70,91));
-        top.setBackground(Color.getHSBColor(26,70,91));
-        topbtn1.setBackground(Color.getHSBColor(26,70,91));
-        topbtn2.setBackground(Color.getHSBColor(26,70,91));
-        topbtn3.setBackground(Color.getHSBColor(26,70,91));
-        bottom.setBackground(Color.getHSBColor(26,70,91));
+        topbtn1.setBackground(Color.getHSBColor(26, 70, 91));
+        topbtn2.setBackground(Color.getHSBColor(26, 70, 91));
+        topbtn3.setBackground(Color.getHSBColor(26, 70, 91));
+        background.setBackground(Color.getHSBColor(26, 70, 91));
+        top.setBackground(Color.getHSBColor(26, 70, 91));
+        topbtn1.setBackground(Color.getHSBColor(26, 70, 91));
+        topbtn2.setBackground(Color.getHSBColor(26, 70, 91));
+        topbtn3.setBackground(Color.getHSBColor(26, 70, 91));
+        bottom.setBackground(Color.getHSBColor(26, 70, 91));
 
         this.setJMenuBar(bar);
         this.add(background);
-        this.setSize(800,300);
+        this.setSize(800, 300);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -79,14 +79,14 @@ public class ClientGUI extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(pdf1)){
-            JFileChooser fileChooser = new JFileChooser ();
+        if (e.getSource().equals(pdf1)) {
+            JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose you PDF");
-            int selectedButton = fileChooser.showDialog ( null, "Open" );
-            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+            int selectedButton = fileChooser.showDialog(null, "Open");
+            if (selectedButton == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 String path = selectedFile.getAbsolutePath();
-                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
+                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.') {
                     pathPdf1.setText(path);
                 } else {
                     pathPdf1.setText(".pdf file only!");
@@ -94,45 +94,39 @@ public class ClientGUI extends JFrame implements ActionListener{
                 }
 
             }
-        }
-        else if (e.getSource().equals(pdf2)){
-            JFileChooser fileChooser = new JFileChooser ();
+        } else if (e.getSource().equals(pdf2)) {
+            JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose you PDF");
-            int selectedButton = fileChooser.showDialog ( null, "Open" );
-            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+            int selectedButton = fileChooser.showDialog(null, "Open");
+            if (selectedButton == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 String path = selectedFile.getAbsolutePath();
-                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
+                if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.') {
                     pathPdf2.setText(path);
-                }
-                else {
+                } else {
                     pathPdf2.setText(".pdf file only!");
                     JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        }
-        else if (e.getSource().equals(result)){
-            JFileChooser fileChooser = new JFileChooser (FileSystemView.getFileSystemView().getDefaultDirectory());
+        } else if (e.getSource().equals(result)) {
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
             fileChooser.setDialogTitle("Choose you folder for saving");
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            int selectedButton = fileChooser.showDialog ( null, "Open" );
-            if ( selectedButton == JFileChooser.APPROVE_OPTION ){
+            int selectedButton = fileChooser.showDialog(null, "Open");
+            if (selectedButton == JFileChooser.APPROVE_OPTION) {
                 if (SettingClient.getOS().indexOf("win") >= 0) {
                     // if client os is window
                     pathResult.setText(fileChooser.getSelectedFile().getPath());
-                }else {
+                } else {
                     // if client os is mac
                     pathResult.setText(fileChooser.getSelectedFile().getParent());
                 }
             }
-        }
-        else if (e.getSource().equals(history)){
+        } else if (e.getSource().equals(history)) {
             new HistoryGUI();
-        }
-        else if (e.getSource().equals(ipConfig)){
+        } else if (e.getSource().equals(ipConfig)) {
             new IpGUI();
-        }
-        else if (e.getSource().equals(compare)){
+        } else if (e.getSource().equals(compare)) {
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
             new CoparisoClient(SettingClient.getSERVERIP());
             // check ว่า file มีตัวตนอยู่ไหมด้วย และต้องเป็น pdf อย่างเดียวนะเออ
@@ -146,11 +140,11 @@ public class ClientGUI extends JFrame implements ActionListener{
             // เริ่มการเชื่อมต่อ และส่งไฟล์ให้ server ไปเทียบและรับกลับมา
             if (CoparisoClient.connect()) {
                 System.out.println("Compare Success!");
-            }else {
+            } else {
                 JOptionPane.showMessageDialog(this, CoparisoClient.getErrorMessage(), "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
-            
+
             // show text-only compare and overall compare
             viewer = new PDFViewer(
                     CoparisoClient.getOldTextOnlyFilePath(),

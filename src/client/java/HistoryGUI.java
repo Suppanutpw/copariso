@@ -5,13 +5,13 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class HistoryGUI extends JFrame implements ListSelectionListener {
-    private JTable t;
     private final String column[] = {"Date", "Old File", "New File"};
+    private JTable t;
     private String[][] data;
     private JLabel l;
     private PDFViewer viewer;
 
-    public HistoryGUI(){
+    public HistoryGUI() {
         this.setLayout(new BorderLayout());
         this.setTitle("Compare History");
 
@@ -19,7 +19,7 @@ public class HistoryGUI extends JFrame implements ListSelectionListener {
         l = new JLabel("Compare History");
 
         t = new JTable(data, column);
-        t.setBounds(30,40,200,300);
+        t.setBounds(30, 40, 200, 300);
         t.setDefaultEditor(Object.class, null);
         t.getSelectionModel().addListSelectionListener(this);
 
@@ -27,11 +27,12 @@ public class HistoryGUI extends JFrame implements ListSelectionListener {
         this.add(t);
 
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        this.setSize(500,150);
+        this.setLocationRelativeTo(null);
+        this.setSize(500, 150);
         this.setVisible(true);
     }
 
-    private String[][] createData(ArrayList<CmpHistory> history){
+    private String[][] createData(ArrayList<CmpHistory> history) {
         String[][] a = new String[history.size()][3];
         for (int i = 0; i < history.size(); i++) {
             a[i][0] = history.get(i).getDate();

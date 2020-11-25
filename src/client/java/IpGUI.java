@@ -9,10 +9,12 @@ public class IpGUI extends JFrame implements ActionListener {
     private JButton b;
     private Label l;
 
-    public IpGUI(){
-        tf = new JTextField(SettingClient.getSERVERIP());
+    public IpGUI() {
+        tf = new JTextField(SettingClient.getSERVERIP(), 20);
+
         b = new JButton("Submit");
         b.addActionListener(this);
+
         l = new Label("Set Host IP");
         this.setLayout(new BorderLayout());
 
@@ -26,8 +28,7 @@ public class IpGUI extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    public static boolean isValidInet4Address(String ip)
-    {
+    public static boolean isValidInet4Address(String ip) {
         String[] groups = ip.split("\\.");
 
         if (groups.length != 4)
@@ -39,7 +40,7 @@ public class IpGUI extends JFrame implements ActionListener {
                     .map(Integer::parseInt)
                     .filter(i -> (i >= 0 && i <= 255))
                     .count() == 4;
-        } catch(NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             return false;
         } catch (Exception ex) {
             return false;
@@ -48,7 +49,7 @@ public class IpGUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(b)){
+        if (e.getSource().equals(b)) {
             if (isValidInet4Address(tf.getText())) {
                 SettingClient.setSERVERIP(tf.getText());
                 this.dispose();

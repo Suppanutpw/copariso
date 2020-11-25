@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/client/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/server/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/client/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/socket/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

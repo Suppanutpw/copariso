@@ -12,6 +12,14 @@ import java.time.format.DateTimeFormatter;
 
 public class SettingServer {
 
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+    // Setting is the class for config process via GUI
+    // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
+    private static Path DEFAULT_RESULT_FILE_PATH;
+    private static PDColor OLD_DIF_COLOR;
+    private static PDColor NEW_DIF_COLOR;
+    private static String log = "================================================== open copariso server ==================================================\n";
+
     static {
         // ตั้งค่าของที่อยู่ไฟล์ผลลัพธ์
         // modify result path here!!!
@@ -21,14 +29,6 @@ public class SettingServer {
         SettingServer.setTextOldHighlightColor(255, 0, 0);
         SettingServer.setTextNewHighlightColor(0, 255, 0);
     }
-
-    // Setting is the class for config process via GUI
-    // DEFAULT_RESULT_PATH => path for save result file ex. /Users/mac/Desktop/
-    private static Path DEFAULT_RESULT_FILE_PATH;
-    private static PDColor OLD_DIF_COLOR;
-    private static PDColor NEW_DIF_COLOR;
-    private static String log = "================================================== open copariso server ==================================================\n";
-    private static final String OS = System.getProperty("os.name").toLowerCase();
 
     // setter & getter for saved difference file path
     public static String getDefaultResultPath() {

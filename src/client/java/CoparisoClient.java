@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CoparisoClient {
-    public final static int SOCKET_PORT = 13426;      // you may change this
+    public final static int SOCKET_PORT = 13426;
     public static String serverIp;
     public static String errorMessage;
     public static Path olderFilePath, newerFilePath;
@@ -27,7 +27,7 @@ public class CoparisoClient {
     }
 
     private static void init() {
-        view.addWindowListener(new WindowAdapter(){
+        view.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 SettingClient.writeDB();
@@ -127,6 +127,7 @@ public class CoparisoClient {
         newTextOnlyFileName2 = "newer_" + oldName + dateNow + newName + ".pdf";
         overallFileName = "overall_" + oldName + dateNow + newName + ".pdf";
     }
+
     public static void compare(String olderFilePath, String newerFilePath) {
         compare(Paths.get(olderFilePath), Paths.get(newerFilePath));
     }
