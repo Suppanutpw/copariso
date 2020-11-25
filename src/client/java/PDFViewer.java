@@ -17,13 +17,10 @@ public class PDFViewer {
     private JFrame frame;
     private PDFRenderer renderer, renderer2;
     private JPanel panelSelectedPage;
-    private int numberOfPages, numberOfPages2;
+    private int numberOfPages, numberOfPages2, width, height;
     private int currentPageIndex = 0, currentPageIndex2 = 0;
-    private int width;
-    private int height;
     private JTextField txtPageNumber, txtPageNumber2;
-    private JButton btnNextPage, btnNextPage2, btnTCompare;
-    private JButton btnPreviousPage, btnPreviousPage2, btnOCompare;
+    private JButton btnNextPage, btnNextPage2, btnTCompare, btnPreviousPage, btnPreviousPage2, btnOCompare;
 
     public PDFViewer(File document, File doc2) throws Exception {
         initialize(document, doc2);
@@ -65,7 +62,6 @@ public class PDFViewer {
         }
         panelSelectedPage.removeAll(); // Remove children
 
-
         PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width / 2, height);
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
@@ -88,7 +84,6 @@ public class PDFViewer {
         String pageText2 = String.format("Page: %d / %d", pageIndex2 + 1, numberOfPages2);
         txtPageNumber2.setText(pageText2);
 
-
         panelSelectedPage.revalidate();
         panelSelectedPage.repaint();
     }
@@ -110,7 +105,6 @@ public class PDFViewer {
         height = (int) (screenSize.getHeight() * ratio);
         width = (int) ((height * (realWidth + realWidth2) / realHeight));
 
-
         numberOfPages = doc.getNumberOfPages();
         numberOfPages2 = doc2.getNumberOfPages();
         renderer = new PDFRenderer(doc);
@@ -120,7 +114,7 @@ public class PDFViewer {
         System.out.println("New file = " + numberOfPages2 + " pages");
         frame = new JFrame();
         frame.setResizable(false);
-        frame.setTitle(file.getName() + " Compare with " + file2.getName());
+        frame.setTitle(file.getName() + " Compare with " + file2.getName()); //แก้ Title Text Compare ตรงนี้
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelControls = new JPanel();
@@ -254,7 +248,6 @@ public class PDFViewer {
         panelSelectedPage.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelSelectedPage.setLayout(new BorderLayout(0, 0));
 
-
         Component horizontalStrutViewRight = Box.createHorizontalStrut(10);
         horizontalBoxView.add(horizontalStrutViewRight);
 
@@ -292,16 +285,15 @@ public class PDFViewer {
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
         imagePanel.setPreferredSize(new Dimension(width, height));
+
         panelSelectedPage.add(imagePanel, BorderLayout.CENTER);
         currentPageIndex = pageIndex;
 
         String pageText = String.format("Page: %d / %d", pageIndex + 1, numberOfPages);
+
         txtPageNumber.setText(pageText);
-
-
         panelSelectedPage.revalidate();
         panelSelectedPage.repaint();
-
     }
 
     private void initialize(File file) throws Exception {
@@ -311,23 +303,19 @@ public class PDFViewer {
         // Getting/calculating screen dimensions...
         Float realWidth = new Float(doc.getPage(0).getMediaBox().getWidth());
         Float realHeight = new Float(doc.getPage(0).getMediaBox().getHeight());
-
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Double ratio = 0.8;
 
         height = (int) (screenSize.getHeight() * ratio);
         width = (int) ((height * realWidth) / realHeight);
-
         numberOfPages = doc.getNumberOfPages();
-
         renderer = new PDFRenderer(doc);
 
         System.out.println("Number of pages = " + numberOfPages);
 
         frame = new JFrame();
         frame.setResizable(false);
-        frame.setTitle("Overall Compare");
+        frame.setTitle("Overall Compare"); //แก้ Title Overall Compare ตรงนี้
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelControls = new JPanel();

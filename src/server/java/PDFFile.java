@@ -22,7 +22,6 @@ public class PDFFile {
     private PDFTextStripper pdfStripper;
     private PDDocument pdDoc;
     private COSDocument cosDoc;
-
     private File file;
 
     public PDFFile(String targetPath) {

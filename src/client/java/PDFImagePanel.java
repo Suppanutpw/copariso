@@ -5,8 +5,7 @@ import java.awt.*;
 public class PDFImagePanel extends JPanel {
 
     private Image image;
-    private int width;
-    private int height;
+    private int width, height;
 
     public PDFImagePanel(Image image, int width, int height) {
         this.image = image;

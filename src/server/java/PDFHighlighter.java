@@ -16,7 +16,6 @@ public class PDFHighlighter extends PDFTextStripper {
     private ArrayList tokenStream;
     private PDDocument document;
     private PDFFile pdfFile;
-
     private int wordCounter, pdfPosCounter;
 
     // check that is the highlight pen put on paper or not
@@ -156,7 +155,6 @@ public class PDFHighlighter extends PDFTextStripper {
         } finally {
             document.close();
         }
-
     }
 
     @Override

@@ -97,7 +97,6 @@ public class PDFCompareText {
         int pdfTextPosSize = pdfTextPos.size();
         ArrayList<PDFHighlightPos> pdfHighlightPos = new ArrayList<PDFHighlightPos>();
 
-
         // if {not subsequence words} at first of file
         if (pdfTextPos.get(pdfTextPosSize - 1) > 1) {
             pdfHighlightPos.add(new PDFHighlightPos(1, pdfTextPos.get(pdfTextPosSize - 1) - 1));

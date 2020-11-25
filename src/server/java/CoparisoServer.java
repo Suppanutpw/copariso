@@ -16,7 +16,7 @@ public class CoparisoServer {
 
     public final static int SOCKET_PORT = 13426;
     private static Socket sock;
-    private static ServerSocket servsock;
+    private static ServerSocket servSock;
     private static Path calPath;
     private static DataInputStream dis;
     private static DataOutputStream dos;
@@ -25,9 +25,7 @@ public class CoparisoServer {
     private static PDFTextOnlyCompare textOnlyCmp;
     private static PDFOverallCompare overallCmp;
     private static boolean isRunning;
-
     private static ServerGUI view;
-
 
     public static void main(String[] args) {
         // call GUI here
@@ -46,7 +44,7 @@ public class CoparisoServer {
         calPath = Paths.get(SettingServer.getDefaultResultPath());
         if (!Files.exists(calPath)) {
             try {
-                SettingServer.addLog("dir doesn't exists re-crate: " + calPath.toString());
+                SettingServer.addLog("dir doesn't exists re-create: " + calPath.toString());
                 Files.createDirectories(calPath);
             } catch (IOException ex) {
                 SettingServer.addLog("target dir not found : " + ex.getMessage());
@@ -55,12 +53,12 @@ public class CoparisoServer {
         }
 
         try {
-            servsock = new ServerSocket(SOCKET_PORT);
+            servSock = new ServerSocket(SOCKET_PORT);
 
             while (isRunning) {
                 SettingServer.addLog("server started waiting client connect...");
                 try {
-                    sock = servsock.accept();
+                    sock = servSock.accept();
                     sock.setSoTimeout(10000);
 
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
@@ -170,7 +168,7 @@ public class CoparisoServer {
         CoparisoServer.isRunning = false;
         try {
             try {
-                if (servsock != null) servsock.close();
+                if (servSock != null) servSock.close();
             } catch (IOException ex) {
                 SettingServer.addLog("Terminate Connection Error : " + ex.getMessage());
             }
