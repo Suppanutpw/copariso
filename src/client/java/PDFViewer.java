@@ -13,12 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -57,9 +52,8 @@ public class PDFViewer {
 				try {
 					/* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
 					new PDFViewer(new File(oldTextPath), new File(newTextPath));
-
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(frame, "result file not found", "Error Message", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});

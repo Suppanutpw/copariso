@@ -13,7 +13,7 @@ public class IpGUI extends JFrame implements ActionListener {
         tf = new JTextField(SettingClient.getSERVERIP());
         b = new JButton("Submit");
         b.addActionListener(this);
-        l = new Label("Enter ip");
+        l = new Label("Set Host IP");
         this.setLayout(new BorderLayout());
 
         this.add(l, BorderLayout.NORTH);

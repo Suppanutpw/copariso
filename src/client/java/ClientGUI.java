@@ -39,7 +39,7 @@ public class ClientGUI extends JFrame implements ActionListener{
         setting = new JMenu("Setting");
         history = new JMenuItem("History");
         history.addActionListener(this);
-        ipConfig = new JMenuItem("ip Config");
+        ipConfig = new JMenuItem("Host");
         ipConfig.addActionListener(this);
 
         //add component
@@ -89,8 +89,8 @@ public class ClientGUI extends JFrame implements ActionListener{
                 if (path.toLowerCase().endsWith(".pdf") && (path.charAt(path.length() - "pdf".length() - 1)) == '.'){
                     pathPdf1.setText(path);
                 } else {
-                    JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
                     pathPdf1.setText(".pdf file only!");
+                    JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             }
@@ -159,5 +159,9 @@ public class ClientGUI extends JFrame implements ActionListener{
             );
             viewer.showResult();
         }
+    }
+
+    public JLabel getPathResult() {
+        return pathResult;
     }
 }

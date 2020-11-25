@@ -34,6 +34,7 @@ public class CoparisoClient {
             }
         });
         SettingClient.readDB();
+        view.getPathResult().setText(SettingClient.getDefaultResultPath());
     }
 
     public static boolean connect() {
