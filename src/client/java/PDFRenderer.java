@@ -5,7 +5,7 @@ import org.apache.pdfbox.rendering.PageDrawerParameters;
 import java.io.IOException;
 
 public class PDFRenderer extends org.apache.pdfbox.rendering.PDFRenderer {
-    PDFRenderer(PDDocument document) {
+    public PDFRenderer(PDDocument document) {
         super(document);
     }
 

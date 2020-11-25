@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener {
-    private JPanel background, top, bottom, topbtn1, topbtn2, topbtn3;
+    private JPanel background, top, bottom, topBtn1, topBtn2, topBtn3;
     private JButton compare, pdf1, pdf2, result;
     private JLabel txt, pathPdf1, pathPdf2, pathResult;
     private JMenuBar bar;
@@ -18,9 +18,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         this.setTitle("Compariso");
         background = new JPanel(new BorderLayout());
         txt = new JLabel("Compariso", SwingConstants.CENTER);
-        topbtn1 = new JPanel(new FlowLayout());
-        topbtn2 = new JPanel(new FlowLayout());
-        topbtn3 = new JPanel(new FlowLayout());
+        topBtn1 = new JPanel(new FlowLayout());
+        topBtn2 = new JPanel(new FlowLayout());
+        topBtn3 = new JPanel(new FlowLayout());
         txt.setFont(new Font("Courier", Font.BOLD, 50));
         pathPdf1 = new JLabel("No file selected", SwingConstants.CENTER);
         pathPdf2 = new JLabel("No file selected", SwingConstants.CENTER);
@@ -46,12 +46,12 @@ public class ClientGUI extends JFrame implements ActionListener {
         top.add(pathPdf1);
         top.add(pathPdf2);
         top.add(pathResult);
-        topbtn1.add(pdf1);
-        topbtn2.add(pdf2);
-        topbtn3.add(result);
-        top.add(topbtn1);
-        top.add(topbtn2);
-        top.add(topbtn3);
+        topBtn1.add(pdf1);
+        topBtn2.add(pdf2);
+        topBtn3.add(result);
+        top.add(topBtn1);
+        top.add(topBtn2);
+        top.add(topBtn3);
         bottom.add(compare);
         background.add(txt, BorderLayout.NORTH);
         background.add(top, BorderLayout.CENTER);
@@ -59,14 +59,14 @@ public class ClientGUI extends JFrame implements ActionListener {
         setting.add(history);
         setting.add(ipConfig);
         bar.add(setting);
-        topbtn1.setBackground(Color.getHSBColor(26, 70, 91));
-        topbtn2.setBackground(Color.getHSBColor(26, 70, 91));
-        topbtn3.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn1.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn2.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn3.setBackground(Color.getHSBColor(26, 70, 91));
         background.setBackground(Color.getHSBColor(26, 70, 91));
         top.setBackground(Color.getHSBColor(26, 70, 91));
-        topbtn1.setBackground(Color.getHSBColor(26, 70, 91));
-        topbtn2.setBackground(Color.getHSBColor(26, 70, 91));
-        topbtn3.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn1.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn2.setBackground(Color.getHSBColor(26, 70, 91));
+        topBtn3.setBackground(Color.getHSBColor(26, 70, 91));
         bottom.setBackground(Color.getHSBColor(26, 70, 91));
 
         this.setJMenuBar(bar);

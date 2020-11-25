@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class PDFPageDrawer extends PageDrawer {
 
-    PDFPageDrawer(PageDrawerParameters parameters) throws IOException {
+    public PDFPageDrawer(PageDrawerParameters parameters) throws IOException {
         super(parameters);
     }
 
