@@ -25,9 +25,9 @@ public class ClientGUI extends JFrame implements ActionListener {
         pathPdf1 = new JLabel("No file selected", SwingConstants.CENTER);
         pathPdf2 = new JLabel("No file selected", SwingConstants.CENTER);
         pathResult = new JLabel("No directory selected", SwingConstants.CENTER);
-        pdf1 = new JButton("Open");
-        pdf2 = new JButton("Open");
-        result = new JButton("Open");
+        pdf1 = new JButton("Choose older file");
+        pdf2 = new JButton("Choose newer file");
+        result = new JButton("Save");
         pdf1.addActionListener(this);
         pdf2.addActionListener(this);
         result.addActionListener(this);
