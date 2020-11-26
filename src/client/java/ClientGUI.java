@@ -13,6 +13,8 @@ public class ClientGUI extends JFrame implements ActionListener {
     private JMenu setting;
     private JMenuItem history, ipConfig;
     private PDFViewer viewer;
+    private HistoryGUI historyView;
+    private IpGUI ipView;
 
     public ClientGUI() {
         this.setTitle("Compariso");
@@ -123,9 +125,9 @@ public class ClientGUI extends JFrame implements ActionListener {
                 }
             }
         } else if (e.getSource().equals(history)) {
-            new HistoryGUI();
+            historyView = new HistoryGUI();
         } else if (e.getSource().equals(ipConfig)) {
-            new IpGUI();
+            ipView = new IpGUI();
         } else if (e.getSource().equals(compare)) {
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
             new CoparisoClient(SettingClient.getSERVERIP());
