@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class IpGUI extends JFrame implements ActionListener {
+
     private JTextField tf;
     private JButton b;
     private Label l;

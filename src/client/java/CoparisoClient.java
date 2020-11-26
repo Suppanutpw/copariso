@@ -1,6 +1,7 @@
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,7 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CoparisoClient {
-    public final static int SOCKET_PORT = 13426;
+
+    public final static int SOCKET_PORT = 6207;
     public static String serverIp;
     public static String errorMessage;
     public static Path olderFilePath, newerFilePath;
@@ -53,8 +55,9 @@ public class CoparisoClient {
                 return false;
             }
 
-            sock = new Socket(serverIp, SOCKET_PORT);
-            sock.setSoTimeout(10000);
+            sock = new Socket();
+            sock.connect(new InetSocketAddress(serverIp, SOCKET_PORT), 3000);
+            sock.setSoTimeout(30000);
             transfer = new FileTransfer(sock);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));

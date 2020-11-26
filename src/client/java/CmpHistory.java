@@ -2,6 +2,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CmpHistory {
+
     private Path oldPath;
     private Path newPath;
     private Path oldTextOnlyPath;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CoparisoServer {
 
-    public final static int SOCKET_PORT = 13426;
+    public final static int SOCKET_PORT = 6207;
     private static Socket sock;
     private static ServerSocket servSock;
     private static Path calPath;
@@ -60,7 +60,7 @@ public class CoparisoServer {
                 SettingServer.addLog("server started waiting client connect...");
                 try {
                     sock = servSock.accept();
-                    sock.setSoTimeout(10000);
+                    sock.setSoTimeout(30000);
                     transfer = new FileTransfer(sock);
 
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));

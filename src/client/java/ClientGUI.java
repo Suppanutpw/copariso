@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ClientGUI extends JFrame implements ActionListener {
+
     private JPanel background, top, bottom, topBtn1, topBtn2, topBtn3;
     private JButton compare, pdf1, pdf2, result;
     private JLabel txt, pathPdf1, pathPdf2, pathResult;

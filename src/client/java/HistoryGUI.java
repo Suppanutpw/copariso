@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class HistoryGUI extends JFrame implements ListSelectionListener {
+    
     private final String column[] = {"Date", "Old File", "New File"};
     private JTable t;
     private String[][] data;
