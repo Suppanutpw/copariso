@@ -8,7 +8,7 @@ public class FileTransfer {
     private FileInputStream fis;
     private int bufferSize;
 
-    FileTransfer(Socket socket) {
+    public FileTransfer(Socket socket) {
         this.socket = socket;
     }
 

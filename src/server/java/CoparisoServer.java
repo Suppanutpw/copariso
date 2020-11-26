@@ -26,6 +26,7 @@ public class CoparisoServer {
     private static PDFOverallCompare overallCmp;
     private static boolean isRunning;
     private static ServerGUI view;
+    private static FileTransfer transfer;
 
     public static void main(String[] args) {
         // call GUI here
@@ -60,6 +61,7 @@ public class CoparisoServer {
                 try {
                     sock = servSock.accept();
                     sock.setSoTimeout(10000);
+                    transfer = new FileTransfer(sock);
 
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
                     dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
@@ -78,7 +80,7 @@ public class CoparisoServer {
                     files.add(new File(newerFilePath));
 
                     // receive file files[0] is older and file[1] is newer
-                    if (new FileTransfer(sock).receiveFile(files, dis, true)) {
+                    if (transfer.receiveFile(files, dis, true)) {
                         SettingServer.addLog("Socket Server Received File from Client");
                     } else {
                         SettingServer.addLog("Socket Server Can't Receive File From Client");
@@ -126,7 +128,7 @@ public class CoparisoServer {
                     files.add(overall);
 
                     // send file
-                    if (new FileTransfer(sock).sendFile(files, dos)) {
+                    if (transfer.sendFile(files, dos)) {
                         SettingServer.addLog("Socket Server Send File success");
                     } else {
                         SettingServer.addLog("Socket Server Can't Send File to Client");

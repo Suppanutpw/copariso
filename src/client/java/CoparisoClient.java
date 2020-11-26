@@ -15,6 +15,7 @@ public class CoparisoClient {
     public static Path olderFilePath, newerFilePath;
     public static String oldTextOnlyFileName, newTextOnlyFileName2, overallFileName;
     private static ClientGUI view;
+    private static FileTransfer transfer;
     // overwrite the one used by server...
 
     public CoparisoClient(String serverIp) {
@@ -54,13 +55,14 @@ public class CoparisoClient {
 
             sock = new Socket(serverIp, SOCKET_PORT);
             sock.setSoTimeout(10000);
+            transfer = new FileTransfer(sock);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
 
             System.out.println("Connecting...");
 
             // check file transfer via socket
-            if (new FileTransfer(sock).sendFile(files, dos)) {
+            if (transfer.sendFile(files, dos)) {
                 System.out.println("Socket Client Send Compare Request To Server...");
             } else {
                 errorMessage = "Socket Client Can't Send File To Server";
@@ -72,7 +74,7 @@ public class CoparisoClient {
             files.add(new File(getOldTextOnlyFilePath()));
             files.add(new File(getNewTextOnlyFilePath()));
             files.add(new File(getOverallFilePath()));
-            if (new FileTransfer(sock).receiveFile(files, dis, false)) {
+            if (transfer.receiveFile(files, dis, false)) {
                 System.out.println("Compare Success!");
             } else {
                 errorMessage = "Socket Client Can't Receive File From Server";
