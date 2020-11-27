@@ -1,6 +1,8 @@
 public class PDFTextOnlyCompare {
 
     private String errorMessage;
+    private PDFCompareText cmpText;
+    private PDFHighlighter highlighterFile1, highlighterFile2;
 
     public boolean pdfCompare(PDFFile file1, PDFFile file2) {
         try {
@@ -9,13 +11,16 @@ public class PDFTextOnlyCompare {
             // ex. new-oldFileName-newFileName.pdf
 
             // find highlight position in word range form
-            new PDFCompareText(file1, file2).findNotMatchPos();
+            cmpText = new PDFCompareText(file1, file2);
+            cmpText.findNotMatchPos();
 
             // you can share 2 PDFHighlighter.highlight() to each Thread
-            new PDFHighlighter(file1).highlight(SettingServer.getOldDifColor());
+            highlighterFile1 = new PDFHighlighter(file1);
+            highlighterFile1.highlight(SettingServer.getOldDifColor());
             SettingServer.addLog("Copariso created old-new text-only compare file : " + file1.getResultPath());
 
-            new PDFHighlighter(file2).highlight(SettingServer.getNewDifColor());
+            highlighterFile2 = new PDFHighlighter(file2);
+            highlighterFile2.highlight(SettingServer.getNewDifColor());
             SettingServer.addLog("Copariso created new-old text-only compare file : " + file2.getResultPath());
 
             // if there no error here so return null
