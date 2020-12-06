@@ -3,12 +3,13 @@ import java.nio.file.Paths;
 
 public class CmpHistory {
 
-    private Path oldPath;
-    private Path newPath;
-    private Path oldTextOnlyPath;
-    private Path newTextOnlyPath;
-    private Path overallPath;
-    private String date;
+    // DB Model there have 6 field in this DB (it will store in clientDB.json)
+    private Path oldPath; // user selected old file path
+    private Path newPath; // user selected new file path
+    private Path oldTextOnlyPath; // result for old text-only compare path
+    private Path newTextOnlyPath; // result for new text-only compare path
+    private Path overallPath; // result for overall compare path
+    private String date; // time that user compare these files
 
     public CmpHistory(String date, String oldPath, String newPath, String oldTextOnlyPath, String newTextOnlyPath, String overallPath) {
         this.date = date;

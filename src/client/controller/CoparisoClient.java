@@ -18,7 +18,6 @@ public class CoparisoClient {
     public static String oldTextOnlyFileName, newTextOnlyFileName2, overallFileName;
     private static ClientGUI view;
     private static FileTransfer transfer;
-    // overwrite the one used by server...
 
     public CoparisoClient(String serverIp) {
         this.serverIp = serverIp;
@@ -30,6 +29,7 @@ public class CoparisoClient {
     }
 
     private static void init() {
+        // do something after program start just once!!
         view.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -44,20 +44,20 @@ public class CoparisoClient {
         Socket sock = null;
 
         try {
-            // send file to server
+            // send user selected file to server
             ArrayList<File> files = new ArrayList<File>(2);
             files.add(new File(olderFilePath.toString()));
             files.add(new File(newerFilePath.toString()));
 
-            // if there have no file there
+            // if there have no file there set error message for popup
             if (!(files.get(0).exists() && files.get(1).exists())) {
                 errorMessage = "File Not Found!";
                 return false;
             }
 
             sock = new Socket();
-            sock.connect(new InetSocketAddress(serverIp, SOCKET_PORT), 3000);
-            sock.setSoTimeout(30000);
+            sock.connect(new InetSocketAddress(serverIp, SOCKET_PORT), 3000); // fix connection timeout
+            sock.setSoTimeout(30000); // fix operation timeout
             transfer = new FileTransfer(sock);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
@@ -72,7 +72,7 @@ public class CoparisoClient {
                 return false;
             }
 
-            // send file from server
+            // receive 3 result files from server via FileTransfer
             files = new ArrayList<File>(3);
             files.add(new File(getOldTextOnlyFilePath()));
             files.add(new File(getNewTextOnlyFilePath()));
@@ -84,7 +84,7 @@ public class CoparisoClient {
                 return false;
             }
 
-            // save All Compare File in database
+            // save All Compare File in database (Model CmpHistory)
             LocalDateTime dateTime = LocalDateTime.now();
             String dateNow = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
@@ -120,7 +120,7 @@ public class CoparisoClient {
         CoparisoClient.olderFilePath = olderFilePath;
         CoparisoClient.newerFilePath = newerFilePath;
 
-        // get file name only
+        // get file name only and store for name result file
         String oldName = olderFilePath.getFileName().toString().split("[.]")[0];
         String newName = newerFilePath.getFileName().toString().split("[.]")[0];
 
@@ -137,6 +137,7 @@ public class CoparisoClient {
         compare(Paths.get(olderFilePath), Paths.get(newerFilePath));
     }
 
+    // you can get errorMessage if there have any problem there
     public static String getErrorMessage() {
         return errorMessage;
     }

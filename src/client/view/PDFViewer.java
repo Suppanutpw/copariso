@@ -32,7 +32,6 @@ public class PDFViewer {
         PDFViewer.overallPath = overallPath;
     }
 
-    //////////////////////////////////////////////////////////
     public PDFViewer(File document) throws Exception {
         initialize(document);
     }

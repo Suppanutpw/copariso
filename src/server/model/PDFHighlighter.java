@@ -67,11 +67,12 @@ public class PDFHighlighter extends PDFTextStripper {
             tokenStream = ((PDFHighlighter) stripper).getTokenStream();
             coordinates = ((PDFHighlighter) stripper).getCoordinates();
 
-            // Print collected information
-            /* System.out.println("========== HIGHLIGHTER RESULT " + pdfFile.getTargetFileName() + " ==========");
-            System.out.println(tokenStream);
-            System.out.println(tokenStream.size());
-            System.out.println(coordinates.size()); */
+            /*  // Print collected coordinates information for debug
+                System.out.println("========== HIGHLIGHTER RESULT " + pdfFile.getTargetFileName() + " ==========");
+                System.out.println(tokenStream);
+                System.out.println(tokenStream.size());
+                System.out.println(coordinates.size());
+            */
 
             double page_height;
             double page_width;

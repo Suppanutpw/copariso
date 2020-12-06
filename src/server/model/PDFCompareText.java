@@ -46,6 +46,7 @@ public class PDFCompareText {
                 // Put current character in result
                 lcs[index - 1] = X.charAt(i - 1);
 
+                // save match subsequence position for calculate opposite highlight pos
                 pdfTextPos1.add(i - 1);
                 pdfTextPos2.add(j - 1);
 

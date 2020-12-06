@@ -94,6 +94,7 @@ public class CoparisoServer {
                         SettingServer.addLog(file2.getErrorMessage());
                     }
 
+                    // set unique file name with date for fix duplicate file name
                     file1.setResultFileName("text-only-old_" + dateNow + ".pdf");
                     file2.setResultFileName("text-only-new_" + dateNow + ".pdf");
 
@@ -104,7 +105,8 @@ public class CoparisoServer {
                     // file name have no .pdf cause of PdfComparator
                     overallCmp.setOverallFileName("overall_" + dateNow);
 
-                    // compare two file
+                    // compare two file that receive from client
+                    // do not use short circuit to do all compare, even through there have an error
                     if (overallCmp.pdfCompare(file1, file2) & textOnlyCmp.pdfCompare(file1, file2)) {
                         SettingServer.addLog("Copariso Server PDF Compare success");
                     } else {
@@ -127,7 +129,7 @@ public class CoparisoServer {
                     files.add(textOnly2);
                     files.add(overall);
 
-                    // send file
+                    // send file to client via FileTransfer
                     if (transfer.sendFile(files, dos)) {
                         SettingServer.addLog("Socket Server Send File success");
                     } else {
