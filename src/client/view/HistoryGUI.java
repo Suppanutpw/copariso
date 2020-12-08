@@ -20,12 +20,14 @@ public class HistoryGUI extends JFrame implements ListSelectionListener {
         l = new JLabel("Compare History");
 
         t = new JTable(data, column);
-        t.setBounds(30, 40, 200, 300);
         t.setDefaultEditor(Object.class, null);
         t.getSelectionModel().addListSelectionListener(this);
 
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(t);
+
         this.add(l, BorderLayout.NORTH);
-        this.add(t);
+        this.add(scrollPane);
 
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setLocationRelativeTo(null);
