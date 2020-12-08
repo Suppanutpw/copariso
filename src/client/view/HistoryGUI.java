@@ -34,7 +34,7 @@ public class HistoryGUI extends JFrame implements ListSelectionListener {
         this.setSize(500, 150);
         this.setVisible(true);
     }
-
+    //method for creating data for table
     private String[][] createData(ArrayList<CmpHistory> history) {
         String[][] a = new String[history.size()][3];
         for (int i = 0; i < history.size(); i++) {
@@ -44,7 +44,7 @@ public class HistoryGUI extends JFrame implements ListSelectionListener {
         }
         return a;
     }
-
+    //for accessing past comparison by clicking on table data
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
