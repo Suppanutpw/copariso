@@ -62,7 +62,7 @@ public class PDFViewer {
         }
         panelSelectedPage.removeAll(); // Remove children
 
-        //set page layout&border
+        //create pdf panel & set page layout&border
         PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width / 2, height);
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
@@ -175,10 +175,10 @@ public class PDFViewer {
             public void actionPerformed(ActionEvent e) {
 
                 panelSelectedPage.removeAll(); //remove child
-                //close old window
+                //close old compare window
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 try {
-                    //get PDF file path & open new window
+                    //get PDF file path & open new compare window
                     new PDFViewer(new File(overallPath));
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -277,7 +277,7 @@ public class PDFViewer {
         }
         panelSelectedPage.removeAll(); // Remove children
 
-        //create pdf panel
+        //create pdf panel & set page layout&border
         PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width, height);
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
@@ -310,7 +310,7 @@ public class PDFViewer {
 
         frame = new JFrame();
         frame.setResizable(false);
-        frame.setTitle("Overall Compare"); //แก้ Title Overall Compare ตรงนี้
+        frame.setTitle("Overall Compare"); //set title name
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelControls = new JPanel();
@@ -376,10 +376,10 @@ public class PDFViewer {
         btnTCompare.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 panelSelectedPage.removeAll();
-                //close old window
+                //close old compare window
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 try {
-                    //get PDF file paths and show new window
+                    //get PDF file paths and show new compare window
                     new PDFViewer(new File(oldTextPath), new File(newTextPath));
                 } catch (Exception exception) {
                     exception.printStackTrace();
