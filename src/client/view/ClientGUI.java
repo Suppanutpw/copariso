@@ -82,6 +82,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //call file chooser for 1st pdf path
         if (e.getSource().equals(pdf1)) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose you PDF");
@@ -97,6 +98,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                 }
 
             }
+            //call file chooser for 2nd pdf path
         } else if (e.getSource().equals(pdf2)) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose you PDF");
@@ -111,6 +113,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "please select .pdf file", "Error Message", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+            //call file chooser for save path
         } else if (e.getSource().equals(result)) {
             JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
             fileChooser.setDialogTitle("Choose you folder for saving");
@@ -125,10 +128,14 @@ public class ClientGUI extends JFrame implements ActionListener {
                     pathResult.setText(fileChooser.getSelectedFile().getParent());
                 }
             }
+            //call history gui
         } else if (e.getSource().equals(history)) {
             historyView = new HistoryGUI();
+            //call ip-config gui
         } else if (e.getSource().equals(ipConfig)) {
             ipView = new IpGUI();
+            //start comparing
+            //only starts when all paths are set
         } else if (e.getSource().equals(compare)) {
             // ต้องรับจาก ip ของ server user มาก่อน (จากตั้งค่าก็ได้ไปเพิ่มใน SettingClient)
             new CoparisoClient(SettingClient.getSERVERIP());
