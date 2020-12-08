@@ -40,7 +40,7 @@ public class PDFViewer {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    /* Edit path here!!!  รับ Path ตั้งต้นตรงนี้  */
+                    //get PDF file path & open new window
                     new PDFViewer(new File(oldTextPath), new File(newTextPath));
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(frame, "result file not found", "Error Message", JOptionPane.INFORMATION_MESSAGE);
@@ -50,6 +50,7 @@ public class PDFViewer {
     }
 
     private void selectPage(int pageIndex, int pageIndex2) {
+        //create images
         BufferedImage renderImage = null;
         BufferedImage renderImage2 = null;
 
@@ -61,6 +62,7 @@ public class PDFViewer {
         }
         panelSelectedPage.removeAll(); // Remove children
 
+        //set page layout&border
         PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width / 2, height);
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
@@ -88,38 +90,34 @@ public class PDFViewer {
     }
 
     private void initialize(File file, File file2) throws Exception {
-
+        //load PDF files
         PDDocument doc = PDDocument.load(file);
         PDDocument doc2 = PDDocument.load(file2);
 
-        // Getting/calculating screen dimensions...
+        //calculating screen dimension
         Float realWidth = new Float(doc.getPage(0).getMediaBox().getWidth());
         Float realHeight = new Float(doc.getPage(0).getMediaBox().getHeight());
         Float realWidth2 = new Float(doc2.getPage(0).getMediaBox().getWidth());
-        Float realHeight2 = new Float(doc2.getPage(0).getMediaBox().getHeight());
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Double ratio = 0.8;
-
         height = (int) (screenSize.getHeight() * ratio);
         width = (int) ((height * (realWidth + realWidth2) / realHeight));
 
+        //create component & add component
         numberOfPages = doc.getNumberOfPages();
         numberOfPages2 = doc2.getNumberOfPages();
         renderer = new PDFRenderer(doc);
         renderer2 = new PDFRenderer(doc2);
-
-        System.out.println("Old file = " + numberOfPages + " pages");
-        System.out.println("New file = " + numberOfPages2 + " pages");
         frame = new JFrame();
         frame.setResizable(false);
-        frame.setTitle(file.getName() + " Compare with " + file2.getName()); //แก้ Title Text Compare ตรงนี้
+        frame.setTitle(file.getName() + " Compare with " + file2.getName()); //set title name
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panelControls = new JPanel();
         frame.getContentPane().add(panelControls, BorderLayout.SOUTH);
         panelControls.setLayout(new BorderLayout(0, 0));
 
+        //creat&add space between component
         Component verticalStrutTop = Box.createVerticalStrut(10);
         panelControls.add(verticalStrutTop, BorderLayout.NORTH);
 
@@ -135,6 +133,7 @@ public class PDFViewer {
         btnPreviousPage = new JButton("Previous Page");
         btnPreviousPage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex > 0) {
                     selectPage(currentPageIndex - 1, currentPageIndex2);
                 }
@@ -142,6 +141,7 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnPreviousPage);
 
+        //creat&add space between component
         Component horizontalStrutLeft_2 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutLeft_2);
 
@@ -158,6 +158,7 @@ public class PDFViewer {
         btnNextPage = new JButton("Next Page");
         btnNextPage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex < (numberOfPages - 1)) {
                     selectPage(currentPageIndex + 1, currentPageIndex2);
                 }
@@ -165,6 +166,7 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnNextPage);
 
+        //creat&add space between component
         Component horizontalStrutLeft_3 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutLeft_3);
 
@@ -172,10 +174,11 @@ public class PDFViewer {
         btnOCompare.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                panelSelectedPage.removeAll();
+                panelSelectedPage.removeAll(); //remove child
+                //close old window
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 try {
-                    /* แก้ Path Overall Compare ตรงนี้ !!!!! */
+                    //get PDF file path & open new window
                     new PDFViewer(new File(overallPath));
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -186,12 +189,15 @@ public class PDFViewer {
             }
         });
         horizontalBoxControls.add(btnOCompare);
+
+        //creat&add space between component
         Component horizontalStrutLeft_8 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutLeft_8);
 
         btnPreviousPage2 = new JButton("Previous Page");
         btnPreviousPage2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex2 > 0) {
                     selectPage(currentPageIndex, currentPageIndex2 - 1);
                 }
@@ -215,6 +221,7 @@ public class PDFViewer {
         btnNextPage2 = new JButton("Next Page");
         btnNextPage2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex2 < (numberOfPages2 - 1)) {
                     selectPage(currentPageIndex, currentPageIndex2 + 1);
                 }
@@ -222,6 +229,7 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnNextPage2);
 
+        //creat&add space between component
         Component horizontalStrutRight_1 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutRight_1);
 
@@ -252,18 +260,6 @@ public class PDFViewer {
 
         selectPage(0, 0);
 
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                try {
-                    doc.close();
-                    doc2.close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-            }
-        });
-
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -271,6 +267,7 @@ public class PDFViewer {
     }
 
     private void selectPage(int pageIndex) {
+        //create image
         BufferedImage renderImage = null;
 
         try {
@@ -280,6 +277,7 @@ public class PDFViewer {
         }
         panelSelectedPage.removeAll(); // Remove children
 
+        //create pdf panel
         PDFImagePanel imagePanel = new PDFImagePanel(renderImage, width, height);
         imagePanel.setBorder(new EmptyBorder(0, 0, 0, 0));
         imagePanel.setLayout(new CardLayout(0, 0));
@@ -287,7 +285,7 @@ public class PDFViewer {
 
         panelSelectedPage.add(imagePanel, BorderLayout.CENTER);
         currentPageIndex = pageIndex;
-
+        //show pageindex
         String pageText = String.format("Page: %d / %d", pageIndex + 1, numberOfPages);
 
         txtPageNumber.setText(pageText);
@@ -296,10 +294,10 @@ public class PDFViewer {
     }
 
     private void initialize(File file) throws Exception {
-
+        //load pdf file
         PDDocument doc = PDDocument.load(file);
 
-        // Getting/calculating screen dimensions...
+        //calculating screen dimension
         Float realWidth = new Float(doc.getPage(0).getMediaBox().getWidth());
         Float realHeight = new Float(doc.getPage(0).getMediaBox().getHeight());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -310,8 +308,6 @@ public class PDFViewer {
         numberOfPages = doc.getNumberOfPages();
         renderer = new PDFRenderer(doc);
 
-        System.out.println("Number of pages = " + numberOfPages);
-
         frame = new JFrame();
         frame.setResizable(false);
         frame.setTitle("Overall Compare"); //แก้ Title Overall Compare ตรงนี้
@@ -321,6 +317,7 @@ public class PDFViewer {
         frame.getContentPane().add(panelControls, BorderLayout.SOUTH);
         panelControls.setLayout(new BorderLayout(0, 0));
 
+        //creat&add space between component
         Component verticalStrutTop = Box.createVerticalStrut(10);
         panelControls.add(verticalStrutTop, BorderLayout.NORTH);
 
@@ -333,9 +330,11 @@ public class PDFViewer {
         Component horizontalStrutLeft_1 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutLeft_1);
 
+        //add event
         btnPreviousPage = new JButton("Previous Page");
         btnPreviousPage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex > 0) {
                     selectPage(currentPageIndex - 1);
                 }
@@ -343,6 +342,7 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnPreviousPage);
 
+        //creat&add space between component
         Component horizontalStrutLeft_2 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutLeft_2);
 
@@ -353,12 +353,14 @@ public class PDFViewer {
         txtPageNumber.setPreferredSize(new Dimension(50, txtPageNumber.getPreferredSize().width));
         txtPageNumber.setColumns(10);
 
+        //creat&add space between component
         Component horizontalStrutRight_2 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutRight_2);
 
         btnNextPage = new JButton("Next Page");
         btnNextPage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                //update current&index pages
                 if (currentPageIndex < (numberOfPages - 1)) {
                     selectPage(currentPageIndex + 1);
                 }
@@ -366,17 +368,18 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnNextPage);
 
+        //creat&add space between component
         Component horizontalStrutRight_1 = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutRight_1);
 
         btnTCompare = new JButton("Text Compare");
         btnTCompare.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 panelSelectedPage.removeAll();
+                //close old window
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 try {
-                    /* แก้ Path ตรงนี้ Text Compare ตรงนี้!!!!! */
+                    //get PDF file paths and show new window
                     new PDFViewer(new File(oldTextPath), new File(newTextPath));
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -388,6 +391,7 @@ public class PDFViewer {
         });
         horizontalBoxControls.add(btnTCompare);
 
+        //creat&add space between component
         Component horizontalStrutRight = Box.createHorizontalStrut(10);
         horizontalBoxControls.add(horizontalStrutRight);
 
@@ -413,6 +417,7 @@ public class PDFViewer {
         panelSelectedPage.setBorder(new EmptyBorder(0, 0, 0, 0));
         panelSelectedPage.setLayout(new BorderLayout(0, 0));
 
+        //creat&add space between component
         Component horizontalStrutViewRight = Box.createHorizontalStrut(10);
         horizontalBoxView.add(horizontalStrutViewRight);
 

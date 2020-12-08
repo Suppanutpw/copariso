@@ -11,6 +11,7 @@ public class PDFRenderer extends org.apache.pdfbox.rendering.PDFRenderer {
 
     @Override
     protected PageDrawer createPageDrawer(PageDrawerParameters parameters) throws IOException {
+        //returns a new pagedrawer instance
         return new PDFPageDrawer(parameters);
     }
 }
