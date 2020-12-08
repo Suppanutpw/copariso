@@ -60,7 +60,7 @@ public class CoparisoServer {
                 SettingServer.addLog("server started waiting client connect...");
                 try {
                     sock = servSock.accept();
-                    sock.setSoTimeout(30000);
+                    sock.setSoTimeout(60000);
                     transfer = new FileTransfer(sock);
 
                     dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));

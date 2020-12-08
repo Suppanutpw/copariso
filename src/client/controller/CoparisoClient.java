@@ -56,8 +56,8 @@ public class CoparisoClient {
             }
 
             sock = new Socket();
-            sock.connect(new InetSocketAddress(serverIp, SOCKET_PORT), 3000); // fix connection timeout
-            sock.setSoTimeout(30000); // fix operation timeout
+            sock.connect(new InetSocketAddress(serverIp, SOCKET_PORT), 10000); // fix connection timeout
+            sock.setSoTimeout(60000); // fix operation timeout
             transfer = new FileTransfer(sock);
             DataInputStream dis = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(sock.getOutputStream()));
