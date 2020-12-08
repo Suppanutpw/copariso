@@ -11,7 +11,7 @@ public class PDFCompareText {
         this.file2 = file2;
     }
 
-    // Function to return all LCS of sub-strings X[0..m-1], Y[0..n-1]
+    // Function to return all LCS of X[0..m-1], Y[0..n-1] but it not an answer!!! you have to reverse it
     public String LCS(String X, String Y, int m, int n) {
         int[][] L = new int[m + 1][n + 1];
 

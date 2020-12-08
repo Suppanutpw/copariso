@@ -49,14 +49,14 @@ public class PDFHighlighter extends PDFTextStripper {
     public void highlight(PDColor textColor) throws IOException {
 
         try {
-            //Loading an existing document
+            // Loading an existing document
             File file = new File(pdfFile.getTargetPath());
             document = PDDocument.load(file);
 
-            //extended PDFTextStripper class new object
+            // extended PDFTextStripper class new object
             PDFTextStripper stripper = new PDFHighlighter(pdfFile);
 
-            //Get number of pages
+            // Get number of pages
             int number_of_pages = document.getDocumentCatalog().getPages().getCount();
 
             // The method writeText will invoke an override version of writeString
@@ -79,40 +79,40 @@ public class PDFHighlighter extends PDFTextStripper {
             double width, height, minx, maxx, miny, maxy;
             int rotation;
 
-            //scan each page and highlight all the words inside them
+            // scan each page and highlight all the words inside them
             for (int page_index = 0; page_index < number_of_pages; page_index++) {
-                //get current page
+                // get current page
                 PDPage page = document.getPage(page_index);
 
-                //Get annotations for the selected page
+                // Get annotations for the selected page
                 List<PDAnnotation> annotations = page.getAnnotations();
 
-                //Page height and width
+                // Page height and width
                 page_height = page.getMediaBox().getHeight();
                 page_width = page.getMediaBox().getWidth();
 
-                //Scan collected coordinates
+                // Scan collected coordinates
                 for (int i = 0; i < coordinates.size(); i++) {
-                    //if the current coordinates are not related to the current
-                    //page, ignore them
+                    // if the current coordinates are not related to the current
+                    // page, ignore them
                     if ((int) coordinates.get(i)[4] != (page_index + 1))
                         continue;
                     else {
-                        //get rotation of the page...portrait..landscape..
+                        // get rotation of the page...portrait..landscape..
                         rotation = (int) coordinates.get(i)[7];
 
-                        //page rotated of 90degrees
+                        // page rotated of 90degrees
                         if (rotation == 90) {
                             height = coordinates.get(i)[5];
                             width = coordinates.get(i)[6];
                             width = (page_height * width) / page_width;
 
-                            //define coordinates of a rectangle
+                            // define coordinates of a rectangle
                             maxx = coordinates.get(i)[1];
                             minx = coordinates.get(i)[1] - height;
                             miny = coordinates.get(i)[0];
                             maxy = coordinates.get(i)[0] + width;
-                        } else //i should add here the cases -90/-180 degrees
+                        } else // i should add here the cases -90/-180 degrees
                         {
                             height = coordinates.get(i)[5];
                             minx = coordinates.get(i)[0];
@@ -121,10 +121,10 @@ public class PDFHighlighter extends PDFTextStripper {
                             maxy = page_height - coordinates.get(i)[3] + height;
                         }
 
-                        //Add an annotation for each scanned word
+                        // Add an annotation for each scanned word
                         PDAnnotationTextMarkup txtMark = new PDAnnotationTextMarkup(PDAnnotationTextMarkup.SUB_TYPE_HIGHLIGHT);
                         txtMark.setColor(textColor);
-                        txtMark.setConstantOpacity((float) 0.3); // 30% transparent
+                        txtMark.setConstantOpacity((float) 0.3); // 30% transparent highlight
                         PDRectangle position = new PDRectangle();
                         position.setLowerLeftX((float) minx);
                         position.setLowerLeftY((float) miny);
@@ -168,6 +168,7 @@ public class PDFHighlighter extends PDFTextStripper {
         int rotation = 0;
         String token = "";
 
+        // find max height and max width for put it in coordinates
         for (TextPosition text : textPositions) {
             if (text.getHeight() > height)
                 height = text.getHeight();
