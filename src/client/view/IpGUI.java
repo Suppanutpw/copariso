@@ -28,7 +28,7 @@ public class IpGUI extends JFrame implements ActionListener {
         this.pack();
         this.setVisible(true);
     }
-
+    //check if input is valid ip
     public static boolean isValidInet4Address(String ip) {
         String[] groups = ip.split("\\.");
 
@@ -50,6 +50,7 @@ public class IpGUI extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //method fpr seting ip address + check if ip is valid
         if (e.getSource().equals(b)) {
             if (isValidInet4Address(tf.getText())) {
                 SettingClient.setSERVERIP(tf.getText());
