@@ -144,8 +144,10 @@ public class CoparisoServer {
                     if (sock != null) sock.close();
                 }
             }
-        } catch (BindException e) {
-            System.out.println("Server already running");
+        } catch (BindException ex) {
+            System.out.println(ex);
+            System.out.println("Server already running"); //fix port busy error, spam server
+            SettingServer.addLog("Compariso Server already running");
         } catch (IOException ex) {
             SettingServer.addLog("Copariso Server Error: " + ex.getMessage());
             JOptionPane.showMessageDialog(view, "server connection failed", "Error Message", JOptionPane.INFORMATION_MESSAGE);
